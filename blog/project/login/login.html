@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <!-- BEGIN HEAD -->
+    <head>
+        <meta charset="utf-8" />
+        <title>院线经营分析系统</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <meta content="" name="description" />
+        <meta content="" name="author" />
+        <!-- 开始强制性的全局样式风格-->
+        <link href="../assets/global/plugins/font-awesome/css/font-googleapis.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/global/plugins/simple-line-icons/simple-line-icons.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css" rel="stylesheet" type="text/css" />
+        <!-- 结束强制性的全局样式风格 -->
+        <!-- 开始页面级别的样式 -->
+        <link href="../assets/global/plugins/select/css/select2.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/global/plugins/select/css/select2-bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <!-- 页面级别的样式结束 -->
+        <!-- 全局主题样式开始 -->
+        <link href="../assets/global/css/components.min.css" rel="stylesheet" id="style_components" type="text/css" />
+        <link href="../assets/global/css/plugins.min.css" rel="stylesheet" type="text/css" />
+        <link href="../assets/global/css/style.css" rel="stylesheet" type="text/css" />
+        <!-- 全局主题样式结束 -->
+        <!-- 页面级别的样式开始 -->
+        <link href="../assets/pages/css/login-4.min.css" rel="stylesheet" type="text/css" />
+        <!-- 页面级别的样式结束 -->
+        </head>
+        <!-- END HEAD -->
+        <!-- 这里将javascript代码写在前面是因为在页面加载前就要进行判断 -->
+        <!--[if lt IE 9]>
+		<script src="../assets/global/plugins/respond.min.js"></script>
+		<script src="../assets/global/plugins/excanvas.min.js"></script> 
+		<![endif]-->
+        <!-- 开始核心插件 -->
+        <script src="../assets/global/plugins/jquery.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/js.cookie.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js" type="text/javascript"></script>
+        <script src="../assets/global/common/common.js" type="text/javascript"></script><!-- 所有页面都要用到的工具类 -->
+        <!-- 结束核心插件 -->
+        <!-- 开始页面级别插件 -->
+        <script src="../assets/global/plugins/jquery-validation/js/jquery.validate.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/jquery-validation/js/additional-methods.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/select2/js/select2.full.min.js" type="text/javascript"></script>
+        <script src="../assets/global/plugins/backstretch/jquery.backstretch.min.js" type="text/javascript"></script>
+        <!-- 结束页面级别插件 -->
+        <!-- 开始全局主题脚本 -->
+        <script src="../assets/global/scripts/app.min.js" type="text/javascript"></script>
+        <!-- 结束全局主题脚本 -->
+        <!-- 开始页面级别脚本 -->
+        <script src="../assets/pages/scripts/login-4.min.js" type="text/javascript"></script>
+        <script src="../assets/pages/scripts/cookie.js" type="text/javascript"></script>
+        <!-- 结束页面级别脚本 -->
+        <!-- BEGIN THEME LAYOUT SCRIPTS -->
+        <!-- END THEME LAYOUT SCRIPTS -->		
+        <script type="text/javascript">
+
+        $(function(){
+        	//判断session中有没有用户信息，如果有，直接跳转到主页面
+        	//getSession();
+            var username = getcookie("username");
+        	var password =  getcookie("password"); //获取密码
+        	if(username != "" && username != null && password != null && password != ""){
+        		$("#username").val(username);
+        		$("#password").val(password);		
+        		document.getElementById('remme').checked = true;
+        	}
+        });
+        
+        //如用户登录验证成功，将用户信息和权限信息保存进session,
+        //主页面自加载方法中从session中获取用户信息，如果不存在，则跳转到登录页面,如果存在，则展示主页面
+        function login(){  //点击登录弹出
+        	var username = $("#username").val(); //用户输入的用户名称
+        	var password = $("#password").val(); //用户输入的密码
+        	var checkbox = document.getElementById('remme');
+        	if(username == ""){
+        		$("#erroShow").show();
+        		$("#loginAlert").text("用户名不能为空");
+        		return;
+        	}else if(password == ""){
+        		$("#erroShow").show();
+        		$("#loginAlert").text("密码不能为空");
+        		return;
+        	}
+        	if(checkbox.checked){ //是否被选中
+                //设置cookie
+                setcookie("username", username, 7);
+                setcookie("password", password, 7);
+        	}else{
+        		setcookie("username", "", 0);
+                setcookie("password", "", 0);
+        	}
+        	 window.location = "../index.html?sid=1";
+        	/** 之前与服务端交互的代码，暂时注释掉，直接登录主页面
+			$.ajax({
+                url: apiUrl+pName+'/login/loginNoSso.htm',		
+                timeout: 20000, 
+                dataType: "json",
+                async:false,
+                type:"GET",		
+                data: {
+                	username: username,
+                    password: password
+                },		
+                beforeSend: function () {
+                	  $("#loading").show();
+                },
+                success: function (data) {
+                if (data.status == "1") {
+                    $("#loading").hide();
+                    getSession();
+                    window.location = "../index.html?sid="+data.sid;
+                   }
+               else {
+                   	$("#erroShow").show();
+                	$("#loginAlert").text("用户名或密码不正确");
+                    $("#loading").hide();		
+                }
+                },
+                error:function(XMLHttpRequest,textStatus,errorThrown){
+                	 $("#loading").hide();	
+                	 $("#erroShow").show();
+          		     $("#loginAlert").text("登录超时，请检查网络");
+                }
+            });
+        	**/
+        }
+        
+        //自加载的时候从session中获取数据，如果存在，直接跳转进主页面
+        function getSession(){
+        	var timestamp=new Date().getTime();
+			$.ajax({
+                url: apiUrl+pName+'/login/getSession.htm?timestamp='+timestamp,
+                timeout: 20000,
+                dataType: "json",
+                async:false,		
+                type:"GET",		
+                beforeSend: function () {
+                	 $("#loading").show();
+                },
+                success: function (data) {
+                	if(data.state == "1"){
+                	 $("#loading").hide();
+                	 window.location = "../index.html";
+                	}else{
+                	 $("#loading").hide();
+                	}
+                },
+                error:function(XMLHttpRequest,textStatus,errorThrown){
+                	 $("#loading").hide();
+                }
+            });
+        }			
+        
+        //回车登录
+        function keyLogin(){
+        	 if (event.keyCode==13)  //回车键的键值为13		
+        	 login();
+        	}		
+        </script>
+        
+    <body class=" login" onkeydown="keyLogin();">
+       <!-- 加载数据进度条 -->
+       <div id="loading" class="loading">
+        <div class="loading_main">
+            <p class="title">正在加载数据,请稍候...</p>
+        </div>
+        <div class="mask_box_shadow"></div>
+       </div>
+       <!-- 加载数据进度条 -->   
+     
+       <!-- 开始 LOGO -->
+        <div class="logo">
+            <h1><img src="../assets/pages/img/logo-big.png" width="40" height="40" align="absmiddle" />&nbsp;院线经营分析系统<sup>V1.0</sup></h1>
+        </div>
+       <!-- 结束 LOGO -->		
+       <!-- 登录界面开始 -->		
+        <div class="content">				
+            <!-- 登录表单开始 -->
+            <form class="login-form" action="../index.html" method="post">
+                <h3 class="form-title">登录到您的账户</h3>
+                <div id="erroShow" class="alert alert-danger" style="display:none;">
+                    <button class="close" data-close="alert"></button>
+                    <span id="loginAlert"> </span>
+                </div>
+                <div class="form-group">
+                    <!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
+                    <label class="control-label visible-ie8 visible-ie9">用户名</label>
+                    <div class="input-icon">
+                        <i class="fa fa-user"></i>
+                        <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="用户名" value="test" id="username" name="username" /> </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label visible-ie8 visible-ie9">密码</label>
+                    <div class="input-icon">
+                        <i class="fa fa-lock"></i>
+                        <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="密码" value="test"  id="password" name="password" /> </div>
+                </div>
+                <div class="form-actions">
+                    <label class="rememberme mt-checkbox mt-checkbox-outline">
+                        <input type="checkbox" id="remme" name="remember" value="1" /> 记住我
+                        <span></span>
+                    </label>
+                    <input class="btn green pull-right" type="button" value="登录" onclick="login();"></input>
+                </div>
+            </form>
+        <!-- 登录表单结束 -->
+        </div>
+        <!-- 登录页面结束 -->
+        <!-- 开始版权 -->
+        <div class="copyright"> 2016 &copy; z h.工作室 </div>
+        <!-- 结束版权 -->
+    </body>
+</html>
