@@ -90,38 +90,38 @@
 <meta property="og:url" content="http://zhfeat.cc/blog/2017/02/06/WPA-PSK无线网络破解原理及过程/index.html">
 <meta property="og:site_name" content="zhfeat's - blog">
 <meta property="og:description" content="无线密码破解的方式主要分为一下几种,抓握手包破解、穷举破解pin码、创建伪AP钓鱼等。以下这篇文章主要讲解利用Kali Linux进行的抓包和跑pin的两种wifi破解方式,文章中所涉及到的命令均为最新版本的Kail Linux命令，请放心食用。">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30352482243.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30353336924.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30353965281.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/23035431460.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/42303547147.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30355012283.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30355329489.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30355587380.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30356574818.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/42303572282.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30357471948.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30357738233.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30358033144.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30358365729.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30358633016.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30358927166.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/23035918831.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30359446549.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30352482243.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30353336924.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30353965281.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/23035431460.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/42303547147.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30355012283.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30355329489.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30355587380.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30356574818.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/42303572282.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30357471948.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30357738233.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30358033144.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30358365729.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30358633016.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30358927166.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/23035918831.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30359446549.jpeg">
 <meta property="og:image" content="http://zhfeat.cc/images/wifi/30360078553.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30360418459.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30360717813.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30360989003.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30361255729.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30361486598.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30361765113.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30362093651.jpeg">
-<meta property="og:image" content="http://zhfeat.cc/images/wifi/30362358575.jpeg">
-<meta property="og:updated_time" content="2017-02-07T05:50:10.631Z">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30360418459.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30360717813.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30360989003.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30361255729.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30361486598.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30361765113.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30362093651.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifi/30362358575.jpeg">
+<meta property="og:updated_time" content="2017-02-17T01:56:41.261Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WPA-PSK无线网络破解原理及过程">
 <meta name="twitter:description" content="无线密码破解的方式主要分为一下几种,抓握手包破解、穷举破解pin码、创建伪AP钓鱼等。以下这篇文章主要讲解利用Kali Linux进行的抓包和跑pin的两种wifi破解方式,文章中所涉及到的命令均为最新版本的Kail Linux命令，请放心食用。">
-<meta name="twitter:image" content="http://zhfeat.cc/images/wifi/30352482243.jpeg">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/wifi/30352482243.jpeg">
 
 
 
@@ -441,7 +441,7 @@
 <li>不启用安全</li>
 <li>WEP</li>
 <li>WPA/WPA2-PSK（预共享密钥）</li>
-<li>WPA/WPA2 802.1X （radius认证）<br>具体在路由器的配置界面一般如下图所示：<br><img src="http://zhfeat.cc/images/wifi/30352482243.jpeg"><h2 id="WPA-PSK的认证过程"><a href="#WPA-PSK的认证过程" class="headerlink" title="WPA-PSK的认证过程"></a>WPA-PSK的认证过程</h2>由于我这里主要分析wpa-psk类型的认证方式，所以这里就不讨论其他的认证方式了，通过抓包分析，我们可以看到wpa-psk的大致认证过程分为以下几步。<br><img src="http://zhfeat.cc/images/wifi/30353336924.jpeg"></li>
+<li>WPA/WPA2 802.1X （radius认证）<br>具体在路由器的配置界面一般如下图所示：<br><img src="http://zhfeat.cc/blog/images/wifi/30352482243.jpeg"><h2 id="WPA-PSK的认证过程"><a href="#WPA-PSK的认证过程" class="headerlink" title="WPA-PSK的认证过程"></a>WPA-PSK的认证过程</h2>由于我这里主要分析wpa-psk类型的认证方式，所以这里就不讨论其他的认证方式了，通过抓包分析，我们可以看到wpa-psk的大致认证过程分为以下几步。<br><img src="http://zhfeat.cc/blog/images/wifi/30353336924.jpeg"></li>
 <li>无线AP定期发送beacon数据包，使无线终端更新自己的无线网络列表。</li>
 <li>无线终端在每个信道（1-13）广播ProbeRequest（非隐藏类型的WiFi含ESSID，隐藏类型的WiFi不含ESSID）。</li>
 <li>每个信道的AP回应，ProbeResponse，包含ESSID，及RSN信息。</li>
@@ -460,13 +460,13 @@
 <li>Reassociation Request<br>重新关联</li>
 <li>Association Response and Reassociation Response<br>关联响应、重新关联响应</li>
 <li>Authentication<br>身份验证帧 ///Authentication Algorithm Number：用于算法择</li>
-<li>Action frame<br>帧传送、关联与身份验证的状态<br>State1 ：未经认证且尚未关联 2 ：已经认证但尚未关联 3 ：已经认证且已经关联。<br>下图是用科来分析数据包显示的帧类型：<br><img src="http://zhfeat.cc/images/wifi/30353965281.jpeg"><h2 id="WPA-PSK认证四次握手认证的过程"><a href="#WPA-PSK认证四次握手认证的过程" class="headerlink" title="WPA-PSK认证四次握手认证的过程"></a>WPA-PSK认证四次握手认证的过程</h2><img src="http://zhfeat.cc/images/wifi/23035431460.jpeg"><h1 id="WPA-PSK破解原理"><a href="#WPA-PSK破解原理" class="headerlink" title="WPA-PSK破解原理"></a>WPA-PSK破解原理</h1>用我们字典中的PSK+ssid先生成PMK（此步最耗时，是目前破解的瓶颈所在），然后结合握手包中的客户端MAC，AP的BSSID，A-NONCE，S-NONCE计算PTK，再加上原始的报文数据算出MIC并与AP发送的MIC比较，如果一致，那么该PSK就是密钥。如图所示：<br><img src="http://zhfeat.cc/images/wifi/42303547147.jpeg"><h2 id="WPA-PSK破解过程"><a href="#WPA-PSK破解过程" class="headerlink" title="WPA-PSK破解过程"></a>WPA-PSK破解过程</h2>接下来我们看看如何进行抓握手包破解WPA-PSK的无线AP，我这里用的工具是kali Linux，kali Linux集成了aircrack套件。然后网卡使用的是rtl8187芯片的外置USB网卡。<br>破解步骤如下：<br><strong>第一步</strong>：把usb网卡插入虚拟机，并开启网卡到监听模式，命令如下：<br><strong>“ifconfig wlan0 up”</strong> 加载usb网卡。‍‍<br><strong>“airmon-ng start wlan0”</strong> 监听模式已激活到mon0。（通过config 命令查看）。<br>如果不开启监听模式会报错如下图：<br><img src="http://zhfeat.cc/images/wifi/30355012283.jpeg"><br><strong>第二步</strong>：抓包查看有哪些无线网络，抓包的界面如下图所示：<br><strong>“airodump-ng wlan0mon”</strong>  查看周边路由AP的信息。</li>
+<li>Action frame<br>帧传送、关联与身份验证的状态<br>State1 ：未经认证且尚未关联 2 ：已经认证但尚未关联 3 ：已经认证且已经关联。<br>下图是用科来分析数据包显示的帧类型：<br><img src="http://zhfeat.cc/blog/images/wifi/30353965281.jpeg"><h2 id="WPA-PSK认证四次握手认证的过程"><a href="#WPA-PSK认证四次握手认证的过程" class="headerlink" title="WPA-PSK认证四次握手认证的过程"></a>WPA-PSK认证四次握手认证的过程</h2><img src="http://zhfeat.cc/blog/images/wifi/23035431460.jpeg"><h1 id="WPA-PSK破解原理"><a href="#WPA-PSK破解原理" class="headerlink" title="WPA-PSK破解原理"></a>WPA-PSK破解原理</h1>用我们字典中的PSK+ssid先生成PMK（此步最耗时，是目前破解的瓶颈所在），然后结合握手包中的客户端MAC，AP的BSSID，A-NONCE，S-NONCE计算PTK，再加上原始的报文数据算出MIC并与AP发送的MIC比较，如果一致，那么该PSK就是密钥。如图所示：<br><img src="http://zhfeat.cc/blog/images/wifi/42303547147.jpeg"><h2 id="WPA-PSK破解过程"><a href="#WPA-PSK破解过程" class="headerlink" title="WPA-PSK破解过程"></a>WPA-PSK破解过程</h2>接下来我们看看如何进行抓握手包破解WPA-PSK的无线AP，我这里用的工具是kali Linux，kali Linux集成了aircrack套件。然后网卡使用的是rtl8187芯片的外置USB网卡。<br>破解步骤如下：<br><strong>第一步</strong>：把usb网卡插入虚拟机，并开启网卡到监听模式，命令如下：<br><strong>“ifconfig wlan0 up”</strong> 加载usb网卡。‍‍<br><strong>“airmon-ng start wlan0”</strong> 监听模式已激活到mon0。（通过config 命令查看）。<br>如果不开启监听模式会报错如下图：<br><img src="http://zhfeat.cc/blog/images/wifi/30355012283.jpeg"><br><strong>第二步</strong>：抓包查看有哪些无线网络，抓包的界面如下图所示：<br><strong>“airodump-ng wlan0mon”</strong>  查看周边路由AP的信息。</li>
 </ol>
-<p>个人经验一般信号强度大于-70的可以进行破解，大于-60就最好了，小于-70的不稳定，信号比较弱。（信号强度的绝对值越小表示信号越强）<br><img src="http://zhfeat.cc/images/wifi/30355329489.jpeg"><br><img src="http://zhfeat.cc/images/wifi/30355587380.jpeg"><br><img src="http://zhfeat.cc/images/wifi/30356574818.jpeg"><br><strong>第三步</strong>：选择要破解的WiFi，有针对性的进行抓握手包，命令如下：<br><strong>“airodump -w sofia -c 3 –bssid C8:3A:35:5E:93:C0 wlan0mon”</strong><br>参数说明：-w 保存数据包的文件名 –c 信道 –bssid ap的mac地址<br>(注意test.cap会被重命名)，也可以用其他工具抓包比如：wireshark、tcpdump，抓到握手包会有提示。<br><strong>第四步</strong>：为了顺利抓到握手包，我们需要使用DEAUTH攻击使已经连接的客户端断开并重新连接，以产生握手包。（注意：抓握手包破解必须有合法的客户端才行。）攻击命令如下：<br><strong>“aireplay-ng-0 111 -a  ap’mac  wlan0mon”</strong>  (111次)<br><strong>“aireplay-ng-0 3 -a B8:A3:86:63:B4:06 -c 00:18:1a:10:da:c9 -x 200 wlan0mon”</strong> (3次)<br><strong>“aireplay-ng -0 0 -a C8:3A:35:5E:93:C0”</strong> (循环发送)<br>参数说明：-0 Deautenticate 冲突模式  3 发包次数 -x  发包速度<br><img src="http://zhfeat.cc/images/wifi/42303572282.jpeg"><br>抓包可以看到很多deauthentication类型的数据包：<br><img src="http://zhfeat.cc/images/wifi/30357471948.jpeg"><br>包结构如下：<br><img src="http://zhfeat.cc/images/wifi/30357738233.jpeg"><br>抓到的数据包打开后如下图：图中使用wireshark打开的，EAPOL类型的数据包共有4个，即四次握手的数据包。<br><img src="http://zhfeat.cc/images/wifi/30358033144.jpeg"><br><strong>第五步</strong>：接下来就是破解握手包，命令如下：<br><strong>“aircrack-ng-w pass-haoyong.txt test-03.cap”</strong><br>参数解释：-w 字典路径<br><img src="http://zhfeat.cc/images/wifi/30358365729.jpeg"><br>也可以使用图形化工具EWSA进行破解，Elcomsoft Wireless Security Auditor（EWSA）<br>号称可以利用GPU的运算性能快速攻破无线网络密码，运算速度相比使用CPU可提高最多上百倍。<br><img src="http://zhfeat.cc/images/wifi/30358633016.jpeg"><br>上面我们讲解了通过抓握手包破解WPA-PSK认证的无线AP的全过程，从上述过程可以看出，如果AP没有合法的客户端连接，或者密码设置的足够复杂就基本上不可能破解。</p>
-<h1 id="通过WPS破解无线路由器密码"><a href="#通过WPS破解无线路由器密码" class="headerlink" title="通过WPS破解无线路由器密码"></a>通过WPS破解无线路由器密码</h1><p>接下来我们看一下另一种破解方式，也就是常说的pin码破解后者叫wps破解。首先了解下什么是wps：<br>WPS(Wi-FiProtected Setup，Wi-Fi保护设置)是由Wi-Fi联盟组织实施的认证项目，主要致力于简化无线网络的安全加密设置。<br>功能：<br>简化配置，快速配置一个基于WPA2的网络。<br>快速连接，输入pin码或按下WPS键即可完成网络连接。<br>问题：<br>由于WPS存在漏洞，通过PIN码可以直接提取上网密码。<br>通过WPS快速配置无线路由器<br>我们可以通过WPS快速配置无线路由器：步骤如下<br>1、通过电脑连接新买的无线路由器，提示通过pin码进行设置，界面如下：<br><img src="http://zhfeat.cc/images/wifi/30358927166.jpeg"><br>2、输入pin码下一步，就会为路由器自动生成一个足够复杂的认证方式及密码：<br><img src="http://zhfeat.cc/images/wifi/23035918831.jpeg"><br><img src="http://zhfeat.cc/images/wifi/30359446549.jpeg"> </p>
+<p>个人经验一般信号强度大于-70的可以进行破解，大于-60就最好了，小于-70的不稳定，信号比较弱。（信号强度的绝对值越小表示信号越强）<br><img src="http://zhfeat.cc/blog/images/wifi/30355329489.jpeg"><br><img src="http://zhfeat.cc/blog/images/wifi/30355587380.jpeg"><br><img src="http://zhfeat.cc/blog/images/wifi/30356574818.jpeg"><br><strong>第三步</strong>：选择要破解的WiFi，有针对性的进行抓握手包，命令如下：<br><strong>“airodump -w sofia -c 3 –bssid C8:3A:35:5E:93:C0 wlan0mon”</strong><br>参数说明：-w 保存数据包的文件名 –c 信道 –bssid ap的mac地址<br>(注意test.cap会被重命名)，也可以用其他工具抓包比如：wireshark、tcpdump，抓到握手包会有提示。<br><strong>第四步</strong>：为了顺利抓到握手包，我们需要使用DEAUTH攻击使已经连接的客户端断开并重新连接，以产生握手包。（注意：抓握手包破解必须有合法的客户端才行。）攻击命令如下：<br><strong>“aireplay-ng-0 111 -a  ap’mac  wlan0mon”</strong>  (111次)<br><strong>“aireplay-ng-0 3 -a B8:A3:86:63:B4:06 -c 00:18:1a:10:da:c9 -x 200 wlan0mon”</strong> (3次)<br><strong>“aireplay-ng -0 0 -a C8:3A:35:5E:93:C0”</strong> (循环发送)<br>参数说明：-0 Deautenticate 冲突模式  3 发包次数 -x  发包速度<br><img src="http://zhfeat.cc/blog/images/wifi/42303572282.jpeg"><br>抓包可以看到很多deauthentication类型的数据包：<br><img src="http://zhfeat.cc/blog/images/wifi/30357471948.jpeg"><br>包结构如下：<br><img src="http://zhfeat.cc/blog/images/wifi/30357738233.jpeg"><br>抓到的数据包打开后如下图：图中使用wireshark打开的，EAPOL类型的数据包共有4个，即四次握手的数据包。<br><img src="http://zhfeat.cc/blog/images/wifi/30358033144.jpeg"><br><strong>第五步</strong>：接下来就是破解握手包，命令如下：<br><strong>“aircrack-ng-w pass-haoyong.txt test-03.cap”</strong><br>参数解释：-w 字典路径<br><img src="http://zhfeat.cc/blog/images/wifi/30358365729.jpeg"><br>也可以使用图形化工具EWSA进行破解，Elcomsoft Wireless Security Auditor（EWSA）<br>号称可以利用GPU的运算性能快速攻破无线网络密码，运算速度相比使用CPU可提高最多上百倍。<br><img src="http://zhfeat.cc/blog/images/wifi/30358633016.jpeg"><br>上面我们讲解了通过抓握手包破解WPA-PSK认证的无线AP的全过程，从上述过程可以看出，如果AP没有合法的客户端连接，或者密码设置的足够复杂就基本上不可能破解。</p>
+<h1 id="通过WPS破解无线路由器密码"><a href="#通过WPS破解无线路由器密码" class="headerlink" title="通过WPS破解无线路由器密码"></a>通过WPS破解无线路由器密码</h1><p>接下来我们看一下另一种破解方式，也就是常说的pin码破解后者叫wps破解。首先了解下什么是wps：<br>WPS(Wi-FiProtected Setup，Wi-Fi保护设置)是由Wi-Fi联盟组织实施的认证项目，主要致力于简化无线网络的安全加密设置。<br>功能：<br>简化配置，快速配置一个基于WPA2的网络。<br>快速连接，输入pin码或按下WPS键即可完成网络连接。<br>问题：<br>由于WPS存在漏洞，通过PIN码可以直接提取上网密码。<br>通过WPS快速配置无线路由器<br>我们可以通过WPS快速配置无线路由器：步骤如下<br>1、通过电脑连接新买的无线路由器，提示通过pin码进行设置，界面如下：<br><img src="http://zhfeat.cc/blog/images/wifi/30358927166.jpeg"><br>2、输入pin码下一步，就会为路由器自动生成一个足够复杂的认证方式及密码：<br><img src="http://zhfeat.cc/blog/images/wifi/23035918831.jpeg"><br><img src="http://zhfeat.cc/blog/images/wifi/30359446549.jpeg"> </p>
 <h2 id="通过WPS快速连接已有网络"><a href="#通过WPS快速连接已有网络" class="headerlink" title="通过WPS快速连接已有网络"></a>通过WPS快速连接已有网络</h2><p>我们也可以通过WPS快速连接已有网络，不用输入复杂的密码：步骤如下（我使用小米手机进行测试）<br>1、在手机上选择通过PIN码进行连接或通过路由器上的WPS按键连接。<br>2、如果选择前者只需要输入pin码即可连接，如果选择的是后者则只需要按以下路由器上的wps键即可完成连接。<br><img src="http://zhfeat.cc/images/wifi/30360078553.jpeg"> </p>
-<h2 id="Pin码破解的原理"><a href="#Pin码破解的原理" class="headerlink" title="Pin码破解的原理"></a>Pin码破解的原理</h2><p>由于WPS存在安全问题，通过PIN码可以直接提取上网密码。而pin码是一个8位的整数，破解过程时间比较短。WPS PIN码的第8位数是一个校验和，因此黑客只需计算前7位数。另外前7位中的前四位和后三位分开认证。所以破解pin码最多只需要1.1万次尝试，顺利的情况下在3小时左右。Wps认证流程如下图：<br><img src="http://zhfeat.cc/images/wifi/30360418459.jpeg"> </p>
-<h2 id="破解的操作步骤"><a href="#破解的操作步骤" class="headerlink" title="破解的操作步骤"></a>破解的操作步骤</h2><p><strong>第一步</strong>：Wash 扫描开启WPS的网络。<br><strong>“wash-i wlan0mon –C”</strong><br><img src="http://zhfeat.cc/images/wifi/30360717813.jpeg"><br><strong>第二步</strong>：穷举破解pin码，并通过获取的pin码得到无线AP上网密码。<br><strong>“reaver-i wlan0mon -b 5C:63:BF:BA:44:DC -a -S -vv”</strong><br>reaver参数说明：</p>
+<h2 id="Pin码破解的原理"><a href="#Pin码破解的原理" class="headerlink" title="Pin码破解的原理"></a>Pin码破解的原理</h2><p>由于WPS存在安全问题，通过PIN码可以直接提取上网密码。而pin码是一个8位的整数，破解过程时间比较短。WPS PIN码的第8位数是一个校验和，因此黑客只需计算前7位数。另外前7位中的前四位和后三位分开认证。所以破解pin码最多只需要1.1万次尝试，顺利的情况下在3小时左右。Wps认证流程如下图：<br><img src="http://zhfeat.cc/blog/images/wifi/30360418459.jpeg"> </p>
+<h2 id="破解的操作步骤"><a href="#破解的操作步骤" class="headerlink" title="破解的操作步骤"></a>破解的操作步骤</h2><p><strong>第一步</strong>：Wash 扫描开启WPS的网络。<br><strong>“wash-i wlan0mon –C”</strong><br><img src="http://zhfeat.cc/blog/images/wifi/30360717813.jpeg"><br><strong>第二步</strong>：穷举破解pin码，并通过获取的pin码得到无线AP上网密码。<br><strong>“reaver-i wlan0mon -b 5C:63:BF:BA:44:DC -a -S -vv”</strong><br>reaver参数说明：</p>
 <ol>
 <li>-i 监听后接口称号‍‍</li>
 <li>-b APmac地址</li>
@@ -475,10 +475,10 @@
 <li>-v、-vv 显示更多的破解信息</li>
 <li>-d 即delay每穷举一次的闲置时候预设为1秒</li>
 <li>-t 即timeout每次穷举守候反应的最长时候</li>
-<li>-c指定频道能够便当找到信号，如-c1 指定1频道<br><img src="http://zhfeat.cc/images/wifi/30360989003.jpeg"><br>如果无线路由器没开wps功能会报错如下图：<br><img src="http://zhfeat.cc/images/wifi/30361255729.jpeg"><br>另外破解过程中无线路由器会有如下特征：<br><img src="http://zhfeat.cc/images/wifi/30361486598.jpeg"><br>破解成功后如下：<br><img src="http://zhfeat.cc/images/wifi/30361765113.jpeg"><br>如果之前破解的无线路由器密码被改了，可以直接通过pin码获取密码，命令如下：<br><strong>“reaver-i mon0 -b MAC -p PIN8位数”</strong><br><img src="http://zhfeat.cc/images/wifi/30362093651.jpeg"><br>上面就是通过pin码破解无线路由器密码的全过程，可见开启wps功能并不安全，建议最好不要开此功能。<br>最后介绍几个图形界面的工具：<br>常用的图形界面的工具有水滴、打气筒、奶瓶：<br>这些工具只是将Aircrack-ng、 reaver打包图形化，即为Aircrack-ng套件的GUI。</li>
+<li>-c指定频道能够便当找到信号，如-c1 指定1频道<br><img src="http://zhfeat.cc/blog/images/wifi/30360989003.jpeg"><br>如果无线路由器没开wps功能会报错如下图：<br><img src="http://zhfeat.cc/blog/images/wifi/30361255729.jpeg"><br>另外破解过程中无线路由器会有如下特征：<br><img src="http://zhfeat.cc/blog/images/wifi/30361486598.jpeg"><br>破解成功后如下：<br><img src="http://zhfeat.cc/blog/images/wifi/30361765113.jpeg"><br>如果之前破解的无线路由器密码被改了，可以直接通过pin码获取密码，命令如下：<br><strong>“reaver-i mon0 -b MAC -p PIN8位数”</strong><br><img src="http://zhfeat.cc/blog/images/wifi/30362093651.jpeg"><br>上面就是通过pin码破解无线路由器密码的全过程，可见开启wps功能并不安全，建议最好不要开此功能。<br>最后介绍几个图形界面的工具：<br>常用的图形界面的工具有水滴、打气筒、奶瓶：<br>这些工具只是将Aircrack-ng、 reaver打包图形化，即为Aircrack-ng套件的GUI。</li>
 <li>Aircrack-ng是一个与802.11标准的无线网络分析关的安全软件，主要功能：网络侦测，数据包嗅探，WEP和WPA/WPA2-PSKPJ。</li>
 <li>reaver，专用来pin PJ的软件、一般都集成在水滴等里面了。</li>
-<li>另外我们常用的注：beini/CDlinux/xiaopan都是小型linux系统，已集成了上述工具。下图为水滴的界面。<br><img src="http://zhfeat.cc/images/wifi/30362358575.jpeg"><h1 id="安全建议"><a href="#安全建议" class="headerlink" title="安全建议"></a>安全建议</h1></li>
+<li>另外我们常用的注：beini/CDlinux/xiaopan都是小型linux系统，已集成了上述工具。下图为水滴的界面。<br><img src="http://zhfeat.cc/blog/images/wifi/30362358575.jpeg"><h1 id="安全建议"><a href="#安全建议" class="headerlink" title="安全建议"></a>安全建议</h1></li>
 <li>使用WPA2认证，不要使用wep或无认证。</li>
 <li>为无线网路设置复杂的密码。</li>
 <li>关闭WPS功能。</li>
