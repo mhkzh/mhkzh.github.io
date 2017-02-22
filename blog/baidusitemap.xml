@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://zhfeat.cc/blog/blog/2017/02/22/Maven%E6%9E%84%E5%BB%BA%E8%BF%87%E7%A8%8B/</loc>
+    <lastmod>2017-02-22T05:50:49.301Z</lastmod>
+    <data>
+        <display>
+        <title>Maven构建过程</title>
+        <pubTime>2017-02-22T03:55:43.000Z</pubTime>
+        
+        <tag>Maven</tag>
+         
+         
+           
+             
+              <breadCrumb title="开发学习" url="http://zhfeat.cc/blog/blog/categories/%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zhfeat.cc/blog/blog/2017/02/22/%E4%B8%80%E6%AC%A1%E6%B2%A1%E6%9C%89%E6%9C%80%E5%90%8E%E6%9C%9F%E9%99%90%E7%9A%84%E7%BC%96%E7%A8%8B%E4%B9%8B%E6%97%85(%E8%BD%AC)/</loc>
     <lastmod>2017-02-22T03:18:12.136Z</lastmod>
     <data>
@@ -11,9 +31,9 @@
         <title>一次没有最后期限的编程之旅</title>
         <pubTime>2017-02-22T03:12:43.000Z</pubTime>
         
-        <tag>JavaWeb</tag>
-         
         <tag>Maven</tag>
+         
+        <tag>JavaWeb</tag>
          
         <tag>SSM</tag>
          
