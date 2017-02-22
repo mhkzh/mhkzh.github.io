@@ -4,8 +4,28 @@
 
     
   <url>
+    <loc>http://zhfeat.cc/blog/blog/2017/02/22/Maven%E6%97%A5%E5%B8%B8-%E4%BD%A0%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84%E4%B8%80%E4%BA%8C%E4%B8%89/</loc>
+    <lastmod>2017-02-22T07:10:44.487Z</lastmod>
+    <data>
+        <display>
+        <title>Maven日常-你应该知道的一二三</title>
+        <pubTime>2017-02-22T07:04:43.000Z</pubTime>
+        
+        <tag>Maven</tag>
+         
+         
+           
+             
+              <breadCrumb title="开发学习" url="http://zhfeat.cc/blog/blog/categories/%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zhfeat.cc/blog/blog/2017/02/22/Maven%E6%9E%84%E5%BB%BA%E8%BF%87%E7%A8%8B/</loc>
-    <lastmod>2017-02-22T05:50:49.301Z</lastmod>
+    <lastmod>2017-02-22T06:44:36.245Z</lastmod>
     <data>
         <display>
         <title>Maven构建过程</title>
