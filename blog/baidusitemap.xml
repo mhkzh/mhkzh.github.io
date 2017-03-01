@@ -5,7 +5,7 @@
     
   <url>
     <loc>http://zhfeat.cc/blog/blog/2017/03/01/%E5%88%A9%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3+AOP%E5%AE%9E%E7%8E%B0redis%E7%BC%93%E5%AD%98/</loc>
-    <lastmod>2017-03-01T01:58:49.172Z</lastmod>
+    <lastmod>2017-03-01T02:08:59.270Z</lastmod>
     <data>
         <display>
         <title>利用自定义注解+AOP实现redis缓存</title>
@@ -99,9 +99,9 @@
         
         <tag>Maven</tag>
          
-        <tag>JavaWeb</tag>
-         
         <tag>SSM</tag>
+         
+        <tag>JavaWeb</tag>
          
         <tag>quick4j</tag>
          
