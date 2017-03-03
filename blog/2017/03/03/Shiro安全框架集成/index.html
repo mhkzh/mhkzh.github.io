@@ -1,0 +1,997 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Shiro," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立运">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Shiro安全框架集成">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/03/03/Shiro安全框架集成/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立运">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/shiro/1.png">
+<meta property="og:updated_time" content="2017-03-03T10:33:57.918Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Shiro安全框架集成">
+<meta name="twitter:description" content="做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立运">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/shiro/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '1234567',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/03/03/Shiro安全框架集成/"/>
+
+
+
+
+
+  <title> Shiro安全框架集成 | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/blog/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">zhfeat's - blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/03/03/Shiro安全框架集成/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="z h.">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/blog/images/mht.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="zhfeat's - blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="zhfeat's - blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Shiro安全框架集成
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-03T18:33:33+08:00">
+                2017-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/开发学习/" itemprop="url" rel="index">
+                    <span itemprop="name">开发学习</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <a href="/blog/2017/03/03/Shiro安全框架集成/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/03/Shiro安全框架集成/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立运行。对比SpringSecurity安全框架使用相对简单，易于理解。而且现在越来越的多企业都在使用Shiro，值得在项目中引用尝试。</p>
+</blockquote>
+<a id="more"></a> 
+<p>本篇博客的框架搭建请参考我之前的文章《SSM框架整合Maven+Spring+SpringMVC+MyBatis》</p>
+<h2 id="在项目中添加依赖"><a href="#在项目中添加依赖" class="headerlink" title="在项目中添加依赖"></a>在项目中添加依赖</h2><p>pom.xml </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- Apache Shiro --&gt;</span></div><div class="line"><span class="comment">&lt;!-- shiro 核心包 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shiro<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>shiro-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- shiro Web相关包 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shiro<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>shiro-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- spring 整合shiro需要的依赖 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.shiro<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>shiro-spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.2.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="配置shiro过滤器"><a href="#配置shiro过滤器" class="headerlink" title="配置shiro过滤器"></a>配置shiro过滤器</h2><p>web.xml</p>
+<p>该filter最好放在字符编码filter下面:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">   <span class="comment">&lt;!-- shiro过滤器定义 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">filter</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>shiroFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.DelegatingFilterProxy<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>targetFilterLifecycle<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">filter</span>&gt;</span></div><div class="line"><span class="comment">&lt;!-- 拦截所有请求 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>shiroFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这样会过滤所有的请求。</p>
+<h2 id="创建自定义MyRealm类"><a href="#创建自定义MyRealm类" class="headerlink" title="创建自定义MyRealm类"></a>创建自定义MyRealm类</h2><h3 id="逻辑与表结构"><a href="#逻辑与表结构" class="headerlink" title="逻辑与表结构"></a>逻辑与表结构</h3><p>首先在使用Shiro的时候我们要考虑在什么样的环境下使用：</p>
+<ul>
+<li>登录的验证</li>
+<li>对指定角色的验证</li>
+<li>对URL的验证</li>
+</ul>
+<p>在本篇博客中，我们需要这三个方法：</p>
+<blockquote>
+<ol>
+<li>findUserByUserName(String username)根据username查询用户，之后Shiro会根据查询出来的User的密码来和提交上来的密码进行比对。</li>
+<li>findRoles(String username)根据username查询该用户的所有角色，用于角色验证。</li>
+<li>findPermissions(String username)根据username查询他所拥有的权限信息，用于权限判断。</li>
+</ol>
+</blockquote>
+<p>由于本篇博客着重讲解shiro的配置和使用，在实际开发工作中，最好建立五张表，用户表、角色表、权限表、用户角色中间表、角色权限中间表，拓展性更强。</p>
+<p>通过中间表来配置用户与角色的对应关系，角色与权限的对应关系，更灵活。</p>
+<p>大概流程为：验证通过后，通过用户名从用户表中查询用户ID，根据用户ID从用户角色中间表中查询该用户所对应的所有角色ID，通过所有角色ID从角色权限中间表中查询各个角色都含有哪些权限，并进行权限的去重操作。</p>
+<p>我的ShiroUserMapper.xml代码(Mybatis自动构建请参考我之前的文章SSM整合，可以节省掉很大一部分写重复代码的时间)：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8" ?&gt;</div><div class="line"><span class="meta">&lt;!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" &gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">mapper</span> <span class="attr">namespace</span>=<span class="string">"com.zh.dao.ShiroUserMapper"</span> &gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">resultMap</span> <span class="attr">id</span>=<span class="string">"BaseResultMap"</span> <span class="attr">type</span>=<span class="string">"com.zh.model.ShiroUser"</span> &gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">id</span> <span class="attr">column</span>=<span class="string">"id"</span> <span class="attr">property</span>=<span class="string">"id"</span> <span class="attr">jdbcType</span>=<span class="string">"INTEGER"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"userName"</span> <span class="attr">property</span>=<span class="string">"username"</span> <span class="attr">jdbcType</span>=<span class="string">"VARCHAR"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"roleId"</span> <span class="attr">property</span>=<span class="string">"roleid"</span> <span class="attr">jdbcType</span>=<span class="string">"INTEGER"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">result</span> <span class="attr">column</span>=<span class="string">"password"</span> <span class="attr">property</span>=<span class="string">"password"</span> <span class="attr">jdbcType</span>=<span class="string">"VARCHAR"</span> /&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">resultMap</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">sql</span> <span class="attr">id</span>=<span class="string">"Base_Column_List"</span> &gt;</span></div><div class="line">    id, userName, roleId, password</div><div class="line">  <span class="tag">&lt;/<span class="name">sql</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"selectByPrimaryKey"</span> <span class="attr">resultMap</span>=<span class="string">"BaseResultMap"</span> <span class="attr">parameterType</span>=<span class="string">"java.lang.Integer"</span> &gt;</span></div><div class="line">    select </div><div class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"Base_Column_List"</span> /&gt;</span></div><div class="line">    from t_user</div><div class="line">    where id = #&#123;id,jdbcType=INTEGER&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">delete</span> <span class="attr">id</span>=<span class="string">"deleteByPrimaryKey"</span> <span class="attr">parameterType</span>=<span class="string">"java.lang.Integer"</span> &gt;</span></div><div class="line">    delete from t_user</div><div class="line">    where id = #&#123;id,jdbcType=INTEGER&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">delete</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"insert"</span> <span class="attr">parameterType</span>=<span class="string">"com.zh.model.ShiroUser"</span> &gt;</span></div><div class="line">    insert into t_user (id, userName, roleId, </div><div class="line">      password)</div><div class="line">    values (#&#123;id,jdbcType=INTEGER&#125;, #&#123;username,jdbcType=VARCHAR&#125;, #&#123;roleid,jdbcType=INTEGER&#125;, </div><div class="line">      #&#123;password,jdbcType=VARCHAR&#125;)</div><div class="line">  <span class="tag">&lt;/<span class="name">insert</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">insert</span> <span class="attr">id</span>=<span class="string">"insertSelective"</span> <span class="attr">parameterType</span>=<span class="string">"com.zh.model.ShiroUser"</span> &gt;</span></div><div class="line">    insert into t_user</div><div class="line">    <span class="tag">&lt;<span class="name">trim</span> <span class="attr">prefix</span>=<span class="string">"("</span> <span class="attr">suffix</span>=<span class="string">")"</span> <span class="attr">suffixOverrides</span>=<span class="string">","</span> &gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"id != null"</span> &gt;</span></div><div class="line">        id,</div><div class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"username != null"</span> &gt;</span></div><div class="line">        userName,</div><div class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"roleid != null"</span> &gt;</span></div><div class="line">        roleId,</div><div class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"password != null"</span> &gt;</span></div><div class="line">        password,</div><div class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">trim</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">trim</span> <span class="attr">prefix</span>=<span class="string">"values ("</span> <span class="attr">suffix</span>=<span class="string">")"</span> <span class="attr">suffixOverrides</span>=<span class="string">","</span> &gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"id != null"</span> &gt;</span></div><div class="line">        #&#123;id,jdbcType=INTEGER&#125;,</div><div class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"username != null"</span> &gt;</span></div><div class="line">        #&#123;username,jdbcType=VARCHAR&#125;,</div><div class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"roleid != null"</span> &gt;</span></div><div class="line">        #&#123;roleid,jdbcType=INTEGER&#125;,</div><div class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"password != null"</span> &gt;</span></div><div class="line">        #&#123;password,jdbcType=VARCHAR&#125;,</div><div class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">trim</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">insert</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateByPrimaryKeySelective"</span> <span class="attr">parameterType</span>=<span class="string">"com.zh.model.ShiroUser"</span> &gt;</span></div><div class="line">    update t_user</div><div class="line">    <span class="tag">&lt;<span class="name">set</span> &gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"username != null"</span> &gt;</span></div><div class="line">        userName = #&#123;username,jdbcType=VARCHAR&#125;,</div><div class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"roleid != null"</span> &gt;</span></div><div class="line">        roleId = #&#123;roleid,jdbcType=INTEGER&#125;,</div><div class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">if</span> <span class="attr">test</span>=<span class="string">"password != null"</span> &gt;</span></div><div class="line">        password = #&#123;password,jdbcType=VARCHAR&#125;,</div><div class="line">      <span class="tag">&lt;/<span class="name">if</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">set</span>&gt;</span></div><div class="line">    where id = #&#123;id,jdbcType=INTEGER&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">update</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">update</span> <span class="attr">id</span>=<span class="string">"updateByPrimaryKey"</span> <span class="attr">parameterType</span>=<span class="string">"com.zh.model.ShiroUser"</span> &gt;</span></div><div class="line">    update t_user</div><div class="line">    set userName = #&#123;username,jdbcType=VARCHAR&#125;,</div><div class="line">      roleId = #&#123;roleid,jdbcType=INTEGER&#125;,</div><div class="line">      password = #&#123;password,jdbcType=VARCHAR&#125;</div><div class="line">    where id = #&#123;id,jdbcType=INTEGER&#125;</div><div class="line">  <span class="tag">&lt;/<span class="name">update</span>&gt;</span></div><div class="line">  </div><div class="line">  </div><div class="line">   <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findUserByUsername"</span> <span class="attr">parameterType</span>=<span class="string">"String"</span> <span class="attr">resultMap</span>=<span class="string">"BaseResultMap"</span>&gt;</span></div><div class="line">        select <span class="tag">&lt;<span class="name">include</span> <span class="attr">refid</span>=<span class="string">"Base_Column_List"</span>/&gt;</span></div><div class="line">        from t_user where userName=#&#123;userName&#125;</div><div class="line">   <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findRoles"</span> <span class="attr">parameterType</span>=<span class="string">"String"</span> <span class="attr">resultType</span>=<span class="string">"String"</span>&gt;</span></div><div class="line">        select r.roleName from t_user u,t_role r where u.roleId=r.id and u.userName=#&#123;userName&#125;</div><div class="line">   <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">   <span class="tag">&lt;<span class="name">select</span> <span class="attr">id</span>=<span class="string">"findPermissions"</span> <span class="attr">parameterType</span>=<span class="string">"String"</span> <span class="attr">resultType</span>=<span class="string">"String"</span>&gt;</span></div><div class="line">        select p.permissionName from t_user u,t_role r,t_permission p</div><div class="line">        where u.roleId=r.id and p.roleId=r.id and u.userName=#&#123;userName&#125;</div><div class="line">   <span class="tag">&lt;/<span class="name">select</span>&gt;</span></div><div class="line">    </div><div class="line"><span class="tag">&lt;/<span class="name">mapper</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>以上提到的三个方法，分别对应xml文件中最下面的三个方法。</p>
+<p>所需的表结构(包含后面要用的测试数据)：</p>
+<p><img src="http://zhfeat.cc/blog/images/shiro/1.png"></p>
+<h3 id="MyRealm类"><a href="#MyRealm类" class="headerlink" title="MyRealm类"></a>MyRealm类</h3><p>创建自定义的MyRealm类，这个还是比较重要的。继承至Shiro的AuthorizingRealm类，用于处理自己的验证逻辑，下面贴一下我的代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh.shiro;</div><div class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationException;</div><div class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationInfo;</div><div class="line"><span class="keyword">import</span> org.apache.shiro.authc.AuthenticationToken;</div><div class="line"><span class="keyword">import</span> org.apache.shiro.authc.SimpleAuthenticationInfo;</div><div class="line"><span class="keyword">import</span> org.apache.shiro.authz.AuthorizationInfo;</div><div class="line"><span class="keyword">import</span> org.apache.shiro.authz.SimpleAuthorizationInfo;</div><div class="line"><span class="keyword">import</span> org.apache.shiro.realm.AuthorizingRealm;</div><div class="line"><span class="keyword">import</span> org.apache.shiro.subject.PrincipalCollection;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.zh.model.ShiroUser;</div><div class="line"><span class="keyword">import</span> com.zh.service.ShiroUserService;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.annotation.Resource;</div><div class="line"><span class="keyword">import</span> java.util.Set;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * Shiro自定义域</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyRealm</span> <span class="keyword">extends</span> <span class="title">AuthorizingRealm</span> </span>&#123;</div><div class="line">    <span class="meta">@Resource</span></div><div class="line">    <span class="keyword">private</span> ShiroUserService t_userService;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 用于的权限的认证。</div><div class="line">     * <span class="doctag">@param</span> principalCollection</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> AuthorizationInfo <span class="title">doGetAuthorizationInfo</span><span class="params">(PrincipalCollection principalCollection)</span> </span>&#123;</div><div class="line">        String username = principalCollection.getPrimaryPrincipal().toString() ;</div><div class="line">        SimpleAuthorizationInfo info = <span class="keyword">new</span> SimpleAuthorizationInfo() ;</div><div class="line">        <span class="comment">//根据用户名获取角色名称</span></div><div class="line">        Set&lt;String&gt; roleName = t_userService.findRoles(username) ;</div><div class="line">        <span class="comment">//获取角色所对应的权限名称</span></div><div class="line">        Set&lt;String&gt; permissions = t_userService.findPermissions(username) ;</div><div class="line">        info.setRoles(roleName);</div><div class="line">        info.setStringPermissions(permissions);</div><div class="line">        <span class="keyword">return</span> info;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/**</span></div><div class="line">     * 首先执行这个登录验证</div><div class="line">     * <span class="doctag">@param</span> token</div><div class="line">     * <span class="doctag">@return</span></div><div class="line">     * <span class="doctag">@throws</span> AuthenticationException</div><div class="line">     */</div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> AuthenticationInfo <span class="title">doGetAuthenticationInfo</span><span class="params">(AuthenticationToken token)</span></span></div><div class="line">            <span class="keyword">throws</span> AuthenticationException &#123;</div><div class="line">        <span class="comment">//获取用户账号</span></div><div class="line">    	String username = token.getPrincipal().toString();</div><div class="line">        ShiroUser user = t_userService.findUserByUsername(username);</div><div class="line">        <span class="keyword">if</span> (user != <span class="keyword">null</span>)&#123;</div><div class="line">            <span class="comment">//这里将查询出的用户名密码与用户输入的进行匹配，并存放到 authenticationInfo用于后面的权限判断。第三个参数随便放一个就行了。</span></div><div class="line">            AuthenticationInfo authenticationInfo = <span class="keyword">new</span> SimpleAuthenticationInfo(user.getUsername(),user.getPassword(),</div><div class="line">                    <span class="string">"a"</span>) ;</div><div class="line">            <span class="keyword">return</span> authenticationInfo ;</div><div class="line">        &#125;<span class="keyword">else</span>&#123;</div><div class="line">            <span class="keyword">return</span>  <span class="keyword">null</span> ;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>继承AuthorizingRealm类之后就需要覆写它的两个方法：</p>
+<blockquote>
+<p><span style="color:red;">doGetAuthorizationInfo (登录验证)</span> 和 <span style="color:blue;">doGetAuthenticationInfo (用户权限的认证)</span></p>
+</blockquote>
+<p><span style="color:red;">doGetAuthenticationInfo</span>是用于登录验证的，在请求controller层进行登录的时候需要将数据封装到Shiro的一个token中，执行shiro的login()方法，之后只要我们将MyRealm这个类配置到Spring中，登录的时候Shiro就会自动的调用<span style="color:red;">doGetAuthenticationInfo()</span>方法进行登录验证。</p>
+<p>ShiroUserController.java代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh.controller;</div><div class="line"><span class="keyword">import</span> com.zh.model.ShiroUser;</div><div class="line"><span class="keyword">import</span> com.zh.service.ShiroUserService;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.shiro.SecurityUtils;</div><div class="line"><span class="keyword">import</span> org.apache.shiro.authc.UsernamePasswordToken;</div><div class="line"><span class="keyword">import</span> org.apache.shiro.subject.Subject;</div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Controller;</div><div class="line"><span class="keyword">import</span> org.springframework.ui.Model;</div><div class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</div><div class="line"><span class="keyword">import</span> javax.annotation.Resource;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * 后台Controller</div><div class="line"> */</div><div class="line"></div><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/shiroUser"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShiroUserController</span> </span>&#123;</div><div class="line">    <span class="meta">@Resource</span></div><div class="line">    <span class="keyword">private</span> ShiroUserService t_userService ;</div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/loginAdmin"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">login</span><span class="params">(ShiroUser user, Model model)</span></span>&#123;</div><div class="line">        Subject subject = SecurityUtils.getSubject() ;</div><div class="line">        UsernamePasswordToken token = <span class="keyword">new</span> UsernamePasswordToken(user.getUsername(),user.getPassword()) ;</div><div class="line">        <span class="keyword">try</span> &#123;</div><div class="line">            subject.login(token);</div><div class="line">            <span class="keyword">return</span> <span class="string">"admin"</span> ;</div><div class="line">        &#125;<span class="keyword">catch</span> (Exception e)&#123;</div><div class="line">            <span class="comment">//这里将异常打印关闭是因为如果登录失败的话会自动抛异常</span></div><div class="line"><span class="comment">//            e.printStackTrace();</span></div><div class="line">            model.addAttribute(<span class="string">"error"</span>,<span class="string">"用户名或密码错误"</span>) ;</div><div class="line">            <span class="keyword">return</span> <span class="string">"../../login"</span> ;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/admin"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">admin</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"admin"</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/student"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">student</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"admin"</span> ;</div><div class="line">    &#125;</div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/teacher"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">teacher</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="string">"admin"</span> ;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在请求的Controller层中，主要就是shiro的login()方法。</p>
+<p>登录验证的时候不是直接查询数据库返回是否有用户了，而是调用subject的login()方法，调用login()方法时Shiro会自动调用我们自定义的MyRealm类中的<span style="color:red;">doGetAuthenticationInfo()</span>方法进行验证。</p>
+<p>验证逻辑是先根据用户名从数据库中查询用户，如果查询到的话再将查询到的用户名和密码放到SimpleAuthenticationInfo对象中，Shiro会自动根据用户输入的密码和查询到的密码进行匹配，如果匹配不上就会抛出异常，匹配上之后就会执行<span style="color:blue;">doGetAuthorizationInfo()</span>进行相应的权限验证。</p>
+<p><span style="color:blue;">doGetAuthorizationInfo()</span>方法的处理逻辑也比较简单，根据用户名获取到他所拥有的角色以及权限，然后赋值到SimpleAuthorizationInfo对象中即可，Shiro就会按照我们配置的XX角色对应XX权限来进行判断，这个配置在下面的整合中会讲到。</p>
+<h2 id="整合Spring"><a href="#整合Spring" class="headerlink" title="整合Spring"></a>整合Spring</h2><p>我是在之前的Spring SpringMVC Mybatis框架的基础上进行整合的。</p>
+<p>spring-mybatis.xml配置<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;  </div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span>  </span></div><div class="line">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span>  </div><div class="line">    <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span>  </div><div class="line">    <span class="attr">xmlns:mvc</span>=<span class="string">"http://www.springframework.org/schema/mvc"</span>  </div><div class="line">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans    </span></div><div class="line">                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd    </div><div class="line">                        http://www.springframework.org/schema/context    </div><div class="line">                        http://www.springframework.org/schema/context/spring-context-3.1.xsd    </div><div class="line">                        http://www.springframework.org/schema/mvc    </div><div class="line">                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd"&gt;</div><div class="line">    <span class="comment">&lt;!-- 自动扫描 --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.zh"</span> /&gt;</span>  </div><div class="line">    </div><div class="line">  <span class="comment">&lt;!-- 引入properties配置文件 --&gt;</span>    </div><div class="line">	 <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"propertyConfigurer"</span> <span class="attr">class</span>=<span class="string">"org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"</span>&gt;</span>  </div><div class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"locations"</span>&gt;</span>  </div><div class="line">	        <span class="tag">&lt;<span class="name">list</span>&gt;</span>  </div><div class="line">	           <span class="tag">&lt;<span class="name">value</span>&gt;</span>classpath:config/jdbc.properties<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">	           <span class="tag">&lt;<span class="name">value</span>&gt;</span>classpath:config/redis.properties<span class="tag">&lt;/<span class="name">value</span>&gt;</span>    </div><div class="line">	            <span class="comment">&lt;!--要是有多个配置文件，只需在这里继续添加即可 --&gt;</span>  </div><div class="line">	        <span class="tag">&lt;/<span class="name">list</span>&gt;</span>  </div><div class="line">	    <span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">  </div><div class="line">  	<span class="comment">&lt;!-- dbcp dataSource 配置</span></div><div class="line">    &lt;bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  </div><div class="line">        destroy-method="close"&gt;  </div><div class="line">        &lt;property name="driverClassName" value="$&#123;driver&#125;" /&gt;  </div><div class="line">        &lt;property name="url" value="$&#123;url&#125;" /&gt;  </div><div class="line">        &lt;property name="username" value="$&#123;username&#125;" /&gt;  </div><div class="line">        &lt;property name="password" value="$&#123;password&#125;" /&gt;  </div><div class="line">        &lt;property name="initialSize" value="$&#123;initialSize&#125;"&gt;&lt;/property&gt;  </div><div class="line">        &lt;property name="maxActive" value="$&#123;maxActive&#125;"&gt;&lt;/property&gt;  </div><div class="line">        &lt;property name="maxIdle" value="$&#123;maxIdle&#125;"&gt;&lt;/property&gt;  </div><div class="line">        &lt;property name="minIdle" value="$&#123;minIdle&#125;"&gt;&lt;/property&gt;  </div><div class="line">        &lt;property name="maxWait" value="$&#123;maxWait&#125;"&gt;&lt;/property&gt;  </div><div class="line">    &lt;/bean&gt;  </div><div class="line">    --&gt; </div><div class="line">    <span class="comment">&lt;!-- druid dataSource 配置 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>  </span></div><div class="line">	    <span class="attr">init-method</span>=<span class="string">"init"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;  </div><div class="line">	     <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;url&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;username&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;password&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"$&#123;driverClassName&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"filters"</span> <span class="attr">value</span>=<span class="string">"$&#123;filters&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="comment">&lt;!-- 最大并发连接数 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxActive"</span> <span class="attr">value</span>=<span class="string">"$&#123;maxActive&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 初始化连接数量 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"initialSize"</span> <span class="attr">value</span>=<span class="string">"$&#123;initialSize&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 配置获取连接等待超时的时间 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxWait"</span> <span class="attr">value</span>=<span class="string">"$&#123;maxWait&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 最小空闲连接数 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minIdle"</span> <span class="attr">value</span>=<span class="string">"$&#123;minIdle&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="comment">&lt;!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"timeBetweenEvictionRunsMillis"</span> <span class="attr">value</span>=<span class="string">"$&#123;timeBetweenEvictionRunsMillis&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 配置一个连接在池中最小生存的时间，单位是毫秒 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minEvictableIdleTimeMillis"</span> <span class="attr">value</span>=<span class="string">"$&#123;minEvictableIdleTimeMillis&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 用来检测连接是否有效的sql，要求是一个查询语句。 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"validationQuery"</span> <span class="attr">value</span>=<span class="string">"$&#123;validationQuery&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 申请连接的时候检测，如果空闲时间大于 timeBetweenEvictionRunsMillis， 执行validationQuery检测连接是否有效。 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testWhileIdle"</span> <span class="attr">value</span>=<span class="string">"$&#123;testWhileIdle&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="comment">&lt;!-- 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。 --&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnBorrow"</span> <span class="attr">value</span>=<span class="string">"$&#123;testOnBorrow&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="comment">&lt;!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 --&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnReturn"</span> <span class="attr">value</span>=<span class="string">"$&#123;testOnReturn&#125;"</span> /&gt;</span>   </div><div class="line">         <span class="comment">&lt;!-- 要启用PSCache，必须配置大于0，当大于0时poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题， 可以把这个数值配置大一些，比如说100 --&gt;</span> </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxOpenPreparedStatements"</span> <span class="attr">value</span>=<span class="string">"$&#123;maxOpenPreparedStatements&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 打开removeAbandoned功能 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"removeAbandoned"</span> <span class="attr">value</span>=<span class="string">"$&#123;removeAbandoned&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 1800秒，也就是30分钟 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"removeAbandonedTimeout"</span> <span class="attr">value</span>=<span class="string">"$&#123;removeAbandonedTimeout&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 关闭abanded连接时输出错误日志 --&gt;</span>     </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"logAbandoned"</span> <span class="attr">value</span>=<span class="string">"$&#123;logAbandoned&#125;"</span> /&gt;</span>   </div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">	</div><div class="line">    <span class="comment">&lt;!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span> /&gt;</span>  </div><div class="line">        <span class="comment">&lt;!-- 自动扫描mapping.xml文件 --&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"mapperLocations"</span> <span class="attr">value</span>=<span class="string">"classpath:com/zh/mapping/*.xml"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">  </div><div class="line">    <span class="comment">&lt;!-- DAO接口所在包名，Spring会自动查找其下的类 --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"com.zh.dao"</span> /&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span> <span class="attr">value</span>=<span class="string">"sqlSessionFactory"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">  </div><div class="line">    <span class="comment">&lt;!-- (事务管理)transaction manager, use JtaTransactionManager for global tx --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span>  </span></div><div class="line">        <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;  </div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">    </div><div class="line">    <span class="comment">&lt;!-- Redis和缓存配置开始 --&gt;</span></div><div class="line">	<span class="comment">&lt;!-- jedis 配置 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"poolConfig"</span> <span class="attr">class</span>=<span class="string">"redis.clients.jedis.JedisPoolConfig"</span> &gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxIdle"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.maxIdle&#125;"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxWaitMillis"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.maxWait&#125;"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnBorrow"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.testOnBorrow&#125;"</span> /&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span> &gt;</span></div><div class="line">	</div><div class="line">	<span class="comment">&lt;!-- redis服务器中心 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"connectionFactory"</span>  <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.connection.jedis.JedisConnectionFactory"</span> &gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"poolConfig"</span> <span class="attr">ref</span>=<span class="string">"poolConfig"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"port"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.port&#125;"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hostName"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.host&#125;"</span> /&gt;</span></div><div class="line">	      <span class="comment">&lt;!-- &lt;property name="password" value="$&#123;redis.password&#125;" /&gt; --&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"timeout"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.timeout&#125;"</span> &gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span> &gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"redisTemplate"</span> <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.core.RedisTemplate"</span> &gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connectionFactory"</span> <span class="attr">ref</span>=<span class="string">"connectionFactory"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"keySerializer"</span> &gt;</span></div><div class="line">	          <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.serializer.StringRedisSerializer"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"valueSerializer"</span> &gt;</span></div><div class="line">	          <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.serializer.StringRedisSerializer"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span> &gt;</span></div><div class="line">	</div><div class="line">    <span class="comment">&lt;!-- cache配置插入、更新数据时从redis中清除缓存 --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"putCache"</span> <span class="attr">class</span>=<span class="string">"com.zh.redis.cache.PutCacheAOP"</span> &gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"redisTemplate"</span> <span class="attr">ref</span>=<span class="string">"redisTemplate"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">    </div><div class="line">    <span class="comment">&lt;!-- cache配置从redis获取缓存数据 --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"getCache"</span> <span class="attr">class</span>=<span class="string">"com.zh.redis.cache.GetCacheAOP"</span> &gt;</span>  </div><div class="line">          <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"redisTemplate"</span> <span class="attr">ref</span>=<span class="string">"redisTemplate"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">	<span class="comment">&lt;!-- Redis和缓存配置结束 --&gt;</span></div><div class="line">	</div><div class="line">	<span class="comment">&lt;!-- Shiro 开始 --&gt;</span></div><div class="line">	<span class="comment">&lt;!-- 配置自定义Realm --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myRealm"</span> <span class="attr">class</span>=<span class="string">"com.zh.shiro.MyRealm"</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 安全管理器 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"securityManager"</span> <span class="attr">class</span>=<span class="string">"org.apache.shiro.web.mgt.DefaultWebSecurityManager"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"realm"</span> <span class="attr">ref</span>=<span class="string">"myRealm"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">	 <span class="comment">&lt;!-- Shiro过滤器 核心--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"shiroFilter"</span> <span class="attr">class</span>=<span class="string">"org.apache.shiro.spring.web.ShiroFilterFactoryBean"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- Shiro的核心安全接口,这个属性是必须的 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"securityManager"</span> <span class="attr">ref</span>=<span class="string">"securityManager"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 身份认证失败，则跳转到登录页面的配置 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"loginUrl"</span> <span class="attr">value</span>=<span class="string">"/login.jsp"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 权限认证失败，则跳转到指定页面 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"unauthorizedUrl"</span> <span class="attr">value</span>=<span class="string">"/nopower.jsp"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!-- Shiro连接约束配置,即过滤链的定义 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"filterChainDefinitions"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!--anon 表示匿名访问，不需要认证以及授权--&gt;</span></div><div class="line">                /shiroUser/loginAdmin=anon</div><div class="line">                <span class="comment">&lt;!--authc表示需要认证 没有进行身份认证是不能进行访问的--&gt;</span></div><div class="line">                /shiroUser/admin*=authc</div><div class="line">                /shiroUser/student=roles[teacher]</div><div class="line">                /shiroUser/teacher=perms["user:create"]</div><div class="line">            <span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 保证实现了Shiro内部lifecycle函数的bean执行 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"lifecycleBeanPostProcessor"</span> <span class="attr">class</span>=<span class="string">"org.apache.shiro.spring.LifecycleBeanPostProcessor"</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 开启Shiro注解 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"</span></span></div><div class="line">          <span class="attr">depends-on</span>=<span class="string">"lifecycleBeanPostProcessor"</span>/&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"securityManager"</span> <span class="attr">ref</span>=<span class="string">"securityManager"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- Shiro 结束 --&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>在这里配置了上文中自定义的myRealm,这样Shiro就可以按照我们自定义的逻辑来进行权限验证了。</p>
+<p>着重讲解一下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"filterChainDefinitions"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--anon 表示匿名访问，不需要认证以及授权--&gt;</span></div><div class="line">        /shiroUser/loginAdmin=anon</div><div class="line">        <span class="comment">&lt;!--authc表示需要认证 没有进行身份认证是不能进行访问的--&gt;</span></div><div class="line">        /shiroUser/admin*=authc</div><div class="line">        /shiroUser/student=roles[teacher]</div><div class="line">        /shiroUser/teacher=perms["user:create"]</div><div class="line">    <span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<ul>
+<li>/shiroUser/loginAdmin=anon的意思的意思是，发起/shiroUser/loginAdmin这个请求是不需要进行身份认证的，这个请求在这次项目中是一个登录请求，一般对于这样的请求都是不需要身份认证的。</li>
+<li>/shiroUser/admin*=authc表示 /admin,/admin1,/admin2这样的请求都是需要进行身份认证的，不然是不能访问的。</li>
+<li>/shiroUser/student=roles[teacher]表示访问/student请求的用户必须是teacher角色，不然是不能进行访问的。</li>
+<li>/shiroUser/teacher=perms[“user:create”]表示访问/teacher请求是需要当前用户具有user:create权限才能进行访问的。</li>
+</ul>
+<p>这里注意下，如果你的controller层配置了全局的@RequestMapping(“/xxxx”)，在上面进行权限配置的时候一定以这个格式进行配置(格式:/xxxx/loginAdmin=anon)，不然会拦截失效。</p>
+<p>更多相关权限过滤的资料可以访问shiro的官方介绍：<a href="http://shiro.apache.org/spring.html" target="_blank" rel="external">传送门</a></p>
+<h2 id="使用Shiro标签库"><a href="#使用Shiro标签库" class="headerlink" title="使用Shiro标签库"></a>使用Shiro标签库</h2><p>Shiro还有着强大标签库，可以在前端帮我获取信息和做判断。<br>我贴一下我这里登录完成之后显示的界面：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;%@ page contentType="text/html;charset=UTF-8" language="java" %&gt;</div><div class="line">&lt;%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;title&gt;后台&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;shiro:hasRole name="admin"&gt;</div><div class="line">    这是admin角色登录：&lt;shiro:principal&gt;&lt;/shiro:principal&gt;</div><div class="line">&lt;/shiro:hasRole&gt;</div><div class="line">&lt;shiro:hasPermission name="user:create"&gt;</div><div class="line">    有user:create权限信息</div><div class="line">&lt;/shiro:hasPermission&gt;</div><div class="line">&lt;br&gt;</div><div class="line">登录成功</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>要想使用Shiro标签，只需要引入一下标签即可：</p>
+<p>&lt;%@ taglib prefix=”shiro” uri=”<a href="http://shiro.apache.org/tags" target="_blank" rel="external">http://shiro.apache.org/tags</a>“ %&gt;</p>
+<p>具有admin角色才会显示标签内的信息。</p>
+<p>获取用户信息。默认调用Subject.getPrincipal()获取，即Primary Principal。</p>
+<p>用户拥有user:create这个权限才回显示标签内的信息。</p>
+<p>更多的标签可以查看官网：<a href="http://shiro.apache.org/webapp-tutorial.html" target="_blank" rel="external">传送门</a></p>
+<p>（图片待续。。。）</p>
+<p>首先来验证一下登录：</p>
+<p>先输入一个错误的账号和密码：</p>
+<p>接下来输入一个正确的：</p>
+<p>可以看到我登录的用户是zhfeat他是有admin的角色，并且拥有user:*(ps:系统数据详见上面的数据库截图)的权限，所以在这里：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">shiro:hasRole</span> <span class="attr">name</span>=<span class="string">"admin"</span>&gt;</span>   </div><div class="line">    这是admin角色登录：<span class="tag">&lt;<span class="name">shiro:principal</span>&gt;</span><span class="tag">&lt;/<span class="name">shiro:principal</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">shiro:hasRole</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">shiro:hasPermission</span> <span class="attr">name</span>=<span class="string">"user:create"</span>&gt;</span></div><div class="line">    有user:create权限信息</div><div class="line"><span class="tag">&lt;/<span class="name">shiro:hasPermission</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>是能显示出标签内的信息，并把用户信息也显示出来了。</p>
+<p>接着我们来访问一下/student这个请求，因为在Spring的配置文件中：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"filterChainDefinitions"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--anon 表示匿名访问，不需要认证以及授权--&gt;</span></div><div class="line">        /shiroUser/loginAdmin=anon</div><div class="line">        <span class="comment">&lt;!--authc表示需要认证 没有进行身份认证是不能进行访问的--&gt;</span></div><div class="line">        /shiroUser/admin*=authc</div><div class="line">        /shiroUser/student=roles[teacher]</div><div class="line">        /shiroUser/teacher=perms["user:create"]</div><div class="line">    <span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>只有teacher角色才能访问/student这个请求的：</p>
+<p>果然，Shiro做了安全控制是不能进行访问的。</p>
+<p>然后我们换aaa用户登录，他正好是teacher角色，看能不能访问/student。</p>
+<p>果然是能访问的。</p>
+<p>因为我在控制器里访问/student返回的是同一个界面所以看到的还是这个界面。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/teacher"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">teacher</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"admin"</span> ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>并且没有显示之前Shiro标签内的内容。</p>
+<p>其他的我就不测了，大家可以自己在数据库里加一些数据，或者是改下拦截的权限多试试，这样对Shiro的理解就会更加深刻。</p>
+<h2 id="MD5加密"><a href="#MD5加密" class="headerlink" title="MD5加密"></a>MD5加密</h2><p>Shiro还封装了一个非常不错的功能，那就是MD5加密，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.crossoverJie.shiro;</div><div class="line"><span class="keyword">import</span> org.apache.shiro.crypto.hash.Md5Hash;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * Created with IDEA</div><div class="line"> * 基于Shiro的MD5加密</div><div class="line"> * Created by $&#123;jie.chen&#125; on 2016/7/13.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MD5Util</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">md5</span><span class="params">(String str,String salt)</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Md5Hash(str,salt).toString() ;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">        String md5 = md5(<span class="string">"abc123"</span>,<span class="string">"crossoverjie"</span>) ;</div><div class="line">        System.out.println(md5);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>只需要调用Md5Hash(str,salt)方法即可，这里多了一个参数，第一个参数不用多解释，是需要加密的字符串。第二个参数salt中文翻译叫盐，加密的时候我们传一个字符串进去，只要这个salt不被泄露出去，那原则上加密之后是无法被解密的，在存用户密码的时候可以使用，感觉还是非常屌的。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上就是Shiro实际使用的案例，文章讲的比较初略，还需要后面自己拓展，但是关于Shiro的核心东西都在里面了，大家可以自己配一下试试，才更能体会其中的逻辑。</p>
+<p>项目地址：<a href="https://github.com/mhkzh/SSM" target="_blank" rel="external">https://github.com/mhkzh/SSM</a></p>
+<p>个人博客地址：<a href="http://zhfeat.cc">http://zhfeat.cc</a></p>
+<p>GitHub地址：<a href="https://github.com/mhkzh/" target="_blank" rel="external">https://github.com/mhkzh/</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/Shiro/" rel="tag"># Shiro</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/03/01/应用Druid监控SQL语句的执行情况/" rel="next" title="应用Druid监控SQL语句的执行情况">
+                <i class="fa fa-chevron-left"></i> 应用Druid监控SQL语句的执行情况
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/03/Shiro安全框架集成/"
+           data-title="Shiro安全框架集成" data-url="http://zhfeat.cc/blog/blog/2017/03/03/Shiro安全框架集成/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+          <p class="site-description motion-element" itemprop="description">个人博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/blog/archives">
+              <span class="site-state-item-count">11</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在项目中添加依赖"><span class="nav-number">1.</span> <span class="nav-text">在项目中添加依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置shiro过滤器"><span class="nav-number">2.</span> <span class="nav-text">配置shiro过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建自定义MyRealm类"><span class="nav-number">3.</span> <span class="nav-text">创建自定义MyRealm类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#逻辑与表结构"><span class="nav-number">3.1.</span> <span class="nav-text">逻辑与表结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MyRealm类"><span class="nav-number">3.2.</span> <span class="nav-text">MyRealm类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#整合Spring"><span class="nav-number">4.</span> <span class="nav-text">整合Spring</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Shiro标签库"><span class="nav-number">5.</span> <span class="nav-text">使用Shiro标签库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MD5加密"><span class="nav-number">6.</span> <span class="nav-text">MD5加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+
+<div class="busuanzi-count">
+
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">本站访客数<span class="busuanzi-value" id="busuanzi_value_site_uv"></span>人次</span>
+  
+
+  
+    <span class="site-pv">本站总访问量<span class="busuanzi-value" id="busuanzi_value_site_pv"></span>次</span>
+  
+  
+</div>
+
+
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"zhfeat"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/blog/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/blog/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/blog/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/blog/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

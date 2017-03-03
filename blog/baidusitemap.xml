@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://zhfeat.cc/blog/blog/2017/03/03/Shiro%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90/</loc>
+    <lastmod>2017-03-03T10:33:57.918Z</lastmod>
+    <data>
+        <display>
+        <title>Shiro安全框架集成</title>
+        <pubTime>2017-03-03T10:33:33.000Z</pubTime>
+        
+        <tag>Shiro</tag>
+         
+         
+           
+             
+              <breadCrumb title="开发学习" url="http://zhfeat.cc/blog/blog/categories/%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zhfeat.cc/blog/blog/2017/03/01/%E5%BA%94%E7%94%A8Druid%E7%9B%91%E6%8E%A7SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%89%A7%E8%A1%8C%E6%83%85%E5%86%B5/</loc>
     <lastmod>2017-03-01T10:52:08.861Z</lastmod>
     <data>
@@ -123,9 +143,9 @@
         
         <tag>Maven</tag>
          
-        <tag>JavaWeb</tag>
-         
         <tag>SSM</tag>
+         
+        <tag>JavaWeb</tag>
          
         <tag>quick4j</tag>
          
