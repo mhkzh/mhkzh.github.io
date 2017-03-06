@@ -91,7 +91,11 @@
 <meta property="og:site_name" content="zhfeat's - blog">
 <meta property="og:description" content="做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立运">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/shiro/1.png">
-<meta property="og:updated_time" content="2017-03-03T10:33:57.918Z">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/shiro/2.gif">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/shiro/3.gif">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/shiro/4.gif">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/shiro/5.gif">
+<meta property="og:updated_time" content="2017-03-06T02:02:08.868Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shiro安全框架集成">
 <meta name="twitter:description" content="做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立运">
@@ -472,15 +476,19 @@
 <p>（图片待续。。。）</p>
 <p>首先来验证一下登录：</p>
 <p>先输入一个错误的账号和密码：</p>
+<p><img src="http://zhfeat.cc/blog/images/shiro/2.gif"></p>
 <p>接下来输入一个正确的：</p>
+<p><img src="http://zhfeat.cc/blog/images/shiro/3.gif"></p>
 <p>可以看到我登录的用户是zhfeat他是有admin的角色，并且拥有user:*(ps:系统数据详见上面的数据库截图)的权限，所以在这里：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">shiro:hasRole</span> <span class="attr">name</span>=<span class="string">"admin"</span>&gt;</span>   </div><div class="line">    这是admin角色登录：<span class="tag">&lt;<span class="name">shiro:principal</span>&gt;</span><span class="tag">&lt;/<span class="name">shiro:principal</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">shiro:hasRole</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">shiro:hasPermission</span> <span class="attr">name</span>=<span class="string">"user:create"</span>&gt;</span></div><div class="line">    有user:create权限信息</div><div class="line"><span class="tag">&lt;/<span class="name">shiro:hasPermission</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>是能显示出标签内的信息，并把用户信息也显示出来了。</p>
 <p>接着我们来访问一下/student这个请求，因为在Spring的配置文件中：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"filterChainDefinitions"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--anon 表示匿名访问，不需要认证以及授权--&gt;</span></div><div class="line">        /shiroUser/loginAdmin=anon</div><div class="line">        <span class="comment">&lt;!--authc表示需要认证 没有进行身份认证是不能进行访问的--&gt;</span></div><div class="line">        /shiroUser/admin*=authc</div><div class="line">        /shiroUser/student=roles[teacher]</div><div class="line">        /shiroUser/teacher=perms["user:create"]</div><div class="line">    <span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>只有teacher角色才能访问/student这个请求的：</p>
+<p><img src="http://zhfeat.cc/blog/images/shiro/4.gif"></p>
 <p>果然，Shiro做了安全控制是不能进行访问的。</p>
 <p>然后我们换aaa用户登录，他正好是teacher角色，看能不能访问/student。</p>
+<p><img src="http://zhfeat.cc/blog/images/shiro/5.gif"></p>
 <p>果然是能访问的。</p>
 <p>因为我在控制器里访问/student返回的是同一个界面所以看到的还是这个界面。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/teacher"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> String <span class="title">teacher</span><span class="params">()</span></span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="string">"admin"</span> ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
