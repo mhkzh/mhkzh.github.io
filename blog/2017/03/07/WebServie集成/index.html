@@ -84,24 +84,24 @@
 
 
 
-<meta name="description" content="一、WebService到底是什么？   一言以蔽之：WebService是一种跨编程语言和跨操作系统平台的远程调用技术。
+<meta name="description" content="WebService到底是什么？   一言以蔽之：WebService是一种跨编程语言和跨操作系统平台的远程调用技术。
 所谓跨编程语言和跨操作平台，就是说服务端程序采用java编写，客户端程序则可以采用其他编程语言编写，反之亦然！跨操作系统平台则是指服务端程序和客户端程序可以在不同的操作系统上运行。
-所谓远程调用，就是一台计算机a上的一个程序可以调用到另外一台计算机b上的一个对象的方法，譬如，">
+所谓远程调用，就是一台计算机a上的一个程序可以调用到另外一台计算机b上的一个对象的方法，譬如，银联">
 <meta property="og:type" content="article">
 <meta property="og:title" content="WebServie集成">
 <meta property="og:url" content="http://zhfeat.cc/blog/2017/03/07/WebServie集成/index.html">
 <meta property="og:site_name" content="zhfeat's - blog">
-<meta property="og:description" content="一、WebService到底是什么？   一言以蔽之：WebService是一种跨编程语言和跨操作系统平台的远程调用技术。
+<meta property="og:description" content="WebService到底是什么？   一言以蔽之：WebService是一种跨编程语言和跨操作系统平台的远程调用技术。
 所谓跨编程语言和跨操作平台，就是说服务端程序采用java编写，客户端程序则可以采用其他编程语言编写，反之亦然！跨操作系统平台则是指服务端程序和客户端程序可以在不同的操作系统上运行。
-所谓远程调用，就是一台计算机a上的一个程序可以调用到另外一台计算机b上的一个对象的方法，譬如，">
+所谓远程调用，就是一台计算机a上的一个程序可以调用到另外一台计算机b上的一个对象的方法，譬如，银联">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/webservice/1.png">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/webservice/2.png">
-<meta property="og:updated_time" content="2017-03-07T03:51:30.476Z">
+<meta property="og:updated_time" content="2017-03-07T03:58:35.731Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="WebServie集成">
-<meta name="twitter:description" content="一、WebService到底是什么？   一言以蔽之：WebService是一种跨编程语言和跨操作系统平台的远程调用技术。
+<meta name="twitter:description" content="WebService到底是什么？   一言以蔽之：WebService是一种跨编程语言和跨操作系统平台的远程调用技术。
 所谓跨编程语言和跨操作平台，就是说服务端程序采用java编写，客户端程序则可以采用其他编程语言编写，反之亦然！跨操作系统平台则是指服务端程序和客户端程序可以在不同的操作系统上运行。
-所谓远程调用，就是一台计算机a上的一个程序可以调用到另外一台计算机b上的一个对象的方法，譬如，">
+所谓远程调用，就是一台计算机a上的一个程序可以调用到另外一台计算机b上的一个对象的方法，譬如，银联">
 <meta name="twitter:image" content="http://zhfeat.cc/blog/images/webservice/1.png">
 
 
@@ -413,12 +413,12 @@
       
 
       
-        <h2 id="一、WebService到底是什么？"><a href="#一、WebService到底是什么？" class="headerlink" title="一、WebService到底是什么？"></a>一、WebService到底是什么？</h2><p>   <strong>一言以蔽之：WebService是一种跨编程语言和跨操作系统平台的远程调用技术。</strong></p>
+        <h2 id="WebService到底是什么？"><a href="#WebService到底是什么？" class="headerlink" title="WebService到底是什么？"></a>WebService到底是什么？</h2><p>   <strong>一言以蔽之：WebService是一种跨编程语言和跨操作系统平台的远程调用技术。</strong></p>
 <p>所谓跨编程语言和跨操作平台，就是说服务端程序采用java编写，客户端程序则可以采用其他编程语言编写，反之亦然！跨操作系统平台则是指服务端程序和客户端程序可以在不同的操作系统上运行。</p>
 <p>所谓远程调用，就是一台计算机a上的一个程序可以调用到另外一台计算机b上的一个对象的方法，譬如，银联提供给商场的pos刷卡系统，商场的POS机转账调用的转账方法的代码其实是跑在银行服务器上。再比如，amazon，天气预报系统，淘宝网，校内网，百度等把自己的系统服务以webservice服务的形式暴露出来，让第三方网站和程序可以调用这些服务功能，这样扩展了自己系统的市场占有率，往大的概念上吹，就是所谓的SOA应用。</p>
 <p>其实可以从多个角度来理解WebService，从表面上看，WebService就是一个应用程序向外界暴露出一个能通过Web进行调用的API，也就是说能用编程的方法通过Web来调用这个应用程序。我们把调用这个WebService的应用程序叫做客户端，而把提供这个WebService的应用程序叫做服务端。从深层次看，WebService是建立可互操作的分布式应用程序的新平台，是一个平台，是一套标准。它定义了应用程序如何在Web上实现互操作性，你可以用任何你喜欢的语言，在任何你喜欢的平台上写Web service ，只要我们可以通过Web service标准对这些服务进行查询和访问。 </p>
 <a id="more"></a>
-<h2 id="二、WebService平台技术"><a href="#二、WebService平台技术" class="headerlink" title="二、WebService平台技术"></a>二、WebService平台技术</h2><p>  <strong>XML+XSD,SOAP和WSDL就是构成WebService平台的三大技术。</strong></p>
+<h2 id="WebService平台技术"><a href="#WebService平台技术" class="headerlink" title="WebService平台技术"></a>WebService平台技术</h2><p>  <strong>XML+XSD,SOAP和WSDL就是构成WebService平台的三大技术。</strong></p>
 <p><strong>XML+XSD：</strong></p>
 <p>WebService采用HTTP协议传输数据，采用XML格式封装数据（即XML中说明调用远程服务对象的哪个方法，传递的参数是什么，以及服务对象的返回结果是什么）。XML是WebService平台中表示数据的格式。除了易于建立和易于分析外，XML主要的优点在于它既是平台无关的，又是厂商无关的。无关性是比技术优越性更重要的：软件厂商是不会选择一个由竞争对手所发明的技术的。 </p>
 <p>XML解决了数据表示的问题，但它没有定义一套标准的数据类型，更没有说怎么去扩展这套数据类型。例如，整形数到底代表什么？16位，32位，64位？这些细节对实现互操作性很重要。XML Schema(XSD)就是专门解决这个问题的一套标准。它定义了一套标准的数据类型，并给出了一种语言来扩展这套数据类型。WebService平台就是用XSD来作为其数据类型系统的。当你用某种语言(如VB.NET或C#)来构造一个Web service时，为了符合WebService标准，所有你使用的数据类型都必须被转换为XSD类型。你用的工具可能已经自动帮你完成了这个转换，但你很可能会根据你的需要修改一下转换过程。</p>
@@ -430,11 +430,11 @@
 <p>好比我们去商店买东西，首先要知道商店里有什么东西可买，然后再来购买，商家的做法就是张贴广告海报。 WebService也一样，WebService客户端要调用一个WebService服务，首先要有知道这个服务的地址在哪，以及这个服务里有什么方法可以调用，所以，WebService务器端首先要通过一个WSDL文件来说明自己家里有啥服务可以对外调用，服务是什么（服务中有哪些方法，方法接受的参数是什么，返回值是什么），服务的网络地址用哪个url地址表示，服务通过什么方式来调用。</p>
 <p>WSDL(Web Services Description Language)就是这样一个基于XML的语言，用于描述Web Service及其函数、参数和返回值。它是WebService客户端和服务器端都能理解的标准格式。因为是基于XML的，所以WSDL既是机器可阅读的，又是人可阅读的，这将是一个很大的好处。一些最新的开发工具既能根据你的Web service生成WSDL文档，又能导入WSDL文档，生成调用相应WebService的代理类代码。</p>
 <p>WSDL文件保存在Web服务器上，通过一个url地址就可以访问到它。客户端要调用一个WebService服务之前，要知道该服务的WSDL文件的地址。WebService服务提供商可以通过两种方式来暴露它的WSDL文件地址：1.注册到UDDI服务器，以便被人查找；2.直接告诉给客户端调用者。</p>
-<h2 id="三、WebService开发"><a href="#三、WebService开发" class="headerlink" title="三、WebService开发"></a>三、WebService开发</h2><p>WebService开发可以分为服务器端开发和客户端开发两个方面：</p>
+<h2 id="WebService开发"><a href="#WebService开发" class="headerlink" title="WebService开发"></a>WebService开发</h2><p>WebService开发可以分为服务器端开发和客户端开发两个方面：</p>
 <p><strong>服务端开发</strong>：把公司内部系统的业务方法发布成WebService服务，供远程合作单位和个人调用。(借助一些WebService框   架可以很轻松地把自己的业务对象发布成WebService服务，Java方面的典型WebService框架包括：axis，xfire，cxf等，java ee服务器通常也支持发布WebService服务，例如JBoss。)</p>
 <p><strong>客户端开发</strong>：调用别人发布的WebService服务，大多数人从事的开发都属于这个方面，例如，调用天气预报WebService服务。（使用厂商的WSDL2Java之类的工具生成静态调用的代理类代码；使用厂商提供的客户端编程API类；使用SUN公司早期标准的jax-rpc开发包；使用SUN公司最新标准的jax-ws开发包。当然SUN已被ORACLE收购)</p>
 <p><strong>WebService的工作调用原理</strong>：对客户端而言，我们给这各类WebService客户端API传递wsdl文件的url地址，这些API就会创建出底层的代理类，我调用这些代理，就可以访问到webservice服务。代理类把客户端的方法调用变成soap格式的请求数据再通过HTTP协议发出去，并把接收到的soap数据变成返回值返回。对服务端而言，各类WebService框架的本质就是一个大大的Servlet，当远程调用客户端给它通过http协议发送过来soap格式的请求数据时，它分析这个数据，就知道要调用哪个java类的哪个方法，于是去查找或创建这个对象，并调用其方法，再把方法返回的结果包装成soap格式的数据，通过http响应消息回给客户端。</p>
-<h2 id="四、WebService框架"><a href="#四、WebService框架" class="headerlink" title="四、WebService框架"></a>四、WebService框架</h2><p>1、<strong>Axis2</strong>是Apache下的一个重量级WebService框架，准确说它是一个Web Services / SOAP / WSDL 的引擎，是WebService框架的集大成者，它能不但能制作和发布WebService，而且可以生成Java和其他语言版WebService客户端和服务端代码。这是它的优势所在。但是，这也不可避免的导致了Axis2的复杂性，使用过的开发者都知道，它所依赖的包数量和大小都是很惊人的，打包部署发布都比较麻烦，不能很好的与现有应用整合为一体。但是如果你要开发Java之外别的语言客户端，Axis2提供的丰富工具将是你不二的选择。</p>
+<h2 id="WebService框架"><a href="#WebService框架" class="headerlink" title="WebService框架"></a>WebService框架</h2><p>1、<strong>Axis2</strong>是Apache下的一个重量级WebService框架，准确说它是一个Web Services / SOAP / WSDL 的引擎，是WebService框架的集大成者，它能不但能制作和发布WebService，而且可以生成Java和其他语言版WebService客户端和服务端代码。这是它的优势所在。但是，这也不可避免的导致了Axis2的复杂性，使用过的开发者都知道，它所依赖的包数量和大小都是很惊人的，打包部署发布都比较麻烦，不能很好的与现有应用整合为一体。但是如果你要开发Java之外别的语言客户端，Axis2提供的丰富工具将是你不二的选择。</p>
 <p>2、<strong>XFire</strong>是一个高性能的WebService框架，在Java6之前，它的知名度甚至超过了Apache的Axis2，XFire的优点是开发方便，与现有的Web整合很好，可以融为一体，并且开发也很方便。但是对Java之外的语言，没有提供相关的代码工具。XFire后来被Apache收购了，原因是它太优秀了，收购后，随着Java6 JWS的兴起，开源的WebService引擎已经不再被看好，渐渐的都败落了。</p>
 <p>3、<strong>CXF</strong>是Apache旗下一个重磅的SOA简易框架，它实现了ESB（企业服务总线）。CXF来自于XFire项目，经过改造后形成的，就像目前的Struts2来自WebWork一样。可以看出XFire的命运会和WebWork的命运一样，最终会淡出人们的视线。CXF不但是一个优秀的Web Services / SOAP / WSDL 引擎，也是一个不错的ESB总线，为SOA的实施提供了一种选择方案，当然他不是最好的，它仅仅实现了SOA架构的一部分。</p>
 <h2 id="Http接口和WebService接口的区别"><a href="#Http接口和WebService接口的区别" class="headerlink" title="Http接口和WebService接口的区别"></a>Http接口和WebService接口的区别</h2><p><strong>什么是web service？</strong> </p>
@@ -690,7 +690,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、WebService到底是什么？"><span class="nav-number">1.</span> <span class="nav-text">一、WebService到底是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、WebService平台技术"><span class="nav-number">2.</span> <span class="nav-text">二、WebService平台技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、WebService开发"><span class="nav-number">3.</span> <span class="nav-text">三、WebService开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、WebService框架"><span class="nav-number">4.</span> <span class="nav-text">四、WebService框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Http接口和WebService接口的区别"><span class="nav-number">5.</span> <span class="nav-text">Http接口和WebService接口的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何通俗的解释什么是Cxf"><span class="nav-number">6.</span> <span class="nav-text">如何通俗的解释什么是Cxf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring整合CXF"><span class="nav-number">7.</span> <span class="nav-text">Spring整合CXF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pom-xml配置"><span class="nav-number">7.1.</span> <span class="nav-text">pom.xml配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-xml配置"><span class="nav-number">7.2.</span> <span class="nav-text">web.xml配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整合Spring配置"><span class="nav-number">7.3.</span> <span class="nav-text">整合Spring配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端调用webservice接口"><span class="nav-number">8.</span> <span class="nav-text">客户端调用webservice接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态调用"><span class="nav-number">8.1.</span> <span class="nav-text">静态调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态调用"><span class="nav-number">8.2.</span> <span class="nav-text">动态调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#WebService到底是什么？"><span class="nav-number">1.</span> <span class="nav-text">WebService到底是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebService平台技术"><span class="nav-number">2.</span> <span class="nav-text">WebService平台技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebService开发"><span class="nav-number">3.</span> <span class="nav-text">WebService开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebService框架"><span class="nav-number">4.</span> <span class="nav-text">WebService框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Http接口和WebService接口的区别"><span class="nav-number">5.</span> <span class="nav-text">Http接口和WebService接口的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何通俗的解释什么是Cxf"><span class="nav-number">6.</span> <span class="nav-text">如何通俗的解释什么是Cxf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring整合CXF"><span class="nav-number">7.</span> <span class="nav-text">Spring整合CXF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pom-xml配置"><span class="nav-number">7.1.</span> <span class="nav-text">pom.xml配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-xml配置"><span class="nav-number">7.2.</span> <span class="nav-text">web.xml配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整合Spring配置"><span class="nav-number">7.3.</span> <span class="nav-text">整合Spring配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端调用webservice接口"><span class="nav-number">8.</span> <span class="nav-text">客户端调用webservice接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态调用"><span class="nav-number">8.1.</span> <span class="nav-text">静态调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态调用"><span class="nav-number">8.2.</span> <span class="nav-text">动态调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
