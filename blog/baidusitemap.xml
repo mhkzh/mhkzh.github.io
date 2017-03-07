@@ -4,41 +4,19 @@
 
     
   <url>
-    <loc>http://zhfeat.cc/blog/blog/2017/03/07/WebServie%E9%9B%86%E6%88%90/</loc>
-    <lastmod>2017-03-07T03:58:35.731Z</lastmod>
+    <loc>http://zhfeat.cc/blog/blog/2017/03/07/JSONP%E8%B7%A8%E5%9F%9F%E4%BC%A0%E8%BE%93/</loc>
+    <lastmod>2017-03-07T08:32:57.106Z</lastmod>
     <data>
         <display>
-        <title>WebServie集成</title>
-        <pubTime>2017-03-07T03:50:20.000Z</pubTime>
+        <title>JSONP跨域传输</title>
+        <pubTime>2017-03-07T08:31:20.000Z</pubTime>
         
-        <tag>WebServie</tag>
-         
-        <tag>cxf</tag>
+        <tag>JSONP</tag>
          
          
            
              
-              <breadCrumb title="开发学习" url="http://zhfeat.cc/blog/blog/categories/%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://zhfeat.cc/blog/blog/2017/03/03/Shiro%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90/</loc>
-    <lastmod>2017-03-06T02:02:08.868Z</lastmod>
-    <data>
-        <display>
-        <title>Shiro安全框架集成</title>
-        <pubTime>2017-03-03T10:33:33.000Z</pubTime>
-        
-        <tag>Shiro</tag>
-         
-         
-           
-             
-              <breadCrumb title="开发学习" url="http://zhfeat.cc/blog/blog/categories/%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/"/>
+              <breadCrumb title="SSM框架整合" url="http://zhfeat.cc/blog/blog/categories/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/"/>
           
         </display>
     </data>
@@ -47,7 +25,7 @@
     
   <url>
     <loc>http://zhfeat.cc/blog/blog/2017/03/01/%E5%BA%94%E7%94%A8Druid%E7%9B%91%E6%8E%A7SQL%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%89%A7%E8%A1%8C%E6%83%85%E5%86%B5/</loc>
-    <lastmod>2017-03-01T10:52:08.861Z</lastmod>
+    <lastmod>2017-03-07T05:57:37.546Z</lastmod>
     <data>
         <display>
         <title>应用Druid监控SQL语句的执行情况</title>
@@ -62,7 +40,7 @@
          
            
              
-              <breadCrumb title="开发学习" url="http://zhfeat.cc/blog/blog/categories/%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/"/>
+              <breadCrumb title="SSM框架整合" url="http://zhfeat.cc/blog/blog/categories/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/"/>
           
         </display>
     </data>
@@ -71,7 +49,7 @@
     
   <url>
     <loc>http://zhfeat.cc/blog/blog/2017/03/01/%E5%88%A9%E7%94%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%B3%A8%E8%A7%A3+AOP%E5%AE%9E%E7%8E%B0redis%E7%BC%93%E5%AD%98/</loc>
-    <lastmod>2017-03-01T02:08:59.270Z</lastmod>
+    <lastmod>2017-03-07T05:57:30.129Z</lastmod>
     <data>
         <display>
         <title>利用自定义注解+AOP实现redis缓存</title>
@@ -86,7 +64,89 @@
          
            
              
-              <breadCrumb title="开发学习" url="http://zhfeat.cc/blog/blog/categories/%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/"/>
+              <breadCrumb title="SSM框架整合" url="http://zhfeat.cc/blog/blog/categories/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://zhfeat.cc/blog/blog/2017/03/07/WebServie%E9%9B%86%E6%88%90/</loc>
+    <lastmod>2017-03-07T05:57:19.635Z</lastmod>
+    <data>
+        <display>
+        <title>WebServie集成</title>
+        <pubTime>2017-03-07T03:50:20.000Z</pubTime>
+        
+        <tag>WebServie</tag>
+         
+        <tag>cxf</tag>
+         
+         
+           
+             
+              <breadCrumb title="SSM框架整合" url="http://zhfeat.cc/blog/blog/categories/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://zhfeat.cc/blog/blog/2017/03/03/Shiro%E5%AE%89%E5%85%A8%E6%A1%86%E6%9E%B6%E9%9B%86%E6%88%90/</loc>
+    <lastmod>2017-03-07T05:57:07.314Z</lastmod>
+    <data>
+        <display>
+        <title>Shiro安全框架集成</title>
+        <pubTime>2017-03-03T10:33:33.000Z</pubTime>
+        
+        <tag>Shiro</tag>
+         
+         
+           
+             
+              <breadCrumb title="SSM框架整合" url="http://zhfeat.cc/blog/blog/categories/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://zhfeat.cc/blog/blog/2017/02/22/Maven%E6%97%A5%E5%B8%B8-%E4%BD%A0%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84%E4%B8%80%E4%BA%8C%E4%B8%89/</loc>
+    <lastmod>2017-03-07T05:57:01.806Z</lastmod>
+    <data>
+        <display>
+        <title>Maven日常-你应该知道的一二三</title>
+        <pubTime>2017-02-22T07:04:43.000Z</pubTime>
+        
+        <tag>Maven</tag>
+         
+         
+           
+             
+              <breadCrumb title="SSM框架整合" url="http://zhfeat.cc/blog/blog/categories/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://zhfeat.cc/blog/blog/2017/02/22/Maven%E6%9E%84%E5%BB%BA%E8%BF%87%E7%A8%8B/</loc>
+    <lastmod>2017-03-07T05:56:56.914Z</lastmod>
+    <data>
+        <display>
+        <title>Maven构建过程</title>
+        <pubTime>2017-02-22T03:55:43.000Z</pubTime>
+        
+        <tag>Maven</tag>
+         
+         
+           
+             
+              <breadCrumb title="SSM框架整合" url="http://zhfeat.cc/blog/blog/categories/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/"/>
           
         </display>
     </data>
@@ -95,7 +155,7 @@
     
   <url>
     <loc>http://zhfeat.cc/blog/blog/2017/02/24/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88%EF%BC%88Maven+Spring+SpringMVC+MyBatis%EF%BC%89/</loc>
-    <lastmod>2017-02-24T08:16:03.434Z</lastmod>
+    <lastmod>2017-03-07T05:56:42.013Z</lastmod>
     <data>
         <display>
         <title>SSM框架整合（Maven+Spring+SpringMVC+MyBatis）</title>
@@ -108,47 +168,7 @@
          
            
              
-              <breadCrumb title="开发学习" url="http://zhfeat.cc/blog/blog/categories/%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://zhfeat.cc/blog/blog/2017/02/22/Maven%E6%97%A5%E5%B8%B8-%E4%BD%A0%E5%BA%94%E8%AF%A5%E7%9F%A5%E9%81%93%E7%9A%84%E4%B8%80%E4%BA%8C%E4%B8%89/</loc>
-    <lastmod>2017-02-22T07:20:13.272Z</lastmod>
-    <data>
-        <display>
-        <title>Maven日常-你应该知道的一二三</title>
-        <pubTime>2017-02-22T07:04:43.000Z</pubTime>
-        
-        <tag>Maven</tag>
-         
-         
-           
-             
-              <breadCrumb title="开发学习" url="http://zhfeat.cc/blog/blog/categories/%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://zhfeat.cc/blog/blog/2017/02/22/Maven%E6%9E%84%E5%BB%BA%E8%BF%87%E7%A8%8B/</loc>
-    <lastmod>2017-02-22T06:44:36.245Z</lastmod>
-    <data>
-        <display>
-        <title>Maven构建过程</title>
-        <pubTime>2017-02-22T03:55:43.000Z</pubTime>
-        
-        <tag>Maven</tag>
-         
-         
-           
-             
-              <breadCrumb title="开发学习" url="http://zhfeat.cc/blog/blog/categories/%E5%BC%80%E5%8F%91%E5%AD%A6%E4%B9%A0/"/>
+              <breadCrumb title="SSM框架整合" url="http://zhfeat.cc/blog/blog/categories/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/"/>
           
         </display>
     </data>
@@ -165,9 +185,9 @@
         
         <tag>Maven</tag>
          
-        <tag>SSM</tag>
-         
         <tag>JavaWeb</tag>
+         
+        <tag>SSM</tag>
          
         <tag>quick4j</tag>
          

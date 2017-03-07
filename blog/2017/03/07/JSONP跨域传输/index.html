@@ -68,7 +68,7 @@
 <link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Maven," />
+  <meta name="keywords" content="JSONP," />
 
 
 
@@ -84,18 +84,25 @@
 
 
 
-<meta name="description" content="在日常工作中，使用Maven只是机械的执行Maven clean、Maven install,对其中的原理与过程并无了解，本文根据《Maven实战》一书，对Maven的日常使用相关的知识进行总结与归纳，浅显易懂。">
+<meta name="description" content="什么是跨域问题？只要协议、域名、端口有任何一个不同，都被当作是不同的域
+只要是在不同域中是无法进行通信的。
+基于以上的的出发点，我们又有跨域共享资源的需求(譬如现在流行的前后端分离之后分别部署的情况)，本博客中采用的办法是JSONP。
+JSONP其实网上关于JSONP的讲解有很多，但却千篇一律，而且云里雾里，对于很多刚接触的人来讲理解起来有些困难，小可不才，试着用自己的方式来阐释一下这个问题，看看">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Maven日常-你应该知道的一二三">
-<meta property="og:url" content="http://zhfeat.cc/blog/2017/02/22/Maven日常-你应该知道的一二三/index.html">
+<meta property="og:title" content="JSONP跨域传输">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/03/07/JSONP跨域传输/index.html">
 <meta property="og:site_name" content="zhfeat's - blog">
-<meta property="og:description" content="在日常工作中，使用Maven只是机械的执行Maven clean、Maven install,对其中的原理与过程并无了解，本文根据《Maven实战》一书，对Maven的日常使用相关的知识进行总结与归纳，浅显易懂。">
-<meta property="og:image" content="http://zhfeat.cc/blog/images/maven/2/1.png">
-<meta property="og:updated_time" content="2017-03-07T05:57:01.806Z">
+<meta property="og:description" content="什么是跨域问题？只要协议、域名、端口有任何一个不同，都被当作是不同的域
+只要是在不同域中是无法进行通信的。
+基于以上的的出发点，我们又有跨域共享资源的需求(譬如现在流行的前后端分离之后分别部署的情况)，本博客中采用的办法是JSONP。
+JSONP其实网上关于JSONP的讲解有很多，但却千篇一律，而且云里雾里，对于很多刚接触的人来讲理解起来有些困难，小可不才，试着用自己的方式来阐释一下这个问题，看看">
+<meta property="og:updated_time" content="2017-03-07T08:32:57.106Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Maven日常-你应该知道的一二三">
-<meta name="twitter:description" content="在日常工作中，使用Maven只是机械的执行Maven clean、Maven install,对其中的原理与过程并无了解，本文根据《Maven实战》一书，对Maven的日常使用相关的知识进行总结与归纳，浅显易懂。">
-<meta name="twitter:image" content="http://zhfeat.cc/blog/images/maven/2/1.png">
+<meta name="twitter:title" content="JSONP跨域传输">
+<meta name="twitter:description" content="什么是跨域问题？只要协议、域名、端口有任何一个不同，都被当作是不同的域
+只要是在不同域中是无法进行通信的。
+基于以上的的出发点，我们又有跨域共享资源的需求(譬如现在流行的前后端分离之后分别部署的情况)，本博客中采用的办法是JSONP。
+JSONP其实网上关于JSONP的讲解有很多，但却千篇一律，而且云里雾里，对于很多刚接触的人来讲理解起来有些困难，小可不才，试着用自己的方式来阐释一下这个问题，看看">
 
 
 
@@ -123,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://zhfeat.cc/blog/2017/02/22/Maven日常-你应该知道的一二三/"/>
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/03/07/JSONP跨域传输/"/>
 
 
 
 
 
-  <title> Maven日常-你应该知道的一二三 | zhfeat's - blog </title>
+  <title> JSONP跨域传输 | zhfeat's - blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -303,7 +310,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/02/22/Maven日常-你应该知道的一二三/">
+  <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/03/07/JSONP跨域传输/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="z h.">
@@ -327,7 +334,7 @@
             
             
               
-                Maven日常-你应该知道的一二三
+                JSONP跨域传输
               
             
           </h1>
@@ -340,8 +347,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-22T15:04:43+08:00">
-                2017-02-22
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-07T16:31:20+08:00">
+                2017-03-07
               </time>
             
 
@@ -374,8 +381,8 @@
             
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
-                <a href="/blog/2017/02/22/Maven日常-你应该知道的一二三/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/22/Maven日常-你应该知道的一二三/" itemprop="commentCount"></span>
+                <a href="/blog/2017/03/07/JSONP跨域传输/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/07/JSONP跨域传输/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -406,36 +413,51 @@
       
 
       
-        <blockquote>
-<p>在日常工作中，使用Maven只是机械的执行Maven clean、Maven install,对其中的原理与过程并无了解，本文根据《Maven实战》一书，对Maven的日常使用相关的知识进行总结与归纳，浅显易懂。</p>
-</blockquote>
-<a id="more"></a> 
-<h2 id="什么是Maven？"><a href="#什么是Maven？" class="headerlink" title="什么是Maven？"></a>什么是Maven？</h2><p>如果没有Maven,你可能不得不经历下面的过程：<br><span style="color:red;"><br>1 如果使用了spring，去spring的官网下载jar包；如果使用hibernate，去hibernate的官网下载Jar包；如果使用Log4j，去log4j的官网下载jar包…..<br>2 当某些jar包有依赖的时候，还要去下载对应的依赖jar包<br>3 当jar包依赖有冲突时，不得不一个一个的排查<br>4 执行构建时，需要使用ant写出很多重复的任务代码<br>5 当新人加入开发时，需要拷贝大量的jar包，然后重复进行构建<br>6 当进行测试时，需要一个一个的运行….检查<br></span><br>有了Maven，它提供了三种功能：<br><span style="color:blue"><br>1 依赖的管理：仅仅通过jar包的几个属性，就能确定唯一的jar包，在指定的文件pom.xml中，只要写入这些依赖属性，就会自动下载并管理jar包。<br>2 项目的构建：内置很多的插件与生命周期，支持多种任务，比如校验、编译、测试、打包、部署、发布…<br>3 项目的知识管理：管理项目相关的其他内容，比如开发者信息，版本等等<br></span></p>
-<h2 id="Maven如何管理jar包"><a href="#Maven如何管理jar包" class="headerlink" title="Maven如何管理jar包"></a>Maven如何管理jar包</h2><p>关于jar包的坐标，有过使用经验的都应该有所了解，maven是通过groupId，artifactId，以及version确定一个唯一的jar包。<br>这部分的内容可以参考前一篇：<a href="http://zhfeat.cc/blog/2017/02/22/Maven构建过程/#more">Maven构建过程</a><br>例如,最常使用的Junit的声明就是如下：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>junit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">version</span>&gt;</span>4.12<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span> 这是声明的范围，不同的生命周期所要求的范围是不一样的，详情参考《Maven实战》</div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>首先先来说说Maven下载jar包的过程：<br><img src="http://zhfeat.cc/blog/images/maven/2/1.png"><br>在Maven中会涉及到几种仓库：<br><span style="color:blue"><br>1 工作空间，即我们的项目工程，这里面可能会放着pom.xml文件，这个pom.xml就是maven的配置文件<br>2 本地仓库，本地仓库用于存放jar包，其实Jar包并不是直接放入工作空间的，它是存放在本地仓库，然后在执行发布打包的时候，添加依赖路径<br>3 私库：私库是使用者自己搭建的maven仓库，用于缓解频繁从外网下载jar包资源的压力。而且使用私库作为缓存层，也相对安全一些。<br>4 共享仓库：书中所说的中央仓库或者一些常用的镜像网站都属于这种，国内比较著名的oschina以及163都是不错的maven仓库。<br></span><br>当我们在pom中声明了依赖关系后，参考上面的图：</p>
-<p>1 Maven在执行相关的任务时，会先去本地仓库查看是否有该资源，如果有的话，判断版本是否正确，如果一切都没问题则直接使用；否则，执行下一步<br>2 Maven会去配置的共享仓库中查找，如果找到就拷贝到本地仓库中；找不到则会给出相关的提示<br>3 Maven在本地如果搭建了私库，则会去私库中查找，找到就拷贝到本地仓库；找不到就会去共享仓库中查找，然后放入私库和本地库。有了私库，局域网内的开发者可以共享依赖，就不用每个人都去外网下载jar包，浪费带宽了。</p>
-<p>关于本地仓库和共享仓库的配置都在settings.xml中，这个文件位于conf中。</p>
-<p>settings.xml中本地仓库的配置为：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">localRepository</span>&gt;</span>F:\apache-maven-3.3.9\repo<span class="tag">&lt;/<span class="name">localRepository</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<p>默认是在 <span style="color:red;">用户的本地目录/.m2/repository中。</span></p>
-<p>共享仓库的地址配置为:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">mirrors</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">mirror</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">id</span>&gt;</span>CN<span class="tag">&lt;/<span class="name">id</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">name</span>&gt;</span>OSChina Central<span class="tag">&lt;/<span class="name">name</span>&gt;</span>                           </div><div class="line">      <span class="tag">&lt;<span class="name">url</span>&gt;</span>http://maven.oschina.net/content/groups/public/<span class="tag">&lt;/<span class="name">url</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">mirrorOf</span>&gt;</span>central<span class="tag">&lt;/<span class="name">mirrorOf</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">mirror</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">mirrors</span>&gt;</span></div></pre></td></tr></table></figure></p>
-<h2 id="Maven的生命周期与阶段"><a href="#Maven的生命周期与阶段" class="headerlink" title="Maven的生命周期与阶段"></a>Maven的生命周期与阶段</h2><p>Maven中有三大生命周期，他们相互独立，分别是：<br><span style="color:red;"><br>1 clean 清理<br>2 default 构建<br>3 site 建站<br></span><br>一般来说，clean和default比较常用。</p>
-<p>每个生命周期又<span style="color:red;">有不同的阶段，阶段按顺序执行，</span>并且可以指定执行结束的阶段。构建的时候，会依次<span style="color:red;">从最上面的阶段执行到指定的那个阶段。</span></p>
-<p>比如,clean有3个阶段：</p>
-<blockquote>
-<p>1 pre-clean 执行清理前要完成的工作<br>2 clean 清理上一次构建生成的文件<br>3 post-clean 执行清理后需要完成的工作</p>
-</blockquote>
-<p>当我们输入<span style="color:red;">mvn clean</span>的时候，执行的是pre-clean和clean两个阶段。</p>
-<p>default的阶段比较多：</p>
-<blockquote>
-<p>validate<br>initialize<br>generate-sources<br>process-sources<br>generate-resources<br>process-resources<br>compile<br>process-classes<br>generate-test-sources<br>process-test-sources<br>generate-test-resources<br>process-test-resources<br>test-compile<br>process-test-classes<br>tet<br>prepare-package<br>package<br>pre-integration-test<br>integration-test<br>post-integration-test<br>verify<br>install<br>deploy</p>
-</blockquote>
-<p>看名字大概就能理解，当执行mvn install的时候，实际会执行<span style="color:red;">validate–&gt;initialize–&gt;…–&gt;verify–&gt;install</span>等二十几个阶段。</p>
-<p>为了操作方便，不同的声明周期可以在一起执行，比如<span style="color:red;">mvn clean install</span>，会先执行clean的阶段，在执行install的阶段。</p>
-<p>在IDE开发环境中，当我们Run as的时候，就可以执行<span style="color:red;">maven clean</span>进行清理，或者执行<span style="color:red;">maven install</span>进行构建，也可以执行maven build同时执行clean和install两个任务。</p>
-<blockquote>
-<p>基本上了解上面两个知识点，就足够日常工作使用了。当然Maven可不止这么一点点的东西，比如它还涉及到自定义构建任务、间接依赖的管理、插件的使用、私库的搭建等等，如果需要的话，读者可以参考《Maven实战》，这本书讲述的很全面了。</p>
-</blockquote>
-
+        <h2 id="什么是跨域问题？"><a href="#什么是跨域问题？" class="headerlink" title="什么是跨域问题？"></a>什么是跨域问题？</h2><p>只要协议、域名、端口有任何一个不同，都被当作是不同的域</p>
+<p>只要是在不同域中是无法进行通信的。</p>
+<p>基于以上的的出发点，我们又有跨域共享资源的需求(譬如现在流行的前后端分离之后分别部署的情况)，本博客中采用的办法是JSONP。</p>
+<h2 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h2><p>其实网上关于JSONP的讲解有很多，但却千篇一律，而且云里雾里，对于很多刚接触的人来讲理解起来有些困难，小可不才，试着用自己的方式来阐释一下这个问题，看看是否有帮助。</p>
+<ol>
+<li><p>一个众所周知的问题，Ajax直接请求普通文件存在跨域无权限访问的问题，甭管你是静态页面、动态网页、web服务、WCF，只要是跨域请求，一律不准；</p>
+</li>
+<li><p>不过我们又发现，Web页面上调用js文件时则不受是否跨域的影响（不仅如此，我们还发现凡是拥有”src”这个属性的标签都拥有跨域的能力，比如<script>、<img>、<iframe>）；</p>
+</li>
+<li><p>于是可以判断，当前阶段如果想通过纯web端（ActiveX控件、服务端代理、属于未来的HTML5之Websocket等方式不算）跨域访问数据就只有一种可能，那就是在远程服务器上设法把数据装进js格式的文件里，供客户端调用和进一步处理；</p>
+</li>
+<li><p>恰巧我们已经知道有一种叫做JSON的纯字符数据格式可以简洁的描述复杂数据，更妙的是JSON还被js原生支持，所以在客户端几乎可以随心所欲的处理这种格式的数据；</p>
+</li>
+<li><p>这样子解决方案就呼之欲出了，web客户端通过与调用脚本(<script>)一模一样的方式，来调用跨域服务器上动态生成的js格式文件（一般以JSON为后缀），显而易见，服务器之所以要动态生成JSON文件，目的就在于把客户端需要的数据装入进去。</p>
+</li>
+<li><p>客户端在对JSON文件调用成功之后，也就获得了自己所需的数据，剩下的就是按照自己需求进行处理和展现了，这种获取远程数据的方式看起来非常像AJAX，但其实并不一样。</p>
+</li>
+<li><p>为了便于客户端使用数据，逐渐形成了一种非正式传输协议，人们把它称作JSONP，该协议的一个要点就是允许用户传递一个callback参数给服务端，然后服务端返回数据时会将这个callback参数作为函数名来包裹住JSON数据，这样客户端就可以随意定制自己的函数来自动处理返回数据了。</p>
+</li>
+</ol>
+<p>web端(这里我直接在本地创建了一个html):</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span> </div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"https://code.jquery.com/jquery-3.1.1.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span>&gt;</span><span class="undefined"></div><div class="line">        $(document).ready(function()&#123;</div><div class="line">            $.ajax(&#123;</div><div class="line">                type: "get",</div><div class="line">                async: false,</div><div class="line">                url: "http://localhost:8000/user/jsonpInfo?callback=getUser&amp;userId=1",</div><div class="line">                dataType: "jsonp",</div><div class="line">                jsonp: "callback",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(//一般默认为:callback)</div><div class="line">                jsonpCallback:"getUser",//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，jQuery会自动为你处理数据</div><div class="line">                success: function(json)&#123;</div><div class="line">                    /**</div><div class="line">                     * 获得服务器返回的信息。</div><div class="line">                     * 可以做具体的业务处理。</div><div class="line">                     */</div><div class="line">                    alert('用户信息：ID： ' + json.id + ' ，姓名： ' + json.userName + '。');</div><div class="line">                &#125;,</div><div class="line">                error: function()&#123;</div><div class="line">                    alert('fail');</div><div class="line">                &#125;</div><div class="line">            &#125;);</div><div class="line">        &#125;);</div><div class="line">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">oncontextmenu</span>=<span class="string">"return false"</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>jquery在处理jsonp类型的ajax时（还是忍不住吐槽，虽然jquery也把jsonp归入了ajax，但其实它们真的不是一回事儿），自动帮你生成回调函数并把数据取出来供success属性方法来调用。</p>
+<p>服务端代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//跨域问题</span></div><div class="line"><span class="meta">@RequestMapping</span>(value = <span class="string">"/jsonpInfo"</span>,method = &#123; RequestMethod.GET &#125;)</div><div class="line"><span class="meta">@ResponseBody</span></div><div class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">jsonpInfo</span><span class="params">(String callback,Integer userId)</span> <span class="keyword">throws</span> IOException </span>&#123;</div><div class="line">    User user = userService.getUserByIdTest(userId);</div><div class="line">    JSONPObject jsonpObject = <span class="keyword">new</span> JSONPObject(callback,user) ;</div><div class="line">    <span class="keyword">return</span> jsonpObject ;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>后端采用了jackson中的JSONPObject这个类的一个构造方法，只需要将callback字段和需要转成JSON字符串的对象放进去即可。<br>需要主要的是需要使用@ResponseBody注解才能成功返回。</p>
+<p>直接打开html进行测试</p>
+<p><img src="http://zhfeat.cc/blog/images/jsonp/1.png"/></p>
+<p>如上如所示，成功调用服务端返回了数据</p>
+<p>使用谷歌进行调试，查看返回的json数据：</p>
+<p><img src="http://zhfeat.cc/blog/images/jsonp/2.png"/></p>
+<p>可以看到我们所传递的callback参数带着查询的数据又原封不动的返回给我们了，这样的话即使我们不使用JQuery给我封装好的函数，我们自定义一个和callback名称一样的函数一样是可以解析其中的数据的，只是Jquery帮我们做了而已。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li><p>ajax和jsonp这两种技术在调用方式上“看起来”很像，目的也一样，都是请求一个url，然后把服务器返回的数据进行处理，因此jquery和ext等框架都把jsonp作为ajax的一种形式进行了封装；</p>
+</li>
+<li><p>但ajax和jsonp其实本质上是不同的东西。ajax的核心是通过XmlHttpRequest获取非本页内容，而jsonp的核心则是动态添加<script>标签来调用服务器提供的js脚本。</p>
+</li>
+<li><p>所以说，其实ajax与jsonp的区别不在于是否跨域，ajax通过服务端代理一样可以实现跨域，jsonp本身也不排斥同域的数据的获取。</p>
+</li>
+<li><p>还有就是，jsonp是一种方式或者说非强制性协议，如同ajax一样，它也不一定非要用json格式来传递数据，如果你愿意，字符串都行，只不过这样不利于用jsonp提供公开服务。</p>
+</li>
+</ol>
+<p>总而言之，jsonp不是ajax的一个特例，哪怕jquery等巨头把jsonp封装进了ajax，也不能改变这一点！</p>
+<p>同样JSONP也是有缺点的，比如：只支持GET方式的HTTP请求。</p>
+</script></p></li></ol>
       
     </div>
 
@@ -479,7 +501,7 @@
       
         <div class="post-tags">
           
-            <a href="/blog/tags/Maven/" rel="tag"># Maven</a>
+            <a href="/blog/tags/JSONP/" rel="tag"># JSONP</a>
           
         </div>
       
@@ -488,8 +510,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2017/02/22/Maven构建过程/" rel="next" title="Maven构建过程">
-                <i class="fa fa-chevron-left"></i> Maven构建过程
+              <a href="/blog/2017/03/07/WebServie集成/" rel="next" title="WebServie集成">
+                <i class="fa fa-chevron-left"></i> WebServie集成
               </a>
             
           </div>
@@ -497,10 +519,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2017/02/24/SSM框架整合（Maven+Spring+SpringMVC+MyBatis）/" rel="prev" title="SSM框架整合（Maven+Spring+SpringMVC+MyBatis）">
-                SSM框架整合（Maven+Spring+SpringMVC+MyBatis） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -529,8 +547,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/02/22/Maven日常-你应该知道的一二三/"
-           data-title="Maven日常-你应该知道的一二三" data-url="http://zhfeat.cc/blog/blog/2017/02/22/Maven日常-你应该知道的一二三/">
+      <div class="ds-thread" data-thread-key="2017/03/07/JSONP跨域传输/"
+           data-title="JSONP跨域传输" data-url="http://zhfeat.cc/blog/blog/2017/03/07/JSONP跨域传输/">
       </div>
     
   </div>
@@ -638,7 +656,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Maven？"><span class="nav-number">1.</span> <span class="nav-text">什么是Maven？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven如何管理jar包"><span class="nav-number">2.</span> <span class="nav-text">Maven如何管理jar包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Maven的生命周期与阶段"><span class="nav-number">3.</span> <span class="nav-text">Maven的生命周期与阶段</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是跨域问题？"><span class="nav-number">1.</span> <span class="nav-text">什么是跨域问题？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSONP"><span class="nav-number">2.</span> <span class="nav-text">JSONP</span></a></li></ol></div>
             
 
           </div>
