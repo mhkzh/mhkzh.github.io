@@ -84,22 +84,15 @@
 
 
 
-<meta name="description" content="Spring编程式事务管理和声明式事务管理spring支持编程式事务管理和声明式事务管理两种方式。
-编程式事务管理使用TransactionTemplate或者直接使用底层的PlatformTransactionManager。对于编程式事务管理，spring推荐使用TransactionTemplate。
-声明式事务管理建立在AOP之上的。其本质是对方法前后进行拦截，然后在目标方法开始之前创建或">
 <meta property="og:type" content="article">
 <meta property="og:title" content="spring事务配置声明式事务管理和基于注解的使用">
 <meta property="og:url" content="http://zhfeat.cc/blog/2017/03/08/spring事务配置声明式事务管理和基于注解的使用/index.html">
 <meta property="og:site_name" content="zhfeat's - blog">
-<meta property="og:description" content="Spring编程式事务管理和声明式事务管理spring支持编程式事务管理和声明式事务管理两种方式。
-编程式事务管理使用TransactionTemplate或者直接使用底层的PlatformTransactionManager。对于编程式事务管理，spring推荐使用TransactionTemplate。
-声明式事务管理建立在AOP之上的。其本质是对方法前后进行拦截，然后在目标方法开始之前创建或">
-<meta property="og:updated_time" content="2017-03-08T10:48:36.154Z">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/shiro/6.png">
+<meta property="og:updated_time" content="2017-03-16T07:37:35.478Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="spring事务配置声明式事务管理和基于注解的使用">
-<meta name="twitter:description" content="Spring编程式事务管理和声明式事务管理spring支持编程式事务管理和声明式事务管理两种方式。
-编程式事务管理使用TransactionTemplate或者直接使用底层的PlatformTransactionManager。对于编程式事务管理，spring推荐使用TransactionTemplate。
-声明式事务管理建立在AOP之上的。其本质是对方法前后进行拦截，然后在目标方法开始之前创建或">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/shiro/6.png">
 
 
 
@@ -410,12 +403,13 @@
       
 
       
-        <h1 id="Spring编程式事务管理和声明式事务管理"><a href="#Spring编程式事务管理和声明式事务管理" class="headerlink" title="Spring编程式事务管理和声明式事务管理"></a>Spring编程式事务管理和声明式事务管理</h1><p>spring支持<span style="color:red;">编程式事务管理</span>和<span style="color:red;">声明式事务管理</span>两种方式。</p>
+        <p><img src="http://zhfeat.cc/blog/images/shiro/6.png"> </p>
+<a id="more"></a>
+<h1 id="Spring编程式事务管理和声明式事务管理"><a href="#Spring编程式事务管理和声明式事务管理" class="headerlink" title="Spring编程式事务管理和声明式事务管理"></a>Spring编程式事务管理和声明式事务管理</h1><p>spring支持<span style="color:red;">编程式事务管理</span>和<span style="color:red;">声明式事务管理</span>两种方式。</p>
 <p><span style="color:red;">编程式事务管理</span>使用TransactionTemplate或者直接使用底层的PlatformTransactionManager。对于编程式事务管理，spring推荐使用TransactionTemplate。</p>
 <p><span style="color:red;">声明式事务管理</span>建立在AOP之上的。其本质是对方法前后进行拦截，然后在目标方法开始之前创建或者加入一个事务，在执行完目标方法之后根据执行情况提交或者回滚事务。声明式事务最大的优点就是不需要通过编程的方式管理事务，这样就不需要在业务逻辑代码中掺杂事务管理的代码，只需在配置文件中做相关的事务规则声明(或通过基于@Transactional注解的方式)，便可以将事务规则应用到业务逻辑中。</p>
 <p>显然<span style="color:red;">声明式事务管理要优于编程式事务管理</span>，这正是spring倡导的非侵入式的开发方式。声明式事务管理使业务代码不受污染，一个普通的POJO对象，只要加上注解就可以获得完全的事务支持。和编程式事务相比，声明式事务唯一不足地方是，后者的最细粒度只能作用到方法级别，无法做到像编程式事务那样可以作用到代码块级别。但是即便有这样的需求，也存在很多变通的方法，比如，可以将需要进行事务管理的代码块独立为方法等等。</p>
 <p><span style="color:red;">声明式事务管理也有两种常用的方式，一种是基于tx和aop名字空间的xml配置文件，另一种就是基于@Transactional注解。显然基于注解的方式更简单易用，更清爽。</span></p>
-<a id="more"></a>
 <h1 id="spring事务特性"><a href="#spring事务特性" class="headerlink" title="spring事务特性"></a>spring事务特性</h1><p>spring所有的事务管理策略类都继承自org.springframework.transaction.PlatformTransactionManager接口</p>
 <p>其中TransactionDefinition接口定义以下特性：</p>
 <h2 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h2><p>隔离级别是指若干个并发的事务之间的隔离程度。TransactionDefinition 接口中定义了五个表示隔离级别的常量：</p>
@@ -577,6 +571,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/blog/2017/03/16/RabbitMQ与Spring结合讲解(使用amqp消息协议)/" rel="prev" title="RabbitMQ与Spring结合讲解(使用amqp消息协议)">
+                RabbitMQ与Spring结合讲解(使用amqp消息协议) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -650,7 +648,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/blog/archives">
-              <span class="site-state-item-count">15</span>
+              <span class="site-state-item-count">16</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -667,7 +665,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/blog/tags">
-                <span class="site-state-item-count">30</span>
+                <span class="site-state-item-count">32</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
