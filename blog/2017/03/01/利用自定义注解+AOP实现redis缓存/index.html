@@ -90,12 +90,13 @@
 <meta property="og:url" content="http://zhfeat.cc/blog/2017/03/01/利用自定义注解+AOP实现redis缓存/index.html">
 <meta property="og:site_name" content="zhfeat's - blog">
 <meta property="og:description" content="数据查询时每次都需要从数据库查询数据，特别是通过复杂sql查询大量数据时，数据库压力很大，查询速度很慢，因此设置缓存层，查询数据时先从redis中查询，如果查询不到，则到数据库中查询然后将数据库中查询的数据放到redis中一份，下次查询时就能直接从redis中查到，不需要查询数据库了。进行增删改操作时，先从redis中查询，如果查询出数据，则在redis中将该数据清除。">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/redis.jpg">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/redis/1.png">
-<meta property="og:updated_time" content="2017-03-07T05:57:30.129Z">
+<meta property="og:updated_time" content="2017-03-16T08:56:14.945Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用自定义注解+AOP实现redis缓存">
 <meta name="twitter:description" content="数据查询时每次都需要从数据库查询数据，特别是通过复杂sql查询大量数据时，数据库压力很大，查询速度很慢，因此设置缓存层，查询数据时先从redis中查询，如果查询不到，则到数据库中查询然后将数据库中查询的数据放到redis中一份，下次查询时就能直接从redis中查到，不需要查询数据库了。进行增删改操作时，先从redis中查询，如果查询出数据，则在redis中将该数据清除。">
-<meta name="twitter:image" content="http://zhfeat.cc/blog/images/redis/1.png">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/redis.jpg">
 
 
 
@@ -406,7 +407,8 @@
       
 
       
-        <blockquote>
+        <p><img src="http://zhfeat.cc/blog/images/bg/redis.jpg"></p>
+<blockquote>
 <p>数据查询时每次都需要从数据库查询数据，特别是通过复杂sql查询大量数据时，数据库压力很大，查询速度很慢，因此设置缓存层，查询数据时先从redis中查询，如果查询不到，则到数据库中查询然后将数据库中查询的数据放到redis中一份，下次查询时就能直接从redis中查到，不需要查询数据库了。进行增删改操作时，先从redis中查询，如果查询出数据，则在redis中将该数据清除。</p>
 </blockquote>
 <a id="more"></a>

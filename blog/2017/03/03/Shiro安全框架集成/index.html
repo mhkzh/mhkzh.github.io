@@ -84,22 +84,23 @@
 
 
 
-<meta name="description" content="做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立运">
+<meta name="description" content="做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Shiro安全框架集成">
 <meta property="og:url" content="http://zhfeat.cc/blog/2017/03/03/Shiro安全框架集成/index.html">
 <meta property="og:site_name" content="zhfeat's - blog">
-<meta property="og:description" content="做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立运">
+<meta property="og:description" content="做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/shiro.jpg">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/shiro/1.png">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/shiro/2.gif">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/shiro/3.gif">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/shiro/4.gif">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/shiro/5.gif">
-<meta property="og:updated_time" content="2017-03-07T05:57:07.314Z">
+<meta property="og:updated_time" content="2017-03-16T09:01:07.215Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Shiro安全框架集成">
-<meta name="twitter:description" content="做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立运">
-<meta name="twitter:image" content="http://zhfeat.cc/blog/images/shiro/1.png">
+<meta name="twitter:description" content="做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/shiro.jpg">
 
 
 
@@ -410,7 +411,8 @@
       
 
       
-        <blockquote>
+        <p><img src="http://zhfeat.cc/blog/images/bg/shiro.jpg"></p>
+<blockquote>
 <p>做企业级开发必须要了解权限和安全相关的开发知识，之前的一个项目我采用的是建立用户表、角色表、权限表、用户角色表、角色权限表五张经典表。之后使用自定义注解+拦截器的方式，在拦截器中对每一个请求进行拦截，再到SESSION或者数据库中进行查询，判断当前用户是否有该权限，这样的设计能满足大多数中小型系统的需求。本文介绍的Shiro既能满足之前的所有需求，安全性高，不跟任何的框架或者容器捆绑，可以独立运行。对比SpringSecurity安全框架使用相对简单，易于理解。而且现在越来越的多企业都在使用Shiro，值得在项目中引用尝试。</p>
 </blockquote>
 <a id="more"></a> 
