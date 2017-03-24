@@ -105,7 +105,7 @@
 <meta property="og:image" content="http://zhfeat.cc/blog/images/rap/12.png">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/rap/13.png">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/rap/14.png">
-<meta property="og:updated_time" content="2017-03-24T09:28:15.296Z">
+<meta property="og:updated_time" content="2017-03-24T09:57:36.590Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="构建前端Mock Server--RAP部署及使用">
 <meta name="twitter:description" content="RAP是阿里的一套完整的可视化接口管理工具，可以定义接口结构，动态生成模拟数据，校验真实接口正确性。不仅如此，RAP围绕接口定义，提供了一系列包括团队管理、项目管理、文档版本管理、mock插件等服务。RAP可以完全可视化地定义项目相关信息，定义接口的请求响应等等，学习成本较低。RAP还为后端开发人员提供了校验接口的功能，为前端开发人员提供了mock数据的工具等。">
@@ -459,7 +459,7 @@
 </ol>
 <p>我们不需要自行开发就采用war包部署。</p>
 <p>需要环境：jdk，tomcat，MySQL，Redis </p>
-<p>第一步：在官网<a href="https://github.com/thx/RAP/releases将最新的war包下下来，然后改名为ROOT.war，放到tomcat下面的webapps里面" target="_blank" rel="external">https://github.com/thx/RAP/releases将最新的war包下下来，然后改名为ROOT.war，放到tomcat下面的webapps里面</a></p>
+<p>第一步：在官网 <a href="https://github.com/thx/RAP/releases" target="_blank" rel="external">传送门</a> 将最新的war包下下来，然后改名为ROOT.war，放到tomcat下面的webapps里面</p>
 <p><img src="http://zhfeat.cc/blog/images/rap/3.png"></p>
 <p>第二步：启动tomcat，该war包自动部署到文件夹ROOT</p>
 <p><img src="http://zhfeat.cc/blog/images/rap/4.png"></p>
@@ -502,7 +502,7 @@
 <p><img src="http://zhfeat.cc/blog/images/rap/14.png"></p>
 <p>点击请求时，右下角出现了一个请求url，该url就是以页面右上角的请求根路径拼上我们编写接口文档时设置的请求Url获得的，前端可通过该路径进行开发测试，切换到线上版本注释掉该路径更换为线上版本的路径就可以了，是不是很方便？</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">http://localhost:8803/mockjs/2/user/showUser?</div></pre></td></tr></table></figure>
-<p>RAP的使用方式就写到这里，我目前主要进行服务端开发，编写好接口后直接在RAP中进行同步，前端不需要等我吧最新的项目部署到服务器，直接根据RAP接口进行开发，提升了工作效率，减少了沟通时间。</p>
+<p>RAP的使用方式就写到这里，我目前主要进行服务端开发，编写好接口后直接在RAP中进行同步，前端不需要等我把最新的项目部署到服务器，直接根据RAP接口进行开发，提升了工作效率，减少了沟通时间。</p>
 <p>Linux 下的部署与windws下没有太大区别，无非是启动redis、将RAP的war包修改成ROOT放到Tomcat的webapp下（RAP官方指出该项目必须放在ROOT下），启动tomcat进行编译，修改RAP的数据库配置文件，再次进行发布就可以了，如果公司有需要可以换换logo，就可以拿出来用了。</p>
 
       
