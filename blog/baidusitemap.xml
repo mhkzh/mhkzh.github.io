@@ -5,10 +5,10 @@
     
   <url>
     <loc>http://zhfeat.cc/blog/blog/2017/03/29/SSM%E9%9B%86%E6%88%90Dubbo+Zookeeper%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%8C%96/</loc>
-    <lastmod>2017-03-29T09:47:23.436Z</lastmod>
+    <lastmod>2017-03-29T09:56:01.791Z</lastmod>
     <data>
         <display>
-        <title>RabbitMQ与Spring结合讲解(使用amqp消息协议)</title>
+        <title>SSM集成Dubbo+Zookeeper实现服务化</title>
         <pubTime>2017-03-29T09:43:33.000Z</pubTime>
         
         <tag>dubbo</tag>
