@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://zhfeat.cc/blog/blog/2017/03/29/SSM%E9%9B%86%E6%88%90Dubbo+Zookeeper%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%8C%96/</loc>
+    <lastmod>2017-03-29T09:47:23.436Z</lastmod>
+    <data>
+        <display>
+        <title>RabbitMQ与Spring结合讲解(使用amqp消息协议)</title>
+        <pubTime>2017-03-29T09:43:33.000Z</pubTime>
+        
+        <tag>dubbo</tag>
+         
+        <tag>zookeeper</tag>
+         
+         
+           
+             
+              <breadCrumb title="SSM框架整合" url="http://zhfeat.cc/blog/blog/categories/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zhfeat.cc/blog/blog/2017/03/24/%E6%9E%84%E5%BB%BA%E5%89%8D%E7%AB%AFMock%20Server--RAP%E9%83%A8%E7%BD%B2%E5%8F%8A%E4%BD%BF%E7%94%A8/</loc>
     <lastmod>2017-03-24T09:57:36.590Z</lastmod>
     <data>

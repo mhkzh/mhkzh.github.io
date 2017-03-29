@@ -1,0 +1,1250 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="dubbo,zookeeper," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="随着互联网的发展，网站应用或者企业应用的规模不断扩大，常规的垂直应用架构已无法应对，分布式服务架构以及流动计算架构势在必行，亟需一个治理系统确保架构有条不紊的演进。
+
+什么是面向服务的架构(SOA)面向服务的架构（SOA）是一个组件模型，它将应用程序的不同功能单元（称为服务）通过这些服务之间定义良好的接口和契约联系起来。接口是采用中立的方式进行定义的，它应该独立于实现服务的硬件平台、操作系统和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMQ与Spring结合讲解(使用amqp消息协议)">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/03/29/SSM集成Dubbo+Zookeeper实现服务化/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="随着互联网的发展，网站应用或者企业应用的规模不断扩大，常规的垂直应用架构已无法应对，分布式服务架构以及流动计算架构势在必行，亟需一个治理系统确保架构有条不紊的演进。
+
+什么是面向服务的架构(SOA)面向服务的架构（SOA）是一个组件模型，它将应用程序的不同功能单元（称为服务）通过这些服务之间定义良好的接口和契约联系起来。接口是采用中立的方式进行定义的，它应该独立于实现服务的硬件平台、操作系统和">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/dubbo.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/12.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/13.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/14.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/15.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/1.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/2.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/3.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/4.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/5.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/6.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/7.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/8.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/9.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/10.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/11.png">
+<meta property="og:updated_time" content="2017-03-29T09:47:23.436Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RabbitMQ与Spring结合讲解(使用amqp消息协议)">
+<meta name="twitter:description" content="随着互联网的发展，网站应用或者企业应用的规模不断扩大，常规的垂直应用架构已无法应对，分布式服务架构以及流动计算架构势在必行，亟需一个治理系统确保架构有条不紊的演进。
+
+什么是面向服务的架构(SOA)面向服务的架构（SOA）是一个组件模型，它将应用程序的不同功能单元（称为服务）通过这些服务之间定义良好的接口和契约联系起来。接口是采用中立的方式进行定义的，它应该独立于实现服务的硬件平台、操作系统和">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/dubbo.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/03/29/SSM集成Dubbo+Zookeeper实现服务化/"/>
+
+
+
+
+
+  <title> RabbitMQ与Spring结合讲解(使用amqp消息协议) | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhfeat's - blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/03/29/SSM集成Dubbo+Zookeeper实现服务化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="z h.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/mht.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhfeat's - blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                RabbitMQ与Spring结合讲解(使用amqp消息协议)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-29T17:43:33+08:00">
+                2017-03-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/SSM框架整合/" itemprop="url" rel="index">
+                    <span itemprop="name">SSM框架整合</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/blog/2017/03/29/SSM集成Dubbo+Zookeeper实现服务化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://zhfeat.cc/blog/images/bg/dubbo.jpg"></p>
+<blockquote>
+<p>随着互联网的发展，网站应用或者企业应用的规模不断扩大，常规的垂直应用架构已无法应对，分布式服务架构以及流动计算架构势在必行，亟需一个治理系统确保架构有条不紊的演进。</p>
+</blockquote>
+<h1 id="什么是面向服务的架构-SOA"><a href="#什么是面向服务的架构-SOA" class="headerlink" title="什么是面向服务的架构(SOA)"></a>什么是面向服务的架构(SOA)</h1><p>面向服务的架构（SOA）是一个组件模型，它将应用程序的不同功能单元（称为服务）通过这些服务之间定义良好的接口和契约联系起来。接口是采用中立的方式进行定义的，它应该独立于实现服务的硬件平台、操作系统和编程语言。这使得构建在各种各样的系统中的服务可以以一种统一和通用的方式进行交互。</p>
+<p>SOA的框架也正是现在网站的系统架构演化史，也从侧面反映了我国网民数量的增加和对网站性能的提升。</p>
+<p>大型网站系统特点</p>
+<ol>
+<li>高并发、大流量：PV量巨大</li>
+<li>高可用：7*24小时不间断服务</li>
+<li>海量数据：文件数目分分钟xxTB</li>
+<li>用户分布广泛，网络情况复杂：网络运营商</li>
+<li>安全环境恶劣：黑客的攻击</li>
+<li>需求快速变更，发布频繁：快速适应市场，满足用户需求</li>
+<li>渐进式发展：慢慢地运营出大型网站</li>
+</ol>
+<h2 id="例子："><a href="#例子：" class="headerlink" title="例子："></a>例子：</h2><p>小明作为一个屌丝码农，有一天创建了一个网站，最开始只是小明一个人在运营，所有的程序都在一个Server里面跑，数据库访问和逻辑控制也都写在jsp文件里面。应用程序、数据库、文件等所有资源都集中在一台Server上。这就是典型的纯jsp网站。</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/12.jpg"></p>
+<p>后来他的好朋友小王来了，他觉得小明的网站做的不错，于是就提出了改造建议，小王可是受过培训的啊，什么MVC人家可是经常背，于是他们的网站就开始拆分MVC三层了。并且把文件服务器和数据库单独部署到一个Server上。<br>这个时候三台Server平天下，应用和数据服务分离。</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/13.jpg"></p>
+<p>再到后来，他们的网站越来越大了，普通的架构已经满足不了他们了，怎么办，必须得做集群，必须要有缓存，什么读写分离啊，redis啊和反向代理和CDN加速等等，慢慢的开始应用起来。</p>
+<p>分布式服务：既然每一个应用系统都需要执行许多相通的业务操作，比如用户管理、商品管理等，那么可以将这些共用的业务提取出来，独立部署。</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/14.jpg"></p>
+<p>好了，其实dubbo简单来说就是用来管理我们的服务的，以前我们都是自己调自己的服务，如果服务挂掉的话，那么整个系统就挂掉了，现在是我们把服务交给dubbo去统一管理,而zookeeper是管理我们的dubbo的。</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/15.jpg"></p>
+<h1 id="Dubbo介绍"><a href="#Dubbo介绍" class="headerlink" title="Dubbo介绍"></a>Dubbo介绍</h1><h2 id="单一应用架构"><a href="#单一应用架构" class="headerlink" title="单一应用架构"></a>单一应用架构</h2><ul>
+<li>当网站流量很小时，只需一个应用，将所有功能都部署在一起，以减少部署节点和成本。</li>
+<li>此时，用于简化增删改查工作量的 数据访问框架(ORM)<br>是关键。</li>
+</ul>
+<h2 id="垂直应用架构"><a href="#垂直应用架构" class="headerlink" title="垂直应用架构"></a>垂直应用架构</h2><ul>
+<li>当访问量逐渐增大，单一应用增加机器带来的加速度越来越小，将应用拆成互不相干的几个应用，以提升效率。</li>
+<li>此时，用于加速前端页面开发的Web框架(MVC) 是关键。</li>
+</ul>
+<p>垂直应用架构详细：</p>
+<ol>
+<li><p>技术比较单一，学习成本低，开发上手快，测试、部署、运维也比较简单。</p>
+</li>
+<li><p>业务组网也比较简单，在小规模应用场景中，通常只需要做热双机( 双机热备就是当一台服务器挂掉后，自动切换到另一台使用) 即可。</p>
+</li>
+<li><p>在高并发，大流量的场景中，需要做集群。通常的组网方案是前端F5（F5是一家公司，专门做应用交付的厂商，在负载均衡设备中比较知名的），后端做对等集群(物理配置对等的机器)部署。</p>
+</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>维护成本越来越高。因为代码是全量一起打包和部署，相互影响。</li>
+<li>团队协作效率差，功能重复开发。</li>
+<li>系统可靠性变差，容易引起“雪崩”效应。</li>
+<li>维护和定制困难。</li>
+<li>新功能上线周期变长。</li>
+</ol>
+<p>将核心业务抽取出来，作为独立的服务，逐渐形成稳定的服务中心，以实现服务的共享和重用，RPC框架就应运而生了。</p>
+<h2 id="分布式服务架构"><a href="#分布式服务架构" class="headerlink" title="分布式服务架构"></a>分布式服务架构</h2><p>当垂直应用越来越多，应用之间交互不可避免，将核心业务抽取出来，作为独立的服务，逐渐形成稳定的服务中心，使前端应用能更快速的响应多变的市场需求。<br>此时，用于提高业务复用及整合的 分布式服务框架(RPC) 是关键。</p>
+<h2 id="流动计算架构"><a href="#流动计算架构" class="headerlink" title="流动计算架构"></a>流动计算架构</h2><p>当服务越来越多，容量的评估，小服务资源的浪费等问题逐渐显现，此时需增加一个调度中心基于访问压力实时管理集群容量，提高集群利用率。<br>此时，用于提高机器利用率的 资源调度和治理中心(SOA) 是关键。 </p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/1.jpg"></p>
+<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p><img src="http://zhfeat.cc/blog/images/dubbo/2.jpg"></p>
+<p>在大规模服务化之前，应用可能只是通过RMI(Java RMI 指的是远程方法调用 (Remote Method Invocation)。它是一种机制，能够让在某个 Java 虚拟机上的对象调用另一个 Java 虚拟机中的对象上的方法。可以用此方法调用的任何对象必须实现该远程接口。)或Hessian(Hessian是一个轻量级的remoting onhttp工具，使用简单的方法提供了RMI的功能。)等工具，简单的暴露和引用远程服务，通过配置服务的URL地址进行调用，通过F5等硬件进行负载均衡。</p>
+<ol>
+<li><p>当服务越来越多时，服务URL配置管理变得非常困难，F5硬件负载均衡器的单点压力也越来越大。此时需要一个服务注册中心，动态的注册和发现服务，使服务的位置透明。<br>并通过在消费方获取服务提供方地址列表，实现软负载均衡和Failover，降低对F5硬件负载均衡器的依赖，也能减少部分成本。</p>
+</li>
+<li><p>当进一步发展，服务间依赖关系变得错踪复杂，甚至分不清哪个应用要在哪个应用之前启动，架构师都不能完整的描述应用的架构关系。这时，需要自动画出应用间的依赖关系图，以帮助架构师理清理关系。</p>
+</li>
+<li><p>接着，服务的调用量越来越大，服务的容量问题就暴露出来，这个服务需要多少机器支撑？什么时候该加机器？为了解决这些问题，第一步，要将服务现在每天的调用量，响应时间，都统计出来，作为容量规划的参考指标。<br>其次，要可以动态调整权重，在线上，将某台机器的权重一直加大，并在加大的过程中记录响应时间的变化，直到响应时间到达阀值，记录此时的访问量，再以此访问量乘以机器数反推总容量。</p>
+</li>
+</ol>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p><img src="http://zhfeat.cc/blog/images/dubbo/3.jpg"></p>
+<p>节点角色说明：</p>
+<p>==Provider: 暴露服务的服务提供方==</p>
+<p>==Consumer: 调用远程服务的服务消费方。==</p>
+<p>==Registry: 服务注册与发现的注册中心。==</p>
+<p>==Monitor: 统计服务的调用次数调和调用时间的监控中心。==</p>
+<p>==Container: 服务运行容器。==</p>
+<p>调用关系说明：</p>
+<ul>
+<li><p>服务容器负责启动，加载，运行服务提供者。</p>
+</li>
+<li><p>服务提供者在启动时，向注册中心注册自己提供的服务。</p>
+</li>
+<li><p>服务消费者在启动时，向注册中心订阅自己所需的服务。</p>
+</li>
+<li><p>注册中心返回服务提供者地址列表给消费者，如果有变更，注册中心将基于长连接推送变更数据给消费者。</p>
+</li>
+<li><p>服务消费者，从提供者地址列表中，基于软负载均衡算法，选一台提供者进行调用，如果调用失败，再选另一台调用。</p>
+</li>
+<li><p>服务消费者和提供者，在内存中累计调用次数和调用时间，定时每分钟发送一次统计数据到监控中心。</p>
+</li>
+</ul>
+<p><strong>(1) 连通性：</strong></p>
+<ul>
+<li><p>注册中心负责服务地址的注册与查找，相当于目录服务，服务提供者和消费者只在启动时与注册中心交互，注册中心不转发请求，压力较小</p>
+</li>
+<li><p>监控中心负责统计各服务调用次数，调用时间等，统计先在内存汇总后每分钟一次发送到监控中心服务器，并以报表展示</p>
+</li>
+<li><p>服务提供者向注册中心注册其提供的服务，并汇报调用时间到监控中心，此时间不包含网络开销</p>
+</li>
+<li><p>服务消费者向注册中心获取服务提供者地址列表，并根据负载算法直接调用提供者，同时汇报调用时间到监控中心，此时间包含网络开销</p>
+</li>
+<li><p>注册中心，服务提供者，服务消费者三者之间均为长连接，监控中心除外</p>
+</li>
+<li><p>注册中心通过长连接感知服务提供者的存在，服务提供者宕机，注册中心将立即推送事件通知消费者</p>
+</li>
+<li><p>注册中心和监控中心全部</p>
+</li>
+<li><p>注册中心和监控中心都是可选的，服务消费者可以直连服务提供者</p>
+</li>
+</ul>
+<p><strong>(2) 健状性：</strong></p>
+<ul>
+<li><p>监控中心宕掉不影响使用，只是丢失部分采样数据</p>
+</li>
+<li><p>数据库宕掉后，注册中心仍能通过缓存提供服务列表查询，但不能注册新服务</p>
+</li>
+<li><p>注册中心对等集群，任意一台宕掉后，将自动切换到另一台</p>
+</li>
+<li><p>注册中心全部宕掉后，服务提供者和服务消费者仍能通过本地缓存通讯</p>
+</li>
+<li><p>服务提供者无状态，任意一台宕掉后，不影响使用</p>
+</li>
+<li><p>服务提供者全部宕掉后，服务消费者应用将无法使用，并无限次重连等待服务提供者恢复</p>
+</li>
+</ul>
+<p><strong>(3) 伸缩性：</strong></p>
+<ul>
+<li>注册中心为对等集群，可动态增加机器部署实例，所有客户端将自动发现新的注册中心</li>
+<li>服务提供者无状态，可动态增加机器部署实例，注册中心将推送新的服务提供者信息给消费者</li>
+</ul>
+<p><strong>(4) 升级性：</strong></p>
+<p>当服务集群规模进一步扩大，带动IT治理结构进一步升级，需要实现动态部署，进行流动计算，现有分布式服务架构不会带来阻力： </p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/4.jpg"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Dubbo 是阿里巴巴公司开源的一个高性能优秀的服务框架，使得应用可通过高性能的 RPC 实现服务的输出和输入功能。Dubbo采用全Spring配置方式，透明化接入应用，对应用没有任何API侵入，只需用Spring加载Dubbo的配置即可，Dubbo基于Spring的Schema扩展进行加载。</p>
+<p><strong>主要核心部件</strong>： </p>
+<ul>
+<li>Remoting: 网络通信框架，实现了 sync-over-async 和 request-response 消息机制. </li>
+<li>RPC: 一个远程过程调用的抽象，支持负载均衡、容灾和集群功能 </li>
+<li>Registry: 服务目录框架用于服务的注册和服务事件发布和订阅</li>
+</ul>
+<h1 id="Zookeeper安装与配置"><a href="#Zookeeper安装与配置" class="headerlink" title="Zookeeper安装与配置"></a>Zookeeper安装与配置</h1><blockquote>
+<p>Zookeeper属于Hadoop的一个子项目，是分布式服务框架，主要是用来解决分布式应用中经常遇到的一些数据管理问题，如：统一命名服务、状态同步服务、集群管理、分布式应用配置项的管理等等。</p>
+</blockquote>
+<p>Zookeeper的安装和配置十分简单, 既可以配置成单机模式, 也可以配置成集群模式. 下面将分别进行介绍.</p>
+<p>本文基于Windows 环境进行配置。</p>
+<h2 id="安装下载"><a href="#安装下载" class="headerlink" title="安装下载"></a>安装下载</h2><p>本文采用Zookeeper3.4.6版本，下载地址：<a href="http://zookeeper.apache.org/doc/r3.4.6/releasenotes.html" target="_blank" rel="external">http://zookeeper.apache.org/doc/r3.4.6/releasenotes.html</a></p>
+<h3 id="安装Zookeeper"><a href="#安装Zookeeper" class="headerlink" title="安装Zookeeper"></a>安装Zookeeper</h3><p>下载后，将Zookeeper解压，如下图： </p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/5.png"></p>
+<h2 id="单机配置"><a href="#单机配置" class="headerlink" title="单机配置"></a>单机配置</h2><p>打开conf目录下zoo.cfg(如果为zoo_sample.cfg，需改名为zoo.cfg)配置文件进行配置，如下图：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"># The number of milliseconds of each tick</div><div class="line">tickTime=2000</div><div class="line"># The number of ticks that the initial </div><div class="line"># synchronization phase can take</div><div class="line">initLimit=10</div><div class="line"># The number of ticks that can pass between </div><div class="line"># sending a request and getting an acknowledgement</div><div class="line">syncLimit=5</div><div class="line"># the directory where the snapshot is stored.</div><div class="line"># do not use /tmp for storage, /tmp here is just </div><div class="line"># example sakes.</div><div class="line">dataDir=/Users/apple/zookeeper0/data</div><div class="line"># the port at which the clients will connect</div><div class="line">clientPort=2181</div><div class="line"># the maximum number of client connections.</div><div class="line"># increase this if you need to handle more clients</div><div class="line">#maxClientCnxns=60</div><div class="line">#</div><div class="line"># Be sure to read the maintenance section of the </div><div class="line"># administrator guide before turning on autopurge.</div><div class="line">#</div><div class="line"># http://zookeeper.apache.org/doc/current/zookeeperAdmin.html#sc_maintenance</div><div class="line">#</div><div class="line"># The number of snapshots to retain in dataDir</div><div class="line">#autopurge.snapRetainCount=3</div><div class="line"># Purge task interval in hours</div><div class="line"># Set to "0" to disable auto purge feature</div><div class="line">#autopurge.purgeInterval=1</div></pre></td></tr></table></figure>
+<p>参数说明:</p>
+<ul>
+<li>tickTime：基本事件单元，以毫秒为单位，用来控制心跳和超时，默认情况超时的时间为两倍的tickTime</li>
+<li>dataDir：数据目录.可以是任意目录.</li>
+<li>dataLogDir：log目录, 同样可以是任意目录. 如果没有设置该参数,将使用和dataDir相同的设置.</li>
+<li>clientPort：监听client连接的端口号.</li>
+<li>maxClientCnxns：限制连接到zookeeper的客户端数量，并且限制并发连接数量，它通过ip区分不同的客户端。</li>
+<li>minSessionTimeout和maxSessionTimeout：最小会话超时时间和最大的会话超时时间，在默认情况下，最小的超时时间为2倍的tickTime时间，最大的会话超时时间为20倍的会话超时时间，系统启动时会显示相应的信息。默认为-1</li>
+<li>initLimit：参数设定了允许所有跟随者与领导者进行连接并同步的时间，如果在设定的时间段内，半数以上的跟随者未能完成同步，领导者便会宣布放弃领导地位，进行另一次的领导选举。如果zk集群环境数量确实很大，同步数据的时间会变长，因此这种情况下可以适当调大该参数。默认为10</li>
+<li>syncLimit：参数设定了允许一个跟随者与一个领导者进行同步的时间，如果在设定的时间段内，跟随者未完成同步，它将会被集群丢弃。所有关联到这个跟随者的客户端将连接到另外一个跟随着。</li>
+</ul>
+<h2 id="启动Zookeeper"><a href="#启动Zookeeper" class="headerlink" title="启动Zookeeper"></a>启动Zookeeper</h2><p>在bin目录下，双击zkServer.cmd即可启动Zookeeper。 </p>
+<p>如果启动闪退，可能是配置文件有问题，可以使用默认配置文件看是否可以启动。 </p>
+<p>启动成功见下图：</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/6.png"></p>
+<h2 id="伪集群配置"><a href="#伪集群配置" class="headerlink" title="伪集群配置"></a>伪集群配置</h2><p>所谓伪集群, 是指在单台机器中启动多个zookeeper进程, 并组成一个集群.</p>
+<p>以启动3个zookeeper进程为例. </p>
+<p>将zookeeper的目录拷贝2份: </p>
+<p>|–zookeeper0 </p>
+<p>|–zookeeper1 </p>
+<p>|–zookeeper2</p>
+<p>更改zookeeper0/conf/zoo.cfg文件为:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">tickTime=2000    </div><div class="line">initLimit=5    </div><div class="line">syncLimit=2    </div><div class="line">dataDir=/Users/apple/zookeeper0/data    </div><div class="line">dataLogDir=/Users/apple/zookeeper0/logs    </div><div class="line">clientPort=4180  </div><div class="line">server.0=127.0.0.1:8880:7770    </div><div class="line">server.1=127.0.0.1:8881:7771    </div><div class="line">server.2=127.0.0.1:8882:7772</div></pre></td></tr></table></figure>
+<p>新增了几个参数, 其含义如下: </p>
+<ul>
+<li>initLimit: zookeeper集群中的包含多台server, 其中一台为leader, 集群中其余的server为follower. initLimit参数配置初始化连接时, follower和leader之间的最长心跳时间. 此时该参数设置为5, 说明时间限制为5倍tickTime, 即5*2000=10000ms=10s. </li>
+<li>syncLimit: 该参数配置leader和follower之间发送消息, 请求和应答的最大时间长度. 此时该参数设置为2, 说明时间限制为2倍tickTime, 即4000ms. </li>
+<li>server.X=A:B:C 其中X是一个数字, 表示这是第几号server. A是该server所在的IP地址. B配置该server和集群中的leader交换消息所使用的端口. C配置选举leader时所使用的端口. 由于配置的是伪集群模式, 所以各个server的B, C参数必须不同.</li>
+</ul>
+<p>参照zookeeper0/conf/zoo.cfg, 配置zookeeper1/conf/zoo.cfg, 和zookeeper2/conf/zoo.cfg文件. 只需更改dataDir, dataLogDir, clientPort参数即可.</p>
+<p>在之前设置的dataDir中新建myid文件, 写入一个数字, 该数字表示这是第几号server. 该数字必须和zoo.cfg文件中的server.X中的X一一对应.<br>/Users/apple/zookeeper0/data/myid文件中写入0, /Users/apple/zookeeper1/data/myid文件中写入1, /Users/apple/zookeeper2/data/myid文件中写入2.</p>
+<p>分别进入/Users/apple/zookeeper0/bin, /Users/apple/zookeeper1/bin, /Users/apple/zookeeper2/bin三个目录, 启动server.</p>
+<h2 id="集群模式"><a href="#集群模式" class="headerlink" title="集群模式"></a>集群模式</h2><p>集群模式的配置和伪集群基本一致. </p>
+<p>由于集群模式下, 各server部署在不同的机器上, 因此各server的conf/zoo.cfg文件可以完全一样.基于Linux配置。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">tickTime=2000    </div><div class="line">initLimit=5    </div><div class="line">syncLimit=2    </div><div class="line">dataDir=/home/zookeeper/data    </div><div class="line">dataLogDir=/home/zookeeper/logs    </div><div class="line">clientPort=4180  </div><div class="line">server.43=10.1.39.43:2888:3888  </div><div class="line">server.47=10.1.39.47:2888:3888    </div><div class="line">server.48=10.1.39.48:2888:3888</div></pre></td></tr></table></figure>
+<p>部署了3台zookeeper server, 分别部署在10.1.39.43, 10.1.39.47, 10.1.39.48上. 需要注意的是, 各server的dataDir目录下的myid文件中的数字必须不同.</p>
+<p>10.1.39.43 server的myid为43, 10.1.39.47 server的myid为47, 10.1.39.48 server的myid为48.</p>
+<p>部署完成后即可分别启动。<br>启动后要检查 Zookeeper 是否已经在服务，可以通过 netstat -at|grep 2181 命令查看是否有 clientPort 端口号在监听服务。</p>
+<h2 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h2><p>Zookeeper安装和配置都比较简单，配置完成以后，启动ZK即可使用。</p>
+<h1 id="SSM集成Dubbo-Zookeeper实现服务化"><a href="#SSM集成Dubbo-Zookeeper实现服务化" class="headerlink" title="SSM集成Dubbo+Zookeeper实现服务化"></a>SSM集成Dubbo+Zookeeper实现服务化</h1><p>前面分别对Dubbo和Zookeeper进行介绍、安装、配置说明。</p>
+<p>本文基于之前的SSM项目，配置了两个工程，为方便理解，暂且称其为dubbo-service和dubbo-client</p>
+<ul>
+<li>dubbo-service提供服务，提供数据增删改查服务，无页面及Controller。</li>
+<li>dubbo_client提供页面访问，具体的增删改查条用dubbo-service远程服务。</li>
+</ul>
+<h2 id="Pom依赖"><a href="#Pom依赖" class="headerlink" title="Pom依赖"></a>Pom依赖</h2><p>服务端和客户端一致。在SSM基础上加入Dubbo和Zookeeper依赖。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- Dubbo 依赖 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.alibaba<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>dubbo<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.5.3<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line"></div><div class="line"><span class="comment">&lt;!-- Zookeeper 依赖 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.zookeeper<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zookeeper<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.4.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">exclusions</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">exclusion</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>log4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">exclusion</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">exclusions</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span> </div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.101tec<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>zkclient<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>0.10<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="服务端配置"><a href="#服务端配置" class="headerlink" title="服务端配置"></a>服务端配置</h2><p><strong>服务接口</strong></p>
+<p>DubboTestService.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh.service;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.zh.model.User;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Dubbo生产者接口</div><div class="line"> * <span class="doctag">@author</span> Administrator</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DubboTestService</span> </span>&#123;</div><div class="line">	</div><div class="line">	   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">insert</span><span class="params">(User record)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>实现</strong></p>
+<p>DubboTestServiceImpl.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh.service.impl;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.annotation.Resource;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.zh.dao.UserMapper;</div><div class="line"><span class="keyword">import</span> com.zh.model.User;</div><div class="line"><span class="keyword">import</span> com.zh.service.DubboTestService;</div><div class="line"></div><div class="line"><span class="meta">@Service</span>(<span class="string">"dubboTestService"</span>)  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DubboTestServiceImpl</span> <span class="keyword">implements</span> <span class="title">DubboTestService</span> </span>&#123;</div><div class="line">    <span class="meta">@Resource</span>  </div><div class="line">    <span class="keyword">private</span> UserMapper userDao;  </div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">insert</span><span class="params">(User record)</span> </span>&#123;</div><div class="line">		 <span class="keyword">return</span> <span class="keyword">this</span>.userDao.insert(record);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>具体如何操作数据库的过程不再累述，请查看之前的blog或者下载源码。</p>
+<p>==这里我将配置好的dubbo-service服务端(服务提供者)生成war包，先行部署到tomcat下。==</p>
+<h2 id="Dubbo服务声明"><a href="#Dubbo服务声明" class="headerlink" title="Dubbo服务声明"></a>Dubbo服务声明</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></div><div class="line">    <span class="attr">xmlns:dubbo</span>=<span class="string">"http://code.alibabatech.com/schema/dubbo"</span></div><div class="line">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans </span></div><div class="line">        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd</div><div class="line">        http://code.alibabatech.com/schema/dubbo</div><div class="line">        http://code.alibabatech.com/schema/dubbo/dubbo.xsd"</div><div class="line">        &gt;</div><div class="line">	</div><div class="line"> 	<span class="comment">&lt;!-- 提供方应用信息，用于计算依赖关系 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:application</span> <span class="attr">name</span>=<span class="string">"dubbo_provider"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 使用zookeeper注册中心暴露服务地址 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:registry</span> <span class="attr">address</span>=<span class="string">"zookeeper://127.0.0.1:2181"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 用dubbo协议在20880端口暴露服务 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:protocol</span> <span class="attr">name</span>=<span class="string">"dubbo"</span> <span class="attr">port</span>=<span class="string">"20880"</span> /&gt;</span></div><div class="line"></div><div class="line">     <span class="comment">&lt;!-- 声明需要暴露的服务接口 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:service</span> <span class="attr">interface</span>=<span class="string">"com.zh.service.DubboTestService"</span> <span class="attr">ref</span>=<span class="string">"dubboTestService"</span> /&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="Web-xml配置"><a href="#Web-xml配置" class="headerlink" title="Web.xml配置"></a>Web.xml配置</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE web-app PUBLIC</span></div><div class="line"> "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"</div><div class="line"> "http://java.sun.com/dtd/web-app_2_3.dtd" &gt;</div><div class="line"></div><div class="line"><span class="tag">&lt;<span class="name">web-app</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">display-name</span>&gt;</span>Archetype Created Web Application<span class="tag">&lt;/<span class="name">display-name</span>&gt;</span></div><div class="line">	<span class="comment">&lt;!-- Spring和mybatis的配置文件 --&gt;</span>  </div><div class="line">   <span class="tag">&lt;<span class="name">context-param</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:spring-*.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">context-param</span>&gt;</span>  </div><div class="line">    <span class="comment">&lt;!-- 编码过滤器  Spring中的字符编码过滤器（CharacterEncodingFilter），可以很方便的为我们解决项目中出现的中文乱码问题；--&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">filter</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>encodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.CharacterEncodingFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">async-supported</span>&gt;</span>true<span class="tag">&lt;/<span class="name">async-supported</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">init-param</span>&gt;</span>  </div><div class="line">            <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>encoding<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </div><div class="line">            <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">filter</span>&gt;</span> </div><div class="line">    <span class="comment">&lt;!-- Filter负责拦截的URL 全部以/的请求,如果&lt;url-pattern&gt;/*.action &lt;/&gt;,将会以拦截*.action的请求 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>encodingFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- shiro过滤器定义 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">filter</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>shiroFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>org.springframework.web.filter.DelegatingFilterProxy<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">init-param</span>&gt;</span></div><div class="line">	        <span class="comment">&lt;!-- 该值缺省为false,表示生命周期由SpringApplicationContext管理,设置为true则表示由ServletContainer管理 --&gt;</span></div><div class="line">	        <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>targetFilterLifecycle<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></div><div class="line">	        <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>true<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">filter</span>&gt;</span></div><div class="line">	<span class="comment">&lt;!-- 拦截所有请求 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>shiroFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span></div><div class="line">   <span class="comment">&lt;!-- Spring监听器,配合它一起使用的，经常是context-param，用来指定Spring要加载的配置文件，本质上是创建了一个 WebApplicationContext--&gt;</span>  </div><div class="line">   <span class="tag">&lt;<span class="name">listener</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.context.ContextLoaderListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">listener</span>&gt;</span>  </div><div class="line">    <span class="comment">&lt;!-- 防止Spring内存溢出监听器 --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">listener</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span>org.springframework.web.util.IntrospectorCleanupListener<span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">listener</span>&gt;</span>  </div><div class="line">  </div><div class="line">  <span class="comment">&lt;!-- druid start--&gt;</span> </div><div class="line">  <span class="comment">&lt;!-- 配置sql监控 start--&gt;</span> </div><div class="line">	<span class="tag">&lt;<span class="name">servlet</span>&gt;</span>  </div><div class="line">	  <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>DruidStatView<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span>  </div><div class="line">	  <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>com.alibaba.druid.support.http.StatViewServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span>  </div><div class="line">	<span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span>  </div><div class="line">	  <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>DruidStatView<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">	  <span class="comment">&lt;!-- 网页监控路径放在了项目路径下的 druid路径中 --&gt;</span>  </div><div class="line">	  <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/druid/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span>  </div><div class="line">	<span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span>  </div><div class="line">  <span class="comment">&lt;!-- 配置sql监控 end--&gt;</span> </div><div class="line">  <span class="comment">&lt;!-- 监控jsp和do请求，exclusions参数其实可以去掉的 start --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">filter</span>&gt;</span>  </div><div class="line">	  <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>DruidWebStatFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span>  </div><div class="line">	  <span class="tag">&lt;<span class="name">filter-class</span>&gt;</span>com.alibaba.druid.support.http.WebStatFilter<span class="tag">&lt;/<span class="name">filter-class</span>&gt;</span>  </div><div class="line">	  <span class="tag">&lt;<span class="name">init-param</span>&gt;</span>  </div><div class="line">	      <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>exclusions<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </div><div class="line">	      <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span>  </div><div class="line">	  <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span>  </div><div class="line">	<span class="tag">&lt;/<span class="name">filter</span>&gt;</span>  </div><div class="line">	<span class="tag">&lt;<span class="name">filter-mapping</span>&gt;</span>  </div><div class="line">	  <span class="tag">&lt;<span class="name">filter-name</span>&gt;</span>DruidWebStatFilter<span class="tag">&lt;/<span class="name">filter-name</span>&gt;</span>  </div><div class="line">	  <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span>  </div><div class="line">	<span class="tag">&lt;/<span class="name">filter-mapping</span>&gt;</span>  </div><div class="line">	<span class="tag">&lt;<span class="name">welcome-file-list</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">welcome-file</span>&gt;</span>/login.jsp<span class="tag">&lt;/<span class="name">welcome-file</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">welcome-file-list</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 配置SESSION超时，单位是分钟 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">session-config</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">session-timeout</span>&gt;</span>30<span class="tag">&lt;/<span class="name">session-timeout</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">session-config</span>&gt;</span></div><div class="line">    </div><div class="line">    <span class="comment">&lt;!--定义一个cxf的servlet,访问webservice/*这个地址就会进入CXF的servlet中。--&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">servlet</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>CXFServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.apache.cxf.transport.servlet.CXFServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>CXFServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/webservice/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div><div class="line"></div><div class="line">  <span class="comment">&lt;!-- 监控jsp和do请求，exclusions参数其实可以去掉的 end --&gt;</span></div><div class="line">  <span class="comment">&lt;!-- druid end--&gt;</span>  </div><div class="line">  <span class="comment">&lt;!-- Spring MVC servlet --&gt;</span></div><div class="line">  <span class="comment">&lt;!-- DispatcherServlet则定义了mvc的相关内容，并配置拦截的url，所有/开头的请求，都会通过SpringMVC这个servlet进行处理。 --&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 如果你的DispatcherServlet拦截"*.do"这样的有后缀的URL，就不存在访问不到静态资源的问题。 --&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 如果你的DispatcherServlet拦截"/"，为了实现REST风格，拦截了所有的请求，那么同时对*.js,*.jpg等静态文件的访问也就被拦截了。--&gt;</span></div><div class="line">  <span class="comment">&lt;!-- 激活Tomcat的defaultServlet来处理静态文件，如下面&lt;servlet-name&gt;default&lt;/servlet-name&gt;所配 --&gt;</span></div><div class="line">  <span class="comment">&lt;!-- Servlet拦截匹配规则要自已定义，把拦截下来的请求，交给对于对应的@RequestMapping方法进行处理,也就是依据某某规则分发到目标Controller(我们写的Action)来处理。 --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>SpringMVC<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.springframework.web.servlet.DispatcherServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">init-param</span>&gt;</span>  </div><div class="line">            <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </div><div class="line">            <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:spring-mvc.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">load-on-startup</span>&gt;</span>1<span class="tag">&lt;/<span class="name">load-on-startup</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">async-supported</span>&gt;</span>true<span class="tag">&lt;/<span class="name">async-supported</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>SpringMVC<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span>  </div><div class="line">        <span class="comment">&lt;!-- default servlet映射，此处可以可以配置成*.do，对应struts的后缀习惯 --&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">welcome-file-list</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">welcome-file</span>&gt;</span>/turnToIndex.jsp<span class="tag">&lt;/<span class="name">welcome-file</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">welcome-file-list</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">error-page</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">error-code</span>&gt;</span>404<span class="tag">&lt;/<span class="name">error-code</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">location</span>&gt;</span>/notfound.jsp<span class="tag">&lt;/<span class="name">location</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">error-page</span>&gt;</span></div><div class="line">    </div><div class="line">   <span class="comment">&lt;!-- 确保静态资源可以被访问,对客户端请求的静态资源如图片、</span></div><div class="line">        JS文件等的请求交由默认的servlet进行处理,不然访问会报404 --&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.jpg<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.png<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.gif<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.js<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.css<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.swf<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.html<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.txt<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>default<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>*.ico<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这里主要是这一句，修改为加载全部以Spring开头的配置文件：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>classpath:spring-*.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span>  </div><div class="line"><span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="Dubbo-admin管理平台的安装"><a href="#Dubbo-admin管理平台的安装" class="headerlink" title="Dubbo-admin管理平台的安装"></a>Dubbo-admin管理平台的安装</h2><p>需要将Zookeeper注册中心先启动。</p>
+<p>因为zookeeper只是一个黑框，我们无法看到是否存在了什么提供者或消费者，这时就要借助Dubbo-Admin管理平台来实时的查看，也可以通过这个平台来管理提者和消费者。</p>
+<p>dubbo-admin.war可在网上百度去下载，但是我下载了好几个war包，发布上去服务启动都报错，这个时候大概是我们系统的JDK和编译dubbo-admin.war的JDK版本不同导致的了。网上推荐说可以直接下载了dubbo-master的源代码，然后自己编译了一个war包，这样就不会存在启动报错的问题了。但是由于阿里停止更新了dubbo，我在使用Maven编译的过程中出现了==could not find art ifact com.alibaba:dubbo:jar:2.5.4-SNAPSHOT== 异常，这个依赖没有下载下来，导致编译失败，Google了一圈，网上遇到这个问题的童鞋都是更换了maven的公共仓库进行下载，我换了N个都不行，都是最后到这里都卡住。最后花了两积分在CSDN上下载了个jdk1.8能用的dubbo-admin-2.5.4-SNAPSHOT.war，总算是可以在tomcat中启动成功了。</p>
+<p>这里提分享给大家我从CSDN上下载的适用于JDK1.8的war包：<a href="https://pan.baidu.com/s/1nva4m5j" target="_blank" rel="external">dubbo-admin-2.5.4-SNAPSHOT.war</a></p>
+<p>自行下载源码编译war包的方式请参考：<a href="http://blog.csdn.net/evankaka/article/details/47858707" target="_blank" rel="external">传送门</a></p>
+<p>这里下载Dubbo-admin2.5.3.war，我将war改名为Root.war复制到Tomcat/webapp目录下，启动Tomcat进行编译，当然你也可以不改名直接放到webapp下。</p>
+<p>编译后关闭tomcat，检查项目中的配置文件：</p>
+<p>D:\apache-tomcat-8.0.9\webapps\ROOT\WEB-INF\dubbo.properties</p>
+<p>是否是如下内容：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dubbo.registry.address=zookeeper://127.0.0.1:2181  </div><div class="line">dubbo.admin.root.password=root  </div><div class="line">dubbo.admin.guest.password=root</div></pre></td></tr></table></figure>
+<p>如果是，就不用改，这里的127.0.0.1对应的是自己的电脑IP，因为这里zookeeper也在自己电脑上，所以要这么写才行。一般情况下都是不需要改的，因为初始都是本地的IP地址。但还是看看比较安全。</p>
+<p>接下来我们再启动tomcat就可以正常访问了，这里注意，<strong>一定要将Zookeeper注册中心先启动。</strong></p>
+<p><a href="http://localhost:8803/" target="_blank" rel="external">http://localhost:8803/</a> 用户名：root 密码：root </p>
+<p><strong>启动service端</strong></p>
+<p>因为我之前已经将配置好的dubbo-service服务端(服务提供者)部署到tomcat下面了，所以打开Dubbo-admin页面，我们看到已经有了1个应用、1个服务、1个提供者。</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/7.png"></p>
+<p><strong>具体服务</strong></p>
+<p>点击服务治理–服务，查看具体服务 </p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/8.png"></p>
+<h2 id="客户端配置"><a href="#客户端配置" class="headerlink" title="客户端配置"></a>客户端配置</h2><p>dubbo-client项目</p>
+<p>接口声明</p>
+<p>同样需要将服务接口在客户端声明(将provider的接口生成jar包引入，或者直接拷贝到dubbo-client项目（包名必须一样）)。</p>
+<p>DubboTestService.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh.service;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.zh.model.User;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * Dubbo消费者接口</div><div class="line"> * <span class="doctag">@author</span> Administrator</div><div class="line"> *</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DubboTestService</span> </span>&#123;</div><div class="line">	</div><div class="line">	   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">insert</span><span class="params">(User record)</span></span>;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="dubbo服务声明"><a href="#dubbo服务声明" class="headerlink" title="dubbo服务声明"></a>dubbo服务声明</h2><p>spring-dubbo.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></div><div class="line">    <span class="attr">xmlns:dubbo</span>=<span class="string">"http://code.alibabatech.com/schema/dubbo"</span></div><div class="line">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans </span></div><div class="line">        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd</div><div class="line">        http://code.alibabatech.com/schema/dubbo</div><div class="line">        http://code.alibabatech.com/schema/dubbo/dubbo.xsd"</div><div class="line">        &gt;</div><div class="line">	</div><div class="line"> 	<span class="comment">&lt;!-- 消费方应用信息，用于计算依赖关系 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:application</span> <span class="attr">name</span>=<span class="string">"dubbo_consumer"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 使用zookeeper注册中心订阅服务地址 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:registry</span> <span class="attr">address</span>=<span class="string">"zookeeper://127.0.0.1:2181"</span> /&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- 用dubbo协议在20880端口调用服务 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:protocol</span> <span class="attr">name</span>=<span class="string">"dubbo"</span> <span class="attr">port</span>=<span class="string">"20880"</span> /&gt;</span></div><div class="line"></div><div class="line">     <span class="comment">&lt;!-- 声明需要调用的服务接口 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">dubbo:reference</span> <span class="attr">interface</span>=<span class="string">"com.zh.service.DubboTestService"</span> <span class="attr">id</span>=<span class="string">"dubboTestService"</span> <span class="attr">check</span>=<span class="string">"false"</span>/&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="实体类声明"><a href="#实体类声明" class="headerlink" title="实体类声明"></a>实体类声明</h2><p><strong>说明：服务端和客户端中需要交互的实体类必须实现Serializable接口(序列化)</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh.model;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.Serializable;</div><div class="line"></div><div class="line"><span class="meta">@SuppressWarnings</span>(<span class="string">"serial"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> Integer id;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String userName;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> String password;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> Integer age;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getId</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> id;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(Integer id)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.id = id;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getUserName</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> userName;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUserName</span><span class="params">(String userName)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.userName = userName == <span class="keyword">null</span> ? <span class="keyword">null</span> : userName.trim();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPassword</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> password;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPassword</span><span class="params">(String password)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.password = password == <span class="keyword">null</span> ? <span class="keyword">null</span> : password.trim();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> Integer <span class="title">getAge</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> age;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(Integer age)</span> </span>&#123;</div><div class="line">        <span class="keyword">this</span>.age = age;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="启动客户端"><a href="#启动客户端" class="headerlink" title="启动客户端"></a>启动客户端</h2><p><strong>小知识：Service通常用于标注一个业务处理类<br>@Service(“demoService”)表示这个bean的名字是“demoService”</strong></p>
+<p>==这里写上面那条小知识的原因是，我之前没有在controller中使用@Resource注解将dubboTestService这个实现类的bean装配注入，结果导致消费者没有向zookeeper注册中心订阅自己所需的服务，dubbo admin页面中自然不会新增消费者。所以我的理解是，项目启动时，将dubboTestService这个实现类注入的时候，dubbo会根据配置文件中id=”dubboTestService”这个属性找到配置文件中需要向zookeeper注册中心订阅的接口，然后再通过这个接口名称向zookeeper注册中心订阅该服务。==</p>
+<p>这里我直接通过jetty启动dubbo-client项目(消费者)</p>
+<p>启动后我们刷新dubbo-admin页面，新增了1个应用，1个消费者。就是我们的dubbo-client项目。</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/9.png"></p>
+<p>消费者管理页面：</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/10.png"></p>
+<h2 id="测试效果"><a href="#测试效果" class="headerlink" title="测试效果"></a>测试效果</h2><p>UserController.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">@Controller</span>  </div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/user"</span>) </div><div class="line"><span class="comment">// /user/**</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserController</span> </span>&#123;</div><div class="line"></div><div class="line">   <span class="meta">@Resource</span></div><div class="line">    <span class="comment">//这里其实是由dubbo远程调用得到的对象</span></div><div class="line">    <span class="keyword">private</span> DubboTestService dubboTestService;</div><div class="line"></div><div class="line">    <span class="comment">//测试dubbo调用</span></div><div class="line">    <span class="meta">@RequestMapping</span>(value = <span class="string">"/insert"</span>,method = &#123; RequestMethod.GET &#125;)</div><div class="line">    <span class="meta">@ResponseBody</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">()</span></span>&#123;</div><div class="line">    	User user = <span class="keyword">new</span> User();</div><div class="line">    	user.setAge(<span class="number">12</span>);</div><div class="line">    	user.setPassword(<span class="string">"123456"</span>);</div><div class="line">    	user.setUserName(<span class="string">"测试dubbo"</span>);</div><div class="line">    	dubboTestService.insert(user);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>我们在浏览器中输入url进行测试：<a href="http://localhost:8000/user/insert" target="_blank" rel="external">http://localhost:8000/user/insert</a></p>
+<p>查看数据库,新增了一条记录，测试成功：</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/11.png"></p>
+<p>总结：</p>
+<p>Dubbo采用全Spring配置方式，透明化接入应用，对应用没有任何API侵入，只需用Spring加载Dubbo的配置即可，Dubbo基于Spring的Schema扩展进行加载。</p>
+<p>主要核心部件： </p>
+<ul>
+<li>Remoting: 网络通信框架，实现了 sync-over-async 和 request-response 消息机制. </li>
+<li>RPC: 一个远程过程调用的抽象，支持负载均衡、容灾和集群功能 </li>
+<li>Registry: 服务目录框架用于服务的注册和服务事件发布和订阅</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/dubbo/" rel="tag"># dubbo</a>
+          
+            <a href="/blog/tags/zookeeper/" rel="tag"># zookeeper</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/03/24/构建前端Mock Server--RAP部署及使用/" rel="next" title="构建前端Mock Server--RAP部署及使用">
+                <i class="fa fa-chevron-left"></i> 构建前端Mock Server--RAP部署及使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+           
+              <p class="site-description motion-element" itemprop="description">个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是面向服务的架构-SOA"><span class="nav-number">1.</span> <span class="nav-text">什么是面向服务的架构(SOA)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#例子："><span class="nav-number">1.1.</span> <span class="nav-text">例子：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dubbo介绍"><span class="nav-number">2.</span> <span class="nav-text">Dubbo介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单一应用架构"><span class="nav-number">2.1.</span> <span class="nav-text">单一应用架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垂直应用架构"><span class="nav-number">2.2.</span> <span class="nav-text">垂直应用架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式服务架构"><span class="nav-number">2.3.</span> <span class="nav-text">分布式服务架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流动计算架构"><span class="nav-number">2.4.</span> <span class="nav-text">流动计算架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需求"><span class="nav-number">2.5.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#架构"><span class="nav-number">2.6.</span> <span class="nav-text">架构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Zookeeper安装与配置"><span class="nav-number">4.</span> <span class="nav-text">Zookeeper安装与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装下载"><span class="nav-number">4.1.</span> <span class="nav-text">安装下载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Zookeeper"><span class="nav-number">4.1.1.</span> <span class="nav-text">安装Zookeeper</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单机配置"><span class="nav-number">4.2.</span> <span class="nav-text">单机配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动Zookeeper"><span class="nav-number">4.3.</span> <span class="nav-text">启动Zookeeper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪集群配置"><span class="nav-number">4.4.</span> <span class="nav-text">伪集群配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群模式"><span class="nav-number">4.5.</span> <span class="nav-text">集群模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结-1"><span class="nav-number">4.6.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSM集成Dubbo-Zookeeper实现服务化"><span class="nav-number">5.</span> <span class="nav-text">SSM集成Dubbo+Zookeeper实现服务化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pom依赖"><span class="nav-number">5.1.</span> <span class="nav-text">Pom依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端配置"><span class="nav-number">5.2.</span> <span class="nav-text">服务端配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo服务声明"><span class="nav-number">5.3.</span> <span class="nav-text">Dubbo服务声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-xml配置"><span class="nav-number">5.4.</span> <span class="nav-text">Web.xml配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo-admin管理平台的安装"><span class="nav-number">5.5.</span> <span class="nav-text">Dubbo-admin管理平台的安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端配置"><span class="nav-number">5.6.</span> <span class="nav-text">客户端配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dubbo服务声明"><span class="nav-number">5.7.</span> <span class="nav-text">dubbo服务声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体类声明"><span class="nav-number">5.8.</span> <span class="nav-text">实体类声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动客户端"><span class="nav-number">5.9.</span> <span class="nav-text">启动客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试效果"><span class="nav-number">5.10.</span> <span class="nav-text">测试效果</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "4aef8615f4b5476dad10f9698803296c",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+   
+</body>
+</html>
