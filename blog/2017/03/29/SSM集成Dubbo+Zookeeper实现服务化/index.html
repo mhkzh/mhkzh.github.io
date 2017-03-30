@@ -109,7 +109,13 @@
 <meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/9.png">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/10.png">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/11.png">
-<meta property="og:updated_time" content="2017-03-29T10:08:04.724Z">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/12.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/13.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/14.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/15.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/16.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/dubbo/17.png">
+<meta property="og:updated_time" content="2017-03-30T10:59:46.047Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SSM集成Dubbo+Zookeeper实现服务化">
 <meta name="twitter:description" content="随着互联网的发展，网站应用或者企业应用的规模不断扩大，常规的垂直应用架构已无法应对，分布式服务架构以及流动计算架构势在必行，亟需一个治理系统确保架构有条不紊的演进。">
@@ -658,7 +664,7 @@
 <p>dubbo-admin.war可在网上百度去下载，但是我下载了好几个war包，发布上去服务启动都报错，这个时候大概是我们系统的JDK和编译dubbo-admin.war的JDK版本不同导致的了。网上推荐说可以直接下载了dubbo-master的源代码，然后自己编译了一个war包，这样就不会存在启动报错的问题了。但是由于阿里停止更新了dubbo，我在使用Maven编译的过程中出现了<strong>could not find art ifact com.alibaba:dubbo:jar:2.5.4-SNAPSHOT</strong> 异常，这个依赖没有下载下来，导致编译失败，Google了一圈，网上遇到这个问题的童鞋都是更换了maven的公共仓库进行下载，我换了N个都不行，都是最后到这里都卡住。最后花了两积分在CSDN上下载了个jdk1.8能用的dubbo-admin-2.5.4-SNAPSHOT.war，总算是可以在tomcat中启动成功了。</p>
 <p>这里提分享给大家我从CSDN上下载的适用于JDK1.8的war包：<a href="https://pan.baidu.com/s/1nva4m5j" target="_blank" rel="external">dubbo-admin-2.5.4-SNAPSHOT.war</a></p>
 <p>自行下载源码编译war包的方式请参考：<a href="http://blog.csdn.net/evankaka/article/details/47858707" target="_blank" rel="external">传送门</a></p>
-<p>这里下载Dubbo-admin2.5.3.war，我将war改名为Root.war复制到Tomcat/webapp目录下，启动Tomcat进行编译，当然你也可以不改名直接放到webapp下。</p>
+<p>这里下载Dubbo-admin2.5.4.war，我将war改名为Root.war复制到Tomcat/webapp目录下，启动Tomcat进行编译，当然你也可以不改名直接放到webapp下。</p>
 <p>编译后关闭tomcat，检查项目中的配置文件：</p>
 <p>D:\apache-tomcat-8.0.9\webapps\ROOT\WEB-INF\dubbo.properties</p>
 <p>是否是如下内容：</p>
@@ -700,6 +706,60 @@
 <li>RPC: 一个远程过程调用的抽象，支持负载均衡、容灾和集群功能 </li>
 <li>Registry: 服务目录框架用于服务的注册和服务事件发布和订阅</li>
 </ul>
+<h2 id="补充dubbo-monitor-监控中心的配置部署过程"><a href="#补充dubbo-monitor-监控中心的配置部署过程" class="headerlink" title="补充dubbo-monitor 监控中心的配置部署过程"></a>补充dubbo-monitor 监控中心的配置部署过程</h2><p>简单介绍下monitor：</p>
+<ol>
+<li>Simple Monitor挂掉不会影响到Consumer和Provider之间的调用，所以用于生产环境不会有风险。</li>
+<li>配置好了之后可以结合admin管理后台使用，可以清晰的看到服务的访问记录、成功次数、失败次数等..</li>
+<li>Simple Monitor采用磁盘存储统计信息，请注意安装机器的磁盘限制，如果要集群，建议用mount共享磁盘。</li>
+</ol>
+<p>百度了一下，发现有人在这个简单dubbo监控中心的基础上，二次开发了一个比较完善的版本，走的是数据库而不是写文件，比较优雅，以后实际在生产环节使用可以参考。<br><a href="http://www.oschina.net/p/dubbo-monitor/similar_projects" target="_blank" rel="external">传送门</a></p>
+<p>这里我就介绍一下简易控制中心monitor的配置和部署</p>
+<p>dubbo-monitor是一个web工程，是基于内嵌的jetty。dubbo-monitor是使用Java编写的项目，所以需要安装jdk。</p>
+<p>首先下载dubbo-monitor-simple-2.5.3，下载地址: <a href="http://download.csdn.net/detail/liweifengwf/7864009" target="_blank" rel="external">dubbo-monitor-simple-2.5.3</a></p>
+<p>下载下来后，我们发现是一个tar格式的在linux上进行压缩的压缩文件。我本机使用的是windows，所以直接对其进行解压。</p>
+<p>解压后再dubbo-monitor-simple-2.5.3根目录下，我们会看到lib、conf、bin三个文件夹。这里我们打开conf文件夹下的dubbo.properties配置文件进行配置。</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/12.png"></p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/13.png"></p>
+<p>dubbo.properties<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">##</div><div class="line"># Copyright 1999-2011 Alibaba Group.</div><div class="line">#  </div><div class="line"># Licensed under the Apache License, Version 2.0 (the "License");</div><div class="line"># you may not use this file except in compliance with the License.</div><div class="line"># You may obtain a copy of the License at</div><div class="line">#  </div><div class="line">#      http://www.apache.org/licenses/LICENSE-2.0</div><div class="line">#  </div><div class="line"># Unless required by applicable law or agreed to in writing, software</div><div class="line"># distributed under the License is distributed on an "AS IS" BASIS,</div><div class="line"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</div><div class="line"># See the License for the specific language governing permissions and</div><div class="line"># limitations under the License.</div><div class="line">##</div><div class="line">dubbo.container=log4j,spring,registry,jetty</div><div class="line">dubbo.application.name=simple-monitor</div><div class="line">dubbo.application.owner=</div><div class="line">#dubbo.registry.address=multicast://224.5.6.7:1234</div><div class="line">dubbo.registry.address=zookeeper://127.0.0.1:2181 </div><div class="line">#dubbo.registry.address=redis://127.0.0.1:6379</div><div class="line">#dubbo.registry.address=dubbo://127.0.0.1:9090</div><div class="line">dubbo.protocol.port=7070</div><div class="line">dubbo.jetty.port=9090</div><div class="line">dubbo.jetty.directory=D:/dubboMonitor/monitor</div><div class="line">dubbo.charts.directory=D:/dubboMonitor/charts</div><div class="line">dubbo.statistics.directory=D:/dubboMonitor/monitor/statistics</div><div class="line">dubbo.log4j.file=logs/dubbo-monitor-simple.log</div><div class="line">dubbo.log4j.level=WARN</div></pre></td></tr></table></figure></p>
+<p>这里对比较重要的几条配置进行说明：</p>
+<blockquote>
+<p>dubbo.registry.address=zookeeper://127.0.0.1:2181</p>
+</blockquote>
+<p>将ip 端口号 修改为 zookeeper服务器的ip地址端口号，如果你的zookeeper是集群，则注册地址修改为zookeeper://127.0.0.1:2181?backup=127.0.0.1:2182,127.0.0.1:2183</p>
+<blockquote>
+<p>dubbo.protocol.port=7070</p>
+</blockquote>
+<p>协议端口，端口号只要是没有被占用就行</p>
+<blockquote>
+<p>dubbo.jetty.port=9090</p>
+</blockquote>
+<p>jetty提供web服务的端口号，即通过 浏览器访问 监控中心的端口号<br>其他的配置默认就行，当然也可以自己配置。</p>
+<blockquote>
+<p>dubbo.jetty.directory=D:/dubboMonitor/monitor</p>
+</blockquote>
+<p>在配置dubbo.jetty.directory=/aa/bb/monitor 时候 monitor这个目录不存在，默认是不会自动给创建这个目录的，他下面的charts和统计的会自动创建，<strong>所以这里我自己在D盘创建了dubboMonitor这个目录，并在下面创建了monitor目录。</strong></p>
+<blockquote>
+<p>dubbo.charts.directory=D:/dubboMonitor/charts</p>
+</blockquote>
+<p><strong>charts目录不需要自己创建，如果创建会出现监控图表无法显示的问题。该目录会自动生成，根据dubbo调用次数、平均调用时间所生成的图片会保存在这个目录下面</strong></p>
+<blockquote>
+<p>dubbo.statistics.directory=D:/dubboMonitor/monitor/statistics</p>
+</blockquote>
+<p>该目录下面存放的是根据dubbo调用次数、调用时间所统计相关的数据，以文件的形式进行保存。</p>
+<p>配置完成后，不要忘了在我们的消费者(dubbo-client)以及生产者(dubbo-service)项目中的spring-dubbo.xml配置文件中配置monitor监控。</p>
+<p>spring-dubbo.xml</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 监控中心配置 --&gt;</span></div><div class="line">   <span class="comment">&lt;!-- 监控中心协议，如果为protocol="registry"，表示从注册中心发现监控中心地址，否则直连监控中心 --&gt;</span></div><div class="line"><span class="comment">&lt;!-- 直连监控中心服务器地址，如：address="192.168.3.71:7070"--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dubbo:monitor</span> <span class="attr">protocol</span>=<span class="string">"registry"</span>/&gt;</span></div></pre></td></tr></table></figure>
+<p>我们启动zookeeper注册中心、dubbo-admin管理平台、生产者(dubbo-service)、消费者(dubbo-client)、最后启动dubbo-monitor。</p>
+<p>dubbo-monitor启动方式：windows下运行dubbo-monitor-simple-2.5.3\bin目录下的start.bat，linux运行start.sh文件。弹出命令框后不要关闭，输出以下信息代表启动成功。</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/14.png"></p>
+<p>浏览器访问地址 <a href="http://192.168.17.129:9090/" target="_blank" rel="external">http://192.168.17.129:9090/</a> 显示页面(为方便理解我用google浏览器翻译了一下)</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/15.png"></p>
+<p>我在浏览器中调用了两次插入操作的方法url：<a href="http://localhost:8000/user/insert" target="_blank" rel="external">http://localhost:8000/user/insert</a></p>
+<p>我们可以查看调用情况统计，如下图：</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/16.png"></p>
+<p>也可以查看调用统计信息图表，如下图：</p>
+<p><img src="http://zhfeat.cc/blog/images/dubbo/17.png"></p>
+<p>以上就是dubbo-monitor监控中心的配置和部署，这样，使用dubbo两个必备的工具，dubbo的管理控制台以及简易控制中心monitor我们都有了，是不是很兴奋。</p>
 
       
     </div>
@@ -915,7 +975,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是面向服务的架构-SOA"><span class="nav-number">1.</span> <span class="nav-text">什么是面向服务的架构(SOA)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#例子："><span class="nav-number">1.1.</span> <span class="nav-text">例子：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dubbo介绍"><span class="nav-number">2.</span> <span class="nav-text">Dubbo介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单一应用架构"><span class="nav-number">2.1.</span> <span class="nav-text">单一应用架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垂直应用架构"><span class="nav-number">2.2.</span> <span class="nav-text">垂直应用架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式服务架构"><span class="nav-number">2.3.</span> <span class="nav-text">分布式服务架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流动计算架构"><span class="nav-number">2.4.</span> <span class="nav-text">流动计算架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需求"><span class="nav-number">2.5.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#架构"><span class="nav-number">2.6.</span> <span class="nav-text">架构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Zookeeper安装与配置"><span class="nav-number">4.</span> <span class="nav-text">Zookeeper安装与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装下载"><span class="nav-number">4.1.</span> <span class="nav-text">安装下载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Zookeeper"><span class="nav-number">4.1.1.</span> <span class="nav-text">安装Zookeeper</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单机配置"><span class="nav-number">4.2.</span> <span class="nav-text">单机配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动Zookeeper"><span class="nav-number">4.3.</span> <span class="nav-text">启动Zookeeper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪集群配置"><span class="nav-number">4.4.</span> <span class="nav-text">伪集群配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群模式"><span class="nav-number">4.5.</span> <span class="nav-text">集群模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结-1"><span class="nav-number">4.6.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSM集成Dubbo-Zookeeper实现服务化"><span class="nav-number">5.</span> <span class="nav-text">SSM集成Dubbo+Zookeeper实现服务化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pom依赖"><span class="nav-number">5.1.</span> <span class="nav-text">Pom依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端配置"><span class="nav-number">5.2.</span> <span class="nav-text">服务端配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo服务声明"><span class="nav-number">5.3.</span> <span class="nav-text">Dubbo服务声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-xml配置"><span class="nav-number">5.4.</span> <span class="nav-text">Web.xml配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo-admin管理平台的安装"><span class="nav-number">5.5.</span> <span class="nav-text">Dubbo-admin管理平台的安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端配置"><span class="nav-number">5.6.</span> <span class="nav-text">客户端配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dubbo服务声明"><span class="nav-number">5.7.</span> <span class="nav-text">dubbo服务声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体类声明"><span class="nav-number">5.8.</span> <span class="nav-text">实体类声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动客户端"><span class="nav-number">5.9.</span> <span class="nav-text">启动客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试效果"><span class="nav-number">5.10.</span> <span class="nav-text">测试效果</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是面向服务的架构-SOA"><span class="nav-number">1.</span> <span class="nav-text">什么是面向服务的架构(SOA)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#例子："><span class="nav-number">1.1.</span> <span class="nav-text">例子：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Dubbo介绍"><span class="nav-number">2.</span> <span class="nav-text">Dubbo介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单一应用架构"><span class="nav-number">2.1.</span> <span class="nav-text">单一应用架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#垂直应用架构"><span class="nav-number">2.2.</span> <span class="nav-text">垂直应用架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分布式服务架构"><span class="nav-number">2.3.</span> <span class="nav-text">分布式服务架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#流动计算架构"><span class="nav-number">2.4.</span> <span class="nav-text">流动计算架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#需求"><span class="nav-number">2.5.</span> <span class="nav-text">需求</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#架构"><span class="nav-number">2.6.</span> <span class="nav-text">架构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Zookeeper安装与配置"><span class="nav-number">4.</span> <span class="nav-text">Zookeeper安装与配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装下载"><span class="nav-number">4.1.</span> <span class="nav-text">安装下载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装Zookeeper"><span class="nav-number">4.1.1.</span> <span class="nav-text">安装Zookeeper</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#单机配置"><span class="nav-number">4.2.</span> <span class="nav-text">单机配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动Zookeeper"><span class="nav-number">4.3.</span> <span class="nav-text">启动Zookeeper</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#伪集群配置"><span class="nav-number">4.4.</span> <span class="nav-text">伪集群配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群模式"><span class="nav-number">4.5.</span> <span class="nav-text">集群模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结-1"><span class="nav-number">4.6.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSM集成Dubbo-Zookeeper实现服务化"><span class="nav-number">5.</span> <span class="nav-text">SSM集成Dubbo+Zookeeper实现服务化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Pom依赖"><span class="nav-number">5.1.</span> <span class="nav-text">Pom依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端配置"><span class="nav-number">5.2.</span> <span class="nav-text">服务端配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo服务声明"><span class="nav-number">5.3.</span> <span class="nav-text">Dubbo服务声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-xml配置"><span class="nav-number">5.4.</span> <span class="nav-text">Web.xml配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dubbo-admin管理平台的安装"><span class="nav-number">5.5.</span> <span class="nav-text">Dubbo-admin管理平台的安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端配置"><span class="nav-number">5.6.</span> <span class="nav-text">客户端配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dubbo服务声明"><span class="nav-number">5.7.</span> <span class="nav-text">dubbo服务声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体类声明"><span class="nav-number">5.8.</span> <span class="nav-text">实体类声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动客户端"><span class="nav-number">5.9.</span> <span class="nav-text">启动客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试效果"><span class="nav-number">5.10.</span> <span class="nav-text">测试效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充dubbo-monitor-监控中心的配置部署过程"><span class="nav-number">5.11.</span> <span class="nav-text">补充dubbo-monitor 监控中心的配置部署过程</span></a></li></ol></li></ol></div>
             
 
           </div>
