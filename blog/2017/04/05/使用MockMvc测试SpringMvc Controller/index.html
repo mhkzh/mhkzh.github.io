@@ -1,0 +1,1005 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MockMvc," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="对模块进行集成测试时，希望能够通过输入URL对Controller进行测试，如果通过启动服务器，建立http client进行测试，这样会使得测试变得很麻烦，比如，启动速度慢，测试验证不方便，依赖网络环境等，这样会导致测试无法进行，为了可以对Controller进行测试，可以通过引入MockMVC进行解决。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用MockMvc测试SpringMvc Controller">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/04/05/使用MockMvc测试SpringMvc Controller/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="对模块进行集成测试时，希望能够通过输入URL对Controller进行测试，如果通过启动服务器，建立http client进行测试，这样会使得测试变得很麻烦，比如，启动速度慢，测试验证不方便，依赖网络环境等，这样会导致测试无法进行，为了可以对Controller进行测试，可以通过引入MockMVC进行解决。">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/MockMvc.jpg">
+<meta property="og:updated_time" content="2017-04-05T11:12:00.506Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用MockMvc测试SpringMvc Controller">
+<meta name="twitter:description" content="对模块进行集成测试时，希望能够通过输入URL对Controller进行测试，如果通过启动服务器，建立http client进行测试，这样会使得测试变得很麻烦，比如，启动速度慢，测试验证不方便，依赖网络环境等，这样会导致测试无法进行，为了可以对Controller进行测试，可以通过引入MockMVC进行解决。">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/MockMvc.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/04/05/使用MockMvc测试SpringMvc Controller/"/>
+
+
+
+
+
+  <title> 使用MockMvc测试SpringMvc Controller | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhfeat's - blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/04/05/使用MockMvc测试SpringMvc Controller/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="z h.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/mht.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhfeat's - blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用MockMvc测试SpringMvc Controller
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-05T19:07:33+08:00">
+                2017-04-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/SSM框架整合/" itemprop="url" rel="index">
+                    <span itemprop="name">SSM框架整合</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/blog/2017/04/05/使用MockMvc测试SpringMvc Controller/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://zhfeat.cc/blog/images/bg/MockMvc.jpg"></p>
+<blockquote>
+<p>对模块进行集成测试时，希望能够通过输入URL对Controller进行测试，如果通过启动服务器，建立http client进行测试，这样会使得测试变得很麻烦，比如，启动速度慢，测试验证不方便，依赖网络环境等，这样会导致测试无法进行，为了可以对Controller进行测试，可以通过引入MockMVC进行解决。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="什么是MockMvc"><a href="#什么是MockMvc" class="headerlink" title="什么是MockMvc"></a>什么是MockMvc</h1><p>MockMvc实现了对Http请求的模拟，能够直接使用网络的形式，转换到Controller的调用，这样可以使得测试速度快、不依赖网络环境，而且提供了一套验证的工具，这样可以使得请求的验证统一而且很方便。</p>
+<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><p>作为WEB开发人员在开发过程中总是需要测试各种请求，<br>常规的方法则是启动WEB服务器进行测试，如果出错，停掉WEB服务器，调整代码，重启WEB服务器进行测试。<br>大量的时间都浪费在WEB服务器的启动上,MockMvc实现了对Http请求的模拟，<br>该方法基于SpringMVC 与 spring Test 框架，可以让我们不用频繁的启动WEB容器去测试，而是以单元测试的方式进行调试，节省了开发时间，提高了开发效率。</p>
+<h1 id="使用要求"><a href="#使用要求" class="headerlink" title="使用要求"></a>使用要求</h1><p>spring 集成测试中对mock的集成很好，让开发员使用起来很方便，但是使用时必须注意以下三个条件：</p>
+<ul>
+<li>Junit必须在4.9版本以上</li>
+<li>spring版本必须在3.2以上</li>
+<li>使用的框架必须是springMvc框架</li>
+</ul>
+<p>MockMvc功能依旧基于之blog中搭建的SSM框架。</p>
+<h1 id="MockMvc运行配置"><a href="#MockMvc运行配置" class="headerlink" title="MockMvc运行配置"></a>MockMvc运行配置</h1><h2 id="POM依赖"><a href="#POM依赖" class="headerlink" title="POM依赖"></a>POM依赖</h2><p>这里只贴上主要用到的依赖：</p>
+<p>版本信息：<spring.version>4.0.2.RELEASE</spring.version><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"> &lt;!-- spring核心包 --&gt;  </div><div class="line"> &lt;!-- 这个jar文件包含Spring框架基本的核心工具类，Spring其它组件要都要使用到这个包里的类，是其它组件的基本核心，当然你也可以在自己的应用系统中使用这些工具类。 --&gt;</div><div class="line">      &lt;dependency&gt;  </div><div class="line">          &lt;groupId&gt;org.springframework&lt;/groupId&gt;  </div><div class="line">          &lt;artifactId&gt;spring-core&lt;/artifactId&gt;  </div><div class="line">          &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;  </div><div class="line">      &lt;/dependency&gt;  </div><div class="line">&lt;!-- 　这个jar文件包含Web应用开发时，用到Spring框架时所需的核心类，包括自动载入WebApplicationContext特性的类、Struts与JSF集成类、文件上传的支持类、Filter类和大量工具辅助类。 --&gt;</div><div class="line">      &lt;dependency&gt;  </div><div class="line">          &lt;groupId&gt;org.springframework&lt;/groupId&gt;  </div><div class="line">          &lt;artifactId&gt;spring-web&lt;/artifactId&gt;  </div><div class="line">          &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;  </div><div class="line">      &lt;/dependency&gt;  </div><div class="line"> &lt;!-- Spring对于object/xml映射的支持，可以让JAVA与XML之间来回切换 --&gt;</div><div class="line">      &lt;dependency&gt;  </div><div class="line">          &lt;groupId&gt;org.springframework&lt;/groupId&gt;  </div><div class="line">          &lt;artifactId&gt;spring-oxm&lt;/artifactId&gt;  </div><div class="line">          &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;  </div><div class="line">      &lt;/dependency&gt;  </div><div class="line">  &lt;!-- 为JDBC、Hibernate、JDO、JPA等提供的一致的声明式和编程式事务管理。 --&gt;    </div><div class="line">      &lt;dependency&gt;  </div><div class="line">          &lt;groupId&gt;org.springframework&lt;/groupId&gt;  </div><div class="line">          &lt;artifactId&gt;spring-tx&lt;/artifactId&gt;  </div><div class="line">          &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;  </div><div class="line">      &lt;/dependency&gt;  </div><div class="line">  &lt;!-- 这个jar文件包含对Spring对JDBC数据访问进行封装的所有类。 --&gt;</div><div class="line">      &lt;dependency&gt;  </div><div class="line">          &lt;groupId&gt;org.springframework&lt;/groupId&gt;  </div><div class="line">          &lt;artifactId&gt;spring-jdbc&lt;/artifactId&gt;  </div><div class="line">          &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;  </div><div class="line">      &lt;/dependency&gt;  </div><div class="line"> &lt;!-- 这个jar文件包含Spring MVC框架相关的所有类。包含国际化、标签、Theme、视图展现的FreeMarker、JasperReports、Tiles、Velocity、XSLT相关类。当然，如果你的应用使用了独立的MVC框架，则无需这个JAR文件里的任何类。 --&gt;</div><div class="line">      &lt;dependency&gt;  </div><div class="line">          &lt;groupId&gt;org.springframework&lt;/groupId&gt;  </div><div class="line">          &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;  </div><div class="line">          &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;  </div><div class="line">      &lt;/dependency&gt;</div><div class="line">  &lt;!-- Spring context的扩展支持，用于MVC方面。 --&gt;</div><div class="line">      &lt;dependency&gt;  </div><div class="line">          &lt;groupId&gt;org.springframework&lt;/groupId&gt;  </div><div class="line">          &lt;artifactId&gt;spring-context-support&lt;/artifactId&gt;  </div><div class="line">          &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;  </div><div class="line">      &lt;/dependency&gt;  </div><div class="line"> &lt;!-- 对JUNIT等测试框架的简单封装 --&gt;</div><div class="line">      &lt;dependency&gt;  </div><div class="line">          &lt;groupId&gt;org.springframework&lt;/groupId&gt;  </div><div class="line">          &lt;artifactId&gt;spring-test&lt;/artifactId&gt;  </div><div class="line">          &lt;version&gt;$&#123;spring.version&#125;&lt;/version&gt;  </div><div class="line">      &lt;/dependency&gt; </div><div class="line">  &lt;!-- junit --&gt;</div><div class="line">      &lt;dependency&gt;</div><div class="line">          &lt;groupId&gt;junit&lt;/groupId&gt;</div><div class="line">          &lt;artifactId&gt;junit&lt;/artifactId&gt;</div><div class="line">          &lt;version&gt;4.11&lt;/version&gt;</div><div class="line">          &lt;!-- 表示开发的时候引入，发布的时候不会加载此包 --&gt;  </div><div class="line">     &lt;!-- &lt;scope&gt;test&lt;/scope&gt; --&gt;   </div><div class="line">     &lt;/dependency&gt;</div><div class="line">     </div><div class="line">  &lt;!-- 使用MockMvc模拟请求必须要有这个jar，不然会抛异常 --&gt;</div><div class="line">  &lt;dependency&gt;</div><div class="line">          &lt;groupId&gt;javax.servlet&lt;/groupId&gt;</div><div class="line">          &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;</div><div class="line">          &lt;version&gt;3.1.0&lt;/version&gt;</div><div class="line">    &lt;/dependency&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="用到的注解"><a href="#用到的注解" class="headerlink" title="用到的注解"></a>用到的注解</h2><ol>
+<li>RunWith(SpringJUnit4ClassRunner.class): 表示使用Spring Test组件进行单元测试;</li>
+<li>WebAppConfiguration: 使用这个Annotate会在跑单元测试的时候真实的启一个web服务，然后开始调用Controller的Rest API，待单元测试跑完之后再将web服务停掉;</li>
+<li>ContextConfiguration: 指定Bean的配置文件信息，可以有多种方式，这个例子使用的是文件路径形式，如果有多个配置文件，可以将括号中的信息配置为一个字符串数组来表示;</li>
+</ol>
+<h2 id="代码结构"><a href="#代码结构" class="headerlink" title="代码结构"></a>代码结构</h2><p>MessageTest.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.javen.testmybatis;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.annotation.Resource;</div><div class="line"><span class="keyword">import</span> org.junit.Before;</div><div class="line"><span class="keyword">import</span> org.junit.Test;</div><div class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</div><div class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</div><div class="line"><span class="keyword">import</span> org.springframework.http.MediaType;</div><div class="line"><span class="keyword">import</span> org.springframework.test.context.ContextConfiguration;</div><div class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</div><div class="line"><span class="keyword">import</span> org.springframework.test.context.web.WebAppConfiguration;</div><div class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.MockMvc;</div><div class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.request.MockMvcRequestBuilders;</div><div class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.result.MockMvcResultHandlers;</div><div class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.result.MockMvcResultMatchers;</div><div class="line"><span class="keyword">import</span> org.springframework.test.web.servlet.setup.MockMvcBuilders;</div><div class="line"><span class="keyword">import</span> org.springframework.web.context.WebApplicationContext;</div><div class="line"><span class="keyword">import</span> com.zh.producer.MessageProducer;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 功能概要：</div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> zhanghao</div><div class="line"> */</div><div class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)     <span class="comment">//表示继承了SpringJUnit4ClassRunner类  </span></div><div class="line"><span class="meta">@ContextConfiguration</span>(locations = &#123;<span class="string">"classpath:spring-mybatis.xml"</span>&#125;)  </div><div class="line"><span class="meta">@WebAppConfiguration</span> </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageTest</span>  </span>&#123;</div><div class="line">    <span class="comment">//MockMvc实例</span></div><div class="line">    <span class="keyword">private</span> MockMvc mvc;  </div><div class="line">    </div><div class="line">    <span class="meta">@Autowired</span>  </div><div class="line">    <span class="keyword">private</span> WebApplicationContext wac;  </div><div class="line">    </div><div class="line">    <span class="meta">@Before</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setUp</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">        mvc = MockMvcBuilders.webAppContextSetup(wac).build();  </div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">/**</span></div><div class="line">    整个过程：</div><div class="line">    1、mockMvc.perform执行一个请求；</div><div class="line">    2、MockMvcRequestBuilders.get("/user/showUser")构造一个请求</div><div class="line">    3、ResultActions.andExpect添加执行完成后的断言</div><div class="line">    4、ResultActions.andDo添加一个结果处理器，表示要对结果做点什么事情，比如此处使用MockMvcResultHandlers.print()输出整个响应结果信息。</div><div class="line">    5、ResultActions.andReturn表示执行完成后返回相应的结果。</div><div class="line">     * <span class="doctag">@throws</span> Exception </div><div class="line">    **/</div><div class="line">    <span class="meta">@Test</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getHello</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</div><div class="line">    <span class="comment">//perform 执行一个RequestBuilder请求，会自动执行SpringMVC的流程并映射到相应的控制器执行处理；</span></div><div class="line">    mvc.perform(MockMvcRequestBuilders.get(<span class="string">"/user/showUser"</span>).accept(MediaType.APPLICATION_JSON).param(<span class="string">"id"</span>, <span class="string">"1"</span>))</div><div class="line">    			<span class="comment">//andExpect：添加ResultMatcher验证规则，验证控制器执行完成后结果是否正确；</span></div><div class="line">                .andExpect(MockMvcResultMatchers.status().isOk())</div><div class="line">                <span class="comment">//andDo：添加ResultHandler结果处理器，比如调试时打印结果到控制台；</span></div><div class="line">                .andDo(MockMvcResultHandlers.print())</div><div class="line">                <span class="comment">//andReturn：最后返回相应的MvcResult；然后进行自定义验证/进行下一步的异步处理；</span></div><div class="line">                .andReturn();</div><div class="line">    &#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>MockMvc可以对controller中的一次调用进行模拟，perform就是一次请求，MockMvcRequestBuilders进行url的请求，andExcept方法为对Controller类、调用方法、视图和model的预期设置，andDo进行这次请求的执行，最后andReturn返回。</p>
+<h2 id="MockMvc测试"><a href="#MockMvc测试" class="headerlink" title="MockMvc测试"></a>MockMvc测试</h2><p>测试逻辑:<br>Mock出一个MockHttpServletRequestBuilder对象。用于模拟Http的get请求方式,<br>.param()方法可以给http请求携带参数,相当于  谢了这样一个url ——&gt;  <a href="http://localhost:8000/user/showUser?id=1" target="_blank" rel="external">http://localhost:8000/user/showUser?id=1</a><br>然后调用.andExport(status().isOk())方法看请求的状态响应码是否为200如果不是则抛异常，测试不通过。</p>
+<p>执行单元测试后返回结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">MockHttpServletRequest:</div><div class="line">         HTTP Method = GET</div><div class="line">         Request URI = /user/showUser</div><div class="line">          Parameters = &#123;id=[1]&#125;</div><div class="line">             Headers = &#123;Accept=[application/json]&#125;</div><div class="line"></div><div class="line">             Handler:</div><div class="line">                Type = com.zh.controller.UserController</div><div class="line"></div><div class="line">               Async:</div><div class="line">   Was async started = false</div><div class="line">        Async result = null</div><div class="line"></div><div class="line">  Resolved Exception:</div><div class="line">                Type = null</div><div class="line"></div><div class="line">        ModelAndView:</div><div class="line">           View name = null</div><div class="line">                View = null</div><div class="line">               Model = null</div><div class="line"></div><div class="line">            FlashMap:</div><div class="line"></div><div class="line">MockHttpServletResponse:</div><div class="line">              Status = 200</div><div class="line">       Error message = null</div><div class="line">             Headers = &#123;Content-Type=[application/json], Content-Length=[55]&#125;</div><div class="line">        Content type = application/json</div><div class="line">                Body = &#123;&quot;age&quot;:24,&quot;id&quot;:1,&quot;password&quot;:&quot;345&quot;,&quot;userName&quot;:&quot;Maven1?&quot;&#125;</div><div class="line">       Forwarded URL = null</div><div class="line">      Redirected URL = null</div><div class="line">             Cookies = []</div></pre></td></tr></table></figure>
+<p>其中Body就是我们Controller返回的json字符串。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/MockMvc/" rel="tag"># MockMvc</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/03/29/SSM集成Dubbo+Zookeeper实现服务化/" rel="next" title="SSM集成Dubbo+Zookeeper实现服务化">
+                <i class="fa fa-chevron-left"></i> SSM集成Dubbo+Zookeeper实现服务化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+           
+              <p class="site-description motion-element" itemprop="description">个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是MockMvc"><span class="nav-number">1.</span> <span class="nav-text">什么是MockMvc</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用场景"><span class="nav-number">2.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用要求"><span class="nav-number">3.</span> <span class="nav-text">使用要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MockMvc运行配置"><span class="nav-number">4.</span> <span class="nav-text">MockMvc运行配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#POM依赖"><span class="nav-number">4.1.</span> <span class="nav-text">POM依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用到的注解"><span class="nav-number">4.2.</span> <span class="nav-text">用到的注解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码结构"><span class="nav-number">4.3.</span> <span class="nav-text">代码结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MockMvc测试"><span class="nav-number">4.4.</span> <span class="nav-text">MockMvc测试</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/canvas-nest/canvas-nest.min.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "4aef8615f4b5476dad10f9698803296c",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+   
+</body>
+</html>

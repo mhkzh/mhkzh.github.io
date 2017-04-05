@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>http://zhfeat.cc/blog/blog/2017/04/05/%E4%BD%BF%E7%94%A8MockMvc%E6%B5%8B%E8%AF%95SpringMvc%20Controller/</loc>
+    <lastmod>2017-04-05T11:12:00.506Z</lastmod>
+    <data>
+        <display>
+        <title>使用MockMvc测试SpringMvc Controller</title>
+        <pubTime>2017-04-05T11:07:33.000Z</pubTime>
+        
+        <tag>MockMvc</tag>
+         
+         
+           
+             
+              <breadCrumb title="SSM框架整合" url="http://zhfeat.cc/blog/blog/categories/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zhfeat.cc/blog/blog/2017/03/29/SSM%E9%9B%86%E6%88%90Dubbo+Zookeeper%E5%AE%9E%E7%8E%B0%E6%9C%8D%E5%8A%A1%E5%8C%96/</loc>
     <lastmod>2017-03-30T10:59:46.047Z</lastmod>
     <data>
@@ -338,9 +358,9 @@
         <title>一次没有最后期限的编程之旅</title>
         <pubTime>2017-02-22T03:12:43.000Z</pubTime>
         
-        <tag>SSM</tag>
-         
         <tag>Maven</tag>
+         
+        <tag>SSM</tag>
          
         <tag>JavaWeb</tag>
          
