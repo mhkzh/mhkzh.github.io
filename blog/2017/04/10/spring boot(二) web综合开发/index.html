@@ -1,0 +1,1087 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="spring boot," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="这篇文章内容继续为大家介绍spring boot的一些其它特性和配置(有些未必是spring boot体系桟的功能，但是却是spring特别推荐的一些开源技术)。我也是参考网上的一些教程做了一些简单的尝试，java web开发就是这样，可以实现同样需求的技术有很多，但每去一家新的公司，根据项目的背景、开发人员的水平、生产环境的差异，所用到的技术千差万别。所以我这里整理spring boot系列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring boot(二) web综合开发">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/04/10/spring boot(二) web综合开发/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="这篇文章内容继续为大家介绍spring boot的一些其它特性和配置(有些未必是spring boot体系桟的功能，但是却是spring特别推荐的一些开源技术)。我也是参考网上的一些教程做了一些简单的尝试，java web开发就是这样，可以实现同样需求的技术有很多，但每去一家新的公司，根据项目的背景、开发人员的水平、生产环境的差异，所用到的技术千差万别。所以我这里整理spring boot系列">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/springboot2.jpg">
+<meta property="og:updated_time" content="2017-04-10T10:16:35.417Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="spring boot(二) web综合开发">
+<meta name="twitter:description" content="这篇文章内容继续为大家介绍spring boot的一些其它特性和配置(有些未必是spring boot体系桟的功能，但是却是spring特别推荐的一些开源技术)。我也是参考网上的一些教程做了一些简单的尝试，java web开发就是这样，可以实现同样需求的技术有很多，但每去一家新的公司，根据项目的背景、开发人员的水平、生产环境的差异，所用到的技术千差万别。所以我这里整理spring boot系列">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/springboot2.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/04/10/spring boot(二) web综合开发/"/>
+
+
+
+
+
+  <title> spring boot(二) web综合开发 | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhfeat's - blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/04/10/spring boot(二) web综合开发/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="z h.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/mht.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhfeat's - blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                spring boot(二) web综合开发
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-04-10T18:10:33+08:00">
+                2017-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/spring-boot/" itemprop="url" rel="index">
+                    <span itemprop="name">spring boot</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/blog/2017/04/10/spring boot(二) web综合开发/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://zhfeat.cc/blog/images/bg/springboot2.jpg"></p>
+<blockquote>
+<p>这篇文章内容继续为大家介绍spring boot的一些其它特性和配置(有些未必是spring boot体系桟的功能，但是却是spring特别推荐的一些开源技术)。我也是参考网上的一些教程做了一些简单的尝试，java web开发就是这样，可以实现同样需求的技术有很多，但每去一家新的公司，根据项目的背景、开发人员的水平、生产环境的差异，所用到的技术千差万别。所以我这里整理spring boot系列博文的目的，就是为了让自己的视野更开阔，顺便了解下更丰富的开发技术。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="web开发"><a href="#web开发" class="headerlink" title="web开发"></a>web开发</h1><p>spring boot web开发非常的简单，其中包括常用的json输出、filters、property、log等。</p>
+<h2 id="json-接口开发"><a href="#json-接口开发" class="headerlink" title="json 接口开发"></a>json 接口开发</h2><p>在以前的spring 开发的时候需要我们提供json接口的时候需要做那些配置呢：</p>
+<ol>
+<li>添加 jackjson 等相关jar包</li>
+<li>配置spring controller扫描</li>
+<li>对接的方法添加@ResponseBody</li>
+</ol>
+<p>就这样我们会经常由于配置错误，导致406错误等等，spring boot如何做呢，只需要类添加 @RestController 即可，默认类中的方法都会以json的格式返回。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RestController</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldController</span> </span>&#123;</div><div class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"/getUser"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> User <span class="title">getUser</span><span class="params">()</span> </span>&#123;</div><div class="line">    	User user=<span class="keyword">new</span> User();</div><div class="line">    	user.setUserName(<span class="string">"小明"</span>);</div><div class="line">    	user.setPassWord(<span class="string">"xxxx"</span>);</div><div class="line">        <span class="keyword">return</span> user;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果我们需要使用页面开发只要使用 @Controller ，下面会结合模板来说明</p>
+<h2 id="自定义Filter"><a href="#自定义Filter" class="headerlink" title="自定义Filter"></a>自定义Filter</h2><p>我们常常在项目中会使用filters用于调用日志、排除有XSS威胁的字符、执行权限验证等等。Spring Boot自动添加了OrderedCharacterEncodingFilter和HiddenHttpMethodFilter，并且我们可以自定义Filter。</p>
+<p>两个步骤：</p>
+<ol>
+<li>实现Filter接口，实现Filter方法</li>
+<li>添加@Configuration 注解，将自定义Filter加入过滤链</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.io.IOException;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.servlet.Filter;</div><div class="line"><span class="keyword">import</span> javax.servlet.FilterChain;</div><div class="line"><span class="keyword">import</span> javax.servlet.FilterConfig;</div><div class="line"><span class="keyword">import</span> javax.servlet.ServletException;</div><div class="line"><span class="keyword">import</span> javax.servlet.ServletRequest;</div><div class="line"><span class="keyword">import</span> javax.servlet.ServletResponse;</div><div class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.catalina.filters.RemoteIpFilter;</div><div class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Value;</div><div class="line"><span class="keyword">import</span> org.springframework.boot.web.servlet.FilterRegistrationBean;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Bean;</div><div class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</div><div class="line"><span class="comment">/**</span></div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> zhanghao</div><div class="line"> * </div><div class="line"> * 附录：总结过滤器 监听器 拦截器区别</div><div class="line"> * 1.过滤器</div><div class="line"> * Servlet中的过滤器Filter是实现了javax.servlet.Filter接口的服务器端程序，</div><div class="line"> * 依赖于servlet容器，主要的用途是过滤字符编码、做一些业务逻辑判断等。</div><div class="line"> * 其工作原理是，只要你在web.xml文件配置好要拦截的客户端请求，</div><div class="line"> * 它都会帮你拦截到请求，此时你就可以对请求或响应(Request、Response)统一设置编码，</div><div class="line"> * 简化操作；同时还可进行逻辑判断，如用户是否已经登陆、有没有权限访问该页面等等工作。</div><div class="line"> * 整个过程是基于函数回调完成的。它是随你的web应用启动而启动的，</div><div class="line"> * 只初始化一次，以后就可以过滤几乎所有的相关请求，只有当你的web应用停止或重新部署的时候才销毁。</div><div class="line"> * </div><div class="line"> * 2.监听器</div><div class="line"> * 现在来说说Servlet的监听器Listener，它是实现了javax.servlet.ServletContextListener </div><div class="line"> * 接口的服务器端程序，它也是随web应用的启动而启动，只初始化一次，随web应用的停止而销毁。</div><div class="line"> * 主要作用是：做一些初始化的内容添加工作、设置一些基本的内容、比如一些参数或者是一些固定的对象等等。</div><div class="line"> *</div><div class="line"> * 3.拦截器</div><div class="line"> * 拦截器是面向切面编程（AOP）的一种实现，就是在你的service或者一个方法前调用一个方法，</div><div class="line"> * 或者在方法后调用一个方法。是基于Java的反射机制。拦截器不是在web.xml，</div><div class="line"> * 比如struts在struts.xml中配置，或在spring的配置文件中配置，所以它不依赖于servlet容器。</div><div class="line"> * 以Struts拦截器举例，拦截器只能对符合配置的请求起作用，而且可以访问action中的上下文、</div><div class="line"> * 值栈里的对象，在action的生命周期中，拦截器可多次被调用。这些都是与过滤器所不同的。</div><div class="line"> * </div><div class="line"> */</div><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfiguration</span> </span>&#123;</div><div class="line">	</div><div class="line"></div><div class="line">	<span class="meta">@Value</span>(<span class="string">"$&#123;com.zh.title&#125;"</span>)</div><div class="line">	<span class="keyword">private</span> String title;</div><div class="line">	</div><div class="line">	<span class="comment">//在 @Configuration 中，声明注解 @Bean 相当于在Spring老版本中在配置文件中声明一个Bean。</span></div><div class="line">    <span class="meta">@Bean</span></div><div class="line">    <span class="function"><span class="keyword">public</span> RemoteIpFilter <span class="title">remoteIpFilter</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="comment">/** 现在假设我们的应用程序运行在一台负载均衡代理服务器后方，因此需要将代理服务器发来的请求包含的IP地址转换成真正的用户IP。</span></div><div class="line">     *  Tomcat 8 提供了对应的过滤器：RemoteIpFilter。通过将RemoteFilter这个过滤器加入过滤器调用链即可使用它。</div><div class="line">     *  返回一个RemoteIPFilter类的spring bean。</div><div class="line">     *  当Spring Boot监测到有javax.servlet.Filter的bean时就会自动加入过滤器调用链。</div><div class="line">     *  该过滤器仅用于测试，以后添加过滤器时，如果是javax.servlet.Filter的bean，直接用这种方式就可以加入过滤器调用链</div><div class="line">	 */</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RemoteIpFilter();</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="comment">//定义过滤器规则</span></div><div class="line">    <span class="meta">@Bean</span></div><div class="line">    <span class="function"><span class="keyword">public</span> FilterRegistrationBean <span class="title">testFilterRegistration</span><span class="params">()</span> </span>&#123;</div><div class="line">    	System.out.println(<span class="string">"fifter设置"</span>);</div><div class="line">        FilterRegistrationBean registration = <span class="keyword">new</span> FilterRegistrationBean();</div><div class="line">        registration.setFilter(<span class="keyword">new</span> MyFilter());</div><div class="line">        registration.addUrlPatterns(<span class="string">"/*"</span>);</div><div class="line">        registration.addInitParameter(<span class="string">"paramName"</span>, <span class="string">"paramValue"</span>);</div><div class="line">        registration.setName(<span class="string">"MyFilter"</span>);</div><div class="line">        registration.setOrder(<span class="number">1</span>);</div><div class="line">        <span class="keyword">return</span> registration;</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFilter</span> <span class="keyword">implements</span> <span class="title">Filter</span> </span>&#123;</div><div class="line">		<span class="meta">@Override</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">destroy</span><span class="params">()</span> </span>&#123;</div><div class="line">			System.out.println(<span class="string">"fifter销毁"</span>);</div><div class="line">		&#125;</div><div class="line">	<span class="comment">//执行</span></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doFilter</span><span class="params">(ServletRequest srequest, ServletResponse sresponse, FilterChain filterChain)</span></span></div><div class="line">				<span class="keyword">throws</span> IOException, ServletException &#123;</div><div class="line">	  	    System.out.println(<span class="string">"执行fifter"</span>);</div><div class="line">			HttpServletRequest request = (HttpServletRequest) srequest;</div><div class="line">			System.out.println(<span class="string">"this is MyFilter,url :"</span>+request.getRequestURI());</div><div class="line">			filterChain.doFilter(srequest, sresponse);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">	<span class="comment">//初始化</span></div><div class="line">	<span class="meta">@Override</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(FilterConfig arg0)</span> <span class="keyword">throws</span> ServletException </span>&#123;</div><div class="line">			System.out.println(<span class="string">"fifter初始化"</span>+ title);</div><div class="line">		&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我分别配置了RemoteIpFilter 和 自定义了MyFilter，具体含义请看代码中的注释。</p>
+<p>这里涉及到了servlet的生命周期，为了方便理解，我在每一个方法执行的时候都在控制台输出对应的方法描述，这样可以帮助我们在项目启动时，了解过滤器的执行顺序。</p>
+<p>启动spring boot Application.java 中的main方法，控制台输出如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line">10:41:49.564 [main] DEBUG org.springframework.boot.devtools.settings.DevToolsSettings - Included patterns for restart : []</div><div class="line">10:41:49.567 [main] DEBUG org.springframework.boot.devtools.settings.DevToolsSettings - Excluded patterns for restart : [/spring-boot-starter/target/classes/, /spring-boot-autoconfigure/target/classes/, /spring-boot-starter-[\w-]+/, /spring-boot/target/classes/, /spring-boot-actuator/target/classes/, /spring-boot-devtools/target/classes/]</div><div class="line">10:41:49.568 [main] DEBUG org.springframework.boot.devtools.restart.ChangeableUrls - Matching URLs for reloading : [file:/C:/Users/Administrator/Desktop/springBoot/springBoot/target/classes/]</div><div class="line"></div><div class="line">  .   ____          _            __ _ _</div><div class="line"> /\\ / ___&apos;_ __ _ _(_)_ __  __ _ \ \ \ \</div><div class="line">( ( )\___ | &apos;_ | &apos;_| | &apos;_ \/ _` | \ \ \ \</div><div class="line"> \\/  ___)| |_)| | | | | || (_| |  ) ) ) )</div><div class="line">  &apos;  |____| .__|_| |_|_| |_\__, | / / / /</div><div class="line"> =========|_|==============|___/=/_/_/_/</div><div class="line"> :: Spring Boot ::        (v1.5.2.RELEASE)</div><div class="line"></div><div class="line">2017-04-10 10:41:50.292  INFO 10064 --- [  restartedMain] com.zh.Application                       : Starting Application on zh-PC with PID 10064 (C:\Users\Administrator\Desktop\springBoot\springBoot\target\classes started by Administrator in C:\Users\Administrator\Desktop\springBoot\springBoot)</div><div class="line">2017-04-10 10:41:50.304  INFO 10064 --- [  restartedMain] com.zh.Application                       : No active profile set, falling back to default profiles: default</div><div class="line">2017-04-10 10:41:50.452  INFO 10064 --- [  restartedMain] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@17af3e0f: startup date [Mon Apr 10 10:41:50 CST 2017]; root of context hierarchy</div><div class="line">2017-04-10 10:41:54.339  INFO 10064 --- [  restartedMain] trationDelegate$BeanPostProcessorChecker : Bean &apos;org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration&apos; of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$b006387a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)</div><div class="line">2017-04-10 10:41:55.656  INFO 10064 --- [  restartedMain] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)</div><div class="line">2017-04-10 10:41:55.726  INFO 10064 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service Tomcat</div><div class="line">2017-04-10 10:41:55.730  INFO 10064 --- [  restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.11</div><div class="line">2017-04-10 10:41:56.030  INFO 10064 --- [ost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext</div><div class="line">2017-04-10 10:41:56.032  INFO 10064 --- [ost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 5589 ms</div><div class="line">fifter设置</div><div class="line">2017-04-10 10:41:56.558  INFO 10064 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: &apos;characterEncodingFilter&apos; to: [/*]</div><div class="line">2017-04-10 10:41:56.559  INFO 10064 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: &apos;hiddenHttpMethodFilter&apos; to: [/*]</div><div class="line">2017-04-10 10:41:56.560  INFO 10064 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: &apos;httpPutFormContentFilter&apos; to: [/*]</div><div class="line">2017-04-10 10:41:56.560  INFO 10064 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: &apos;requestContextFilter&apos; to: [/*]</div><div class="line">2017-04-10 10:41:56.561  INFO 10064 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: &apos;MyFilter&apos; to urls: [/*]</div><div class="line">2017-04-10 10:41:56.561  INFO 10064 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: &apos;remoteIpFilter&apos; to: [/*]</div><div class="line">2017-04-10 10:41:56.561  INFO 10064 --- [ost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: &apos;dispatcherServlet&apos; to [/]</div><div class="line">fifter初始化zhfeat</div><div class="line">2017-04-10 10:41:57.746  INFO 10064 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit &apos;default&apos;</div><div class="line">2017-04-10 10:41:59.202  INFO 10064 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit &apos;default&apos;</div><div class="line">2017-04-10 10:42:00.450  INFO 10064 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@17af3e0f: startup date [Mon Apr 10 10:41:50 CST 2017]; root of context hierarchy</div><div class="line">2017-04-10 10:42:00.596  INFO 10064 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;&#123;[/hello]&#125;&quot; onto public java.lang.String com.zh.controller.HelloWorldController.index()</div><div class="line">2017-04-10 10:42:00.607  INFO 10064 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;&#123;[/error]&#125;&quot; onto public org.springframework.http.ResponseEntity&lt;java.util.Map&lt;java.lang.String, java.lang.Object&gt;&gt; org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)</div><div class="line">2017-04-10 10:42:00.607  INFO 10064 --- [  restartedMain] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped &quot;&#123;[/error],produces=[text/html]&#125;&quot; onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)</div><div class="line">2017-04-10 10:42:00.664  INFO 10064 --- [  restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]</div><div class="line">2017-04-10 10:42:00.664  INFO 10064 --- [  restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]</div><div class="line">2017-04-10 10:42:00.765  INFO 10064 --- [  restartedMain] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]</div><div class="line">2017-04-10 10:42:01.258  INFO 10064 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729</div><div class="line">2017-04-10 10:42:01.350  INFO 10064 --- [  restartedMain] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup</div><div class="line">2017-04-10 10:42:01.649  INFO 10064 --- [  restartedMain] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)</div><div class="line">2017-04-10 10:42:01.670  INFO 10064 --- [  restartedMain] com.zh.Application                       : Started Application in 12.076 seconds (JVM running for 13.054)</div></pre></td></tr></table></figure>
+<p>可以看到，在spring boot 打印出的log中，我们定义的两个fifter已经被加载：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">2017-04-10 10:41:56.561  INFO 10064 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: &apos;MyFilter&apos; to urls: [/*]</div><div class="line">2017-04-10 10:41:56.561  INFO 10064 --- [ost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: &apos;remoteIpFilter&apos; to: [/*]</div></pre></td></tr></table></figure>
+<p>控制台先输出了“fifter设置”，紧接着输出了“fifter初始化zhfeat”，可见，在我们自定义的WebConfiguration.java 过滤器类中，首先执行的是testFilterRegistration()定义过滤器规则，然后执行的是init()，过滤器初始化方法。</p>
+<p>我们在浏览器中输入以下url进行访问，验证过滤器是否对请求进行了过滤：</p>
+<p><a href="http://localhost:8080/hello" target="_blank" rel="external">http://localhost:8080/hello</a></p>
+<p>控制台输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">执行fifter</div><div class="line">this is MyFilter,url :/hello</div></pre></td></tr></table></figure></p>
+<p>调用了WebConfiguration.java中的doFilter()方法。</p>
+<p>由此可见，过滤器在项目初始化的时候，首先定义了过滤器规则，然后执行初始化方法，该步骤只执行一次，调用时，只要满足过滤器中所定义的规则，就会执行doFilter方法。最后我们关闭spring boot项目，则会调用destroy()销毁方法。</p>
+<h2 id="自定义Property"><a href="#自定义Property" class="headerlink" title="自定义Property"></a>自定义Property</h2><p>在web开发的过程中，我经常需要自定义一些配置文件，如何使用呢？</p>
+<h3 id="配置在application-properties中"><a href="#配置在application-properties中" class="headerlink" title="配置在application.properties中"></a>配置在application.properties中</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#自定义Property</div><div class="line">com.zh.title=zhfeat</div><div class="line">com.zh.description=a hard man</div></pre></td></tr></table></figure>
+<h3 id="自定义配置类"><a href="#自定义配置类" class="headerlink" title="自定义配置类"></a>自定义配置类</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">@Component</div><div class="line">public class NeoProperties &#123;</div><div class="line">	@Value("$&#123;com.zh.title&#125;")</div><div class="line">	private String title;</div><div class="line">	@Value("$&#123;com.zh.description&#125;")</div><div class="line">	private String description;</div><div class="line"></div><div class="line">	//省略getter settet方法</div><div class="line"></div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<h2 id="log-配置"><a href="#log-配置" class="headerlink" title="log 配置"></a>log 配置</h2><p>配置输出的地址和输出级别</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">#配置日志的输出的地址和输出级别</div><div class="line">logging.path=D:/logSpringBoot</div><div class="line">logging.level.com.favorites=DEBUG</div><div class="line">logging.level.org.springframework.web=INFO</div><div class="line">logging.level.org.hibernate=ERROR</div></pre></td></tr></table></figure>
+<p>path为本机的log地址，logging.level 后面可以根据包路径配置不同资源的log级别</p>
+<h1 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h1><p>在这里我重点讲述mysql、spring data jpa的使用，其中mysql 就不用说了大家很熟悉，jpa是利用Hibernate生成各种自动化的sql，如果只是简单的增删改查，基本上不用手写了，spring内部已经帮大家封装实现了。</p>
+<p>首先由于我对spring data jpa不是很熟悉，所以这里放上一篇JPA/Hibernate/Spring Data概念。转至<a href="http://www.jianshu.com/p/49b31ef74ff3" target="_blank" rel="external">http://www.jianshu.com/p/49b31ef74ff3</a></p>
+<h2 id="JPA-Hibernate-Spring-Data概念"><a href="#JPA-Hibernate-Spring-Data概念" class="headerlink" title="JPA/Hibernate/Spring Data概念"></a>JPA/Hibernate/Spring Data概念</h2><p>事情的起源，无意当中在一个群里看到这么一句描述：”有人么？默默的问一句，现在开发用mybatis还是hibernate还是jpa”?然后大家就进行各种回答，但是没有有质疑这句话描述的合理性，个人觉得需要清楚概念的，在这里mybatis大家肯定是没有什么疑问，我们把上面那句话更改下，方便我们抛出一些点出来，去掉mybatis修改为：“现在开发是使用hibernate还是jpa”?那么在这里的话，我们就要清楚hibernate/jpa/spring<br>data/spring data jpa到底怎么一个关系？</p>
+<h2 id="什么是JPA"><a href="#什么是JPA" class="headerlink" title="什么是JPA?"></a>什么是JPA?</h2><p>JPA全称Java Persistence API.JPA通过JDK 5.0注解或XML描述对象－关系表的映射关系，并将运行期的实体对象持久化到数据库中。百度百科JPA</p>
+<p>在上面只是一个JPA的定义，我们看看另外一段更能看出是什么的描述：</p>
+<p>JPA(Java Persistence API)是Sun官方提出的Java持久化规范。它为Java开发人员提供了一种对象/关系映射工具来管理Java应用中的关系数据。</p>
+<p>在这段话就比较清晰了，这里有一个关键词“持久化规范”。我们可以拆成两部分进行解读“持久化”、“规范”。所谓的持久化是将程序数据在瞬时数据（比如内存中的数据）转换为持久数据（比如：保存到数据库中，磁盘文件…）。这个个人粗糙的描述，看看专业的描述，如下：</p>
+<p>持久化（Persistence），即把数据（如内存中的对象）保存到可永久保存的存储设备中（如磁盘）。持久化的主要应用是将内存中的对象存储在的数据库中，或者存储在磁盘文件中、XML数据文件中等等。</p>
+<p>持久化是将程序数据在持久状态和瞬时状态间转换的机制。</p>
+<p>JDBC就是一种持久化机制。文件IO也是一种持久化机制。</p>
+<p>好了，上面已经描述很清楚了，我们在说说“规范”： 所谓的规范意指明文规定或约定俗成的标准。如：道德规范、技术规范，公司管理规范。</p>
+<p>那么“持久化规范”就是Sun针对持久化这一层操作指定的规范，如果没有指定JPA规范，那么新起的框架就随意按照自己的标准来了，那我们开发者的世界就玩完了，我们就没法把我们的经历全部集中在我们的业务层上，而是在想我们进行兼容了，这种情况有点像Android开发，Android本身有官方的SDK,但是由于SDK过于开源了，结果导致很多厂商基于SDK二次开发，但是开发完兼容性就不是很好，最好的例子就是Android的头像上传，就是一件很烦人的事情。好了，JPA就唠叨到这里。</p>
+<h2 id="什么是Hibernate"><a href="#什么是Hibernate" class="headerlink" title="什么是Hibernate?"></a>什么是Hibernate?</h2><p>这里引用百度百科的话hibernate：</p>
+<p>Hibernate是一个开放源代码的对象关系映射框架，它对JDBC进行了非常轻量级的对象封装，它将POJO与数据库表建立映射关系，是一个全自动的orm框架，hibernate可以自动生成SQL语句，自动执行，使得Java程序员可以随心所欲的使用对象编程思维来操纵数据库。Hibernate可以应用在任何使用JDBC的场合，既可以在Java的客户端程序使用，也可以在Servlet/JSP的Web应用中使用，最具革命意义的是，Hibernate可以在应用EJB的J2EE架构中取代CMP，完成数据持久化的重任。</p>
+<p>在上面这段描述中抓住核心的一句话就可以了“是一个全自动的ORM框架”。那么是ORM呢? ORM是对象关系映射的意思，英语：Object Relational Mapping简称ORM，是一种程序技术，用于实现面向对象编程语言里不同系统类型的系统之间的数据转换。好了，更多的概念需要自己去挖掘，这里只是抛装引玉下。</p>
+<h2 id="什么是Spring-Data"><a href="#什么是Spring-Data" class="headerlink" title="什么是Spring Data?"></a>什么是Spring Data?</h2><p>Spring Data是一个用于简化数据库访问，并支持云服务的开源框架。其主要目标是使得数据库的访问变得方便快捷，并支持map-reduce框架和云计算数据服务。此外，它还支持基于关系型数据库的数据服务，如Oracle</p>
+<p>RAC等。对于拥有海量数据的项目，可以用Spring Data来简化项目的开发，就如Spring Framework对JDBC、ORM的支持一样，Spring Data会让数据的访问变得更加方便。</p>
+<p>在上面这段描述中我觉得核心的就是“Spring Data是用于简化数据库访问，支持云服务的开源框架”。所以Spring Data本身就是一个开源的框架。</p>
+<h2 id="什么是Spring-Data-JPA"><a href="#什么是Spring-Data-JPA" class="headerlink" title="什么是Spring Data JPA?"></a>什么是Spring Data JPA?</h2><p>我们先看一个描述：</p>
+<p>Spring Data JPA能干什么</p>
+<p>可以极大的简化JPA的写法，可以在几乎不用写实现的情况下，实现对数据的访问和操作。除了CRUD外，还包括如分页、排序等一些常用的功能。</p>
+<p>首先我们需要清楚的是Spring Data是一个开源框架，在这个框架中Spring Data JPA只是这个框架中的一个模块，所以名称才叫Spring<br>Data JPA。如果单独使用JPA开发，你会发现这个代码量和使用JDBC开发一样有点烦人，所以Spring Data JPA的出现就是为了简化JPA的写法，让你只需要编写一个接口继承一个类就能实现CRUD操作了。</p>
+<h2 id="JPA-Hibernate关系？"><a href="#JPA-Hibernate关系？" class="headerlink" title="JPA/Hibernate关系？"></a>JPA/Hibernate关系？</h2><p>我们先看下别人的描述：</p>
+<p>Jpa是一种规范，而Hibernate是它的一种实现。除了Hibernate，还有EclipseLink(曾经的toplink)，OpenJPA等可供选择，所以使用Jpa的一个好处是，可以更换实现而不必改动太多代码。</p>
+<p>从上面这个描述，我们能就是能看出: JPA定义了一个规范，Hibernate是其中的一种实现方式可以，所以我们可以说：Hibernate是JPA的一种实现方式。但是这么说就有点欠妥当了：开发是使用hibernate还是jpa。如果你回答使用JPA的话，那么你根本做不了什么事情，因为你需要使用它具体的一种实现方式，比如：Hibernate,EclipseLink,toplink。如果回答说是使用Hibernate的话，还勉强说的过去，但是在Hibernate中也有JPA的影子。但是这里不要造成一个误解，hibernate一定依赖JPA什么之类的，JPA现在只是Hibernate功能的一个子集。Hibernate从3.2开始，开始兼容JPA的。Hibernate3.2获得了SunTCK的JPA(JavaPersistence API)兼容认证。</p>
+<p>那么我们在描述的时候，别人问你持久化具体使用了什么，我们可以说：使用了基于Hibernate实现的JPA，或者是Hibernate JPA，那么加上spring data的，我们一般都简化说：spring data jpa，一般默认的就是使用了hibernate进行实现，现在网上这方面的资料也比较多，可能就约定俗成了。</p>
+<p>下面简单介绍一下如何在spring boot中使用：</p>
+<h2 id="POM中添加依赖"><a href="#POM中添加依赖" class="headerlink" title="POM中添加依赖"></a>POM中添加依赖</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;spring-boot-starter-data-jpa&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div><div class="line"> &lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;mysql&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<h2 id="application-properties增加配置"><a href="#application-properties增加配置" class="headerlink" title="application.properties增加配置"></a>application.properties增加配置</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">#mysql数据库连接</div><div class="line">spring.datasource.url=jdbc:mysql://localhost:3306/test?characterEncoding=utf8&amp;useSSL=true</div><div class="line">spring.datasource.username=root</div><div class="line">spring.datasource.password=root</div><div class="line">spring.datasource.driver-class-name=com.mysql.jdbc.Driver</div><div class="line"></div><div class="line">spring.jpa.properties.hibernate.hbm2ddl.auto=update</div><div class="line">spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect</div><div class="line">spring.jpa.show-sql= true</div></pre></td></tr></table></figure>
+<p>其实这个hibernate.hbm2ddl.auto参数的作用主要用于：自动创建|更新|验证数据库表结构,有四个值：</p>
+<blockquote>
+<ol>
+<li>create： 每次加载hibernate时都会删除上一次的生成的表，然后根据你的model类再重新来生成新表，哪怕两次没有任何改变也要这样执行，这就是导致数据库表数据丢失的一个重要原因。</li>
+<li>create-drop ：每次加载hibernate时根据model类生成表，但是sessionFactory一关闭,表就自动删除。</li>
+<li>update：最常用的属性，第一次加载hibernate时根据model类会自动建立起表的结构（前提是先建立好数据库），以后加载hibernate时根据 model类自动更新表结构，即使表结构改变了但表中的行仍然存在不会删除以前的行。要注意的是当部署到服务器后，表结构是不会被马上建立起来的，是要等 应用第一次运行起来后才会。</li>
+<li>validate ：每次加载hibernate时，验证创建数据库表结构，只会和数据库中的表进行比较，不会创建新表，但是会插入新值。</li>
+</ol>
+</blockquote>
+<p>dialect 主要是指定生成表名的存储引擎为InneoDB</p>
+<p>show-sql 是否打印出自动生产的SQL，方便调试的时候查看</p>
+<h2 id="添加实体类和Dao"><a href="#添加实体类和Dao" class="headerlink" title="添加实体类和Dao"></a>添加实体类和Dao</h2><p>实体：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Entity</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">implements</span> <span class="title">Serializable</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">long</span> serialVersionUID = <span class="number">1L</span>;</div><div class="line">	<span class="meta">@Id</span></div><div class="line">	<span class="meta">@GeneratedValue</span></div><div class="line">	<span class="keyword">private</span> Long id;</div><div class="line">	<span class="meta">@Column</span>(nullable = <span class="keyword">false</span>, unique = <span class="keyword">true</span>)</div><div class="line">	<span class="keyword">private</span> String userName;</div><div class="line">	<span class="meta">@Column</span>(nullable = <span class="keyword">false</span>)</div><div class="line">	<span class="keyword">private</span> String passWord;</div><div class="line">	<span class="meta">@Column</span>(nullable = <span class="keyword">false</span>, unique = <span class="keyword">true</span>)</div><div class="line">	<span class="keyword">private</span> String email;</div><div class="line">	<span class="meta">@Column</span>(nullable = <span class="keyword">true</span>, unique = <span class="keyword">true</span>)</div><div class="line">	<span class="keyword">private</span> String nickName;</div><div class="line">	<span class="meta">@Column</span>(nullable = <span class="keyword">false</span>)</div><div class="line">	<span class="keyword">private</span> String regTime;</div><div class="line">	<span class="comment">//省略getter settet方法、构造方法</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>dao只要继承JpaRepository类就可以，几乎可以不用写方法，还有一个特别有尿性的功能非常赞，就是可以根据方法名来自动的生产SQL，比如findByUserName 会自动生产一个以 userName 为参数的查询方法，比如 findAlll 自动会查询表里面的所有数据，比如自动分页等等。。</p>
+<p>Entity中不映射成列的字段得加@Transient 注解，不加注解也会映射成列</p>
+<p>Dao：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">UserRepository</span> <span class="keyword">extends</span> <span class="title">JpaRepository</span>&lt;<span class="title">User</span>, <span class="title">Long</span>&gt; </span>&#123;</div><div class="line">    <span class="function">User <span class="title">findByUserName</span><span class="params">(String userName)</span></span>;</div><div class="line">    <span class="function">User <span class="title">findByUserNameOrEmail</span><span class="params">(String username, String email)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh;</div><div class="line"></div><div class="line"><span class="keyword">import</span> java.text.DateFormat;</div><div class="line"><span class="keyword">import</span> java.util.Date;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.junit.Test;</div><div class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</div><div class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</div><div class="line"><span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;</div><div class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.zh.domain.User;</div><div class="line"><span class="keyword">import</span> com.zh.domain.UserRepository;</div><div class="line"></div><div class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)</div><div class="line"><span class="meta">@SpringBootTest</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserRepositoryTests</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Autowired</span></div><div class="line">	<span class="keyword">private</span> UserRepository userRepository;</div><div class="line"></div><div class="line">	<span class="meta">@Test</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">		Date date = <span class="keyword">new</span> Date();</div><div class="line">		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG);        </div><div class="line">		String formattedDate = dateFormat.format(date);</div><div class="line">		</div><div class="line">		userRepository.save(<span class="keyword">new</span> User(<span class="string">"aa@126.com"</span>,<span class="string">"aa"</span>,<span class="string">"aa1"</span>,<span class="string">"aa123456"</span>,formattedDate));</div><div class="line">		userRepository.save(<span class="keyword">new</span> User(<span class="string">"bb@126.com"</span>,<span class="string">"bb"</span>,<span class="string">"bb2"</span>,<span class="string">"bb123456"</span>,formattedDate));</div><div class="line">		userRepository.save(<span class="keyword">new</span> User(<span class="string">"cc@126.com"</span>,<span class="string">"cc"</span>,<span class="string">"cc3"</span>,<span class="string">"cc123456"</span>,formattedDate));</div><div class="line">		<span class="comment">//查询数据库中一共有多少条记录</span></div><div class="line">		System.out.println(userRepository.findAll().size());</div><div class="line">		<span class="comment">//根据用户名或者邮箱查找NickName</span></div><div class="line">		System.out.println(userRepository.findByUserNameOrEmail(<span class="string">"cc123456"</span>, <span class="string">"cc@126.com"</span>).getNickName());</div><div class="line">		<span class="comment">//根据用户名查询到该条记录并删除</span></div><div class="line">		userRepository.delete(userRepository.findByUserName(<span class="string">"cc123456"</span>));</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行该单元测试时，spring Data JPA会根据实体自动在数据库中创建表结构，插入三条数据后，根据条件删除一条。执行以上逻辑的详细过程这里就不再截图说明了。</p>
+<p> spring data jpa 还有很多功能，比如封装好的分页，可以自己定义SQL，主从分离等等，这里就不详细讲了。</p>
+<h1 id="thymeleaf模板"><a href="#thymeleaf模板" class="headerlink" title="thymeleaf模板"></a>thymeleaf模板</h1><p> Spring boot 推荐使用来代替jsp,thymeleaf模板到底是什么来头呢，让spring大哥来推荐，下面我们来聊聊。</p>
+<h2 id="Thymeleaf-介绍"><a href="#Thymeleaf-介绍" class="headerlink" title="Thymeleaf 介绍"></a>Thymeleaf 介绍</h2><p> Thymeleaf是一款用于渲染XML/XHTML/HTML5内容的模板引擎。类似JSP，Velocity，FreeMaker等，它也可以轻易的与Spring MVC等Web框架进行集成作为Web应用的模板引擎。与其它模板引擎相比，<strong>Thymeleaf最大的特点是能够直接在浏览器中打开并正确显示模板页面，而不需要启动整个Web应用</strong>。</p>
+<p>好了，你们说了我们已经习惯使用了什么 velocity,FreMaker，beetle之类的模版，那么到底好在哪里呢？ 比一比吧 Thymeleaf是与众不同的，因为它使用了自然的模板技术。这意味着Thymeleaf的模板语法并不会破坏文档的结构，模板依旧是有效的XML文档。模板还可以用作工作原型，Thymeleaf会在运行期替换掉静态值。Velocity与FreeMarker则是连续的文本处理器。 下面的代码示例分别使用Velocity、FreeMarker与Thymeleaf打印出一条消息：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Velocity: <span class="tag">&lt;<span class="name">p</span>&gt;</span>$message<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">FreeMarker: <span class="tag">&lt;<span class="name">p</span>&gt;</span>$&#123;message&#125;<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">Thymeleaf: <span class="tag">&lt;<span class="name">p</span> <span class="attr">th:text</span>=<span class="string">"$&#123;message&#125;"</span>&gt;</span>Hello World!<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：由于Thymeleaf使用了XML DOM解析器，因此它并不适合于处理大规模的XML文件。</p>
+</blockquote>
+<h2 id="URL"><a href="#URL" class="headerlink" title="URL"></a>URL</h2><p>URL在Web应用模板中占据着十分重要的地位，需要特别注意的是Thymeleaf对于URL的处理是通过语法@{…}来处理的。Thymeleaf支持绝对路径URL：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;http://www.thymeleaf.org&#125;"</span>&gt;</span>Thymeleaf<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="条件求值"><a href="#条件求值" class="headerlink" title="条件求值"></a>条件求值</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/login&#125;"</span> <span class="attr">th:unless</span>=<span class="string">$&#123;session.user</span> != <span class="string">null&#125;</span>&gt;</span>Login<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="for-循环"><a href="#for-循环" class="headerlink" title="for 循环"></a>for 循环</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">tr</span> <span class="attr">th:each</span>=<span class="string">"prod : $&#123;prods&#125;"</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;prod.name&#125;"</span>&gt;</span>Onions<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;prod.price&#125;"</span>&gt;</span>2.41<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">      <span class="tag">&lt;<span class="name">td</span> <span class="attr">th:text</span>=<span class="string">"$&#123;prod.inStock&#125;? #&#123;true&#125; : #&#123;false&#125;"</span>&gt;</span>yes<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>就列出这几个吧，大概了解一下，我个人觉得比较NB的地方在于可以不用启动web容器，直接在页面中进行取值渲染，比较6。不想jsp那样依赖Java。</p>
+<h2 id="页面既原型"><a href="#页面既原型" class="headerlink" title="页面既原型"></a>页面既原型</h2><p>在Web开发过程中一个绕不开的话题就是前端工程师与后端工程师的写作，在传统Java Web开发过程中，前端工程师和后端工程师一样，也需要安装一套完整的开发环境，然后各类Java IDE中修改模板、静态资源文件，启动/重启/重新加载应用服务器，刷新页面查看最终效果。</p>
+<p>但实际上前端工程师的职责更多应该关注于页面本身而非后端，使用JSP，Velocity等传统的Java模板引擎很难做到这一点，因为它们必须在应用服务器中渲染完成后才能在浏览器中看到结果，而Thymeleaf从根本上颠覆了这一过程，通过属性进行模板渲染不会引入任何新的浏览器不能识别的标签，例如JSP中的<form:input>，不会在Tag内部写表达式。整个页面直接作为HTML文件用浏览器打开，几乎就可以看到最终的效果，这大大解放了前端工程师的生产力，它们的最终交付物就是纯的HTML/CSS/JavaScript文件。</form:input></p>
+<h1 id="Gradle-构建工具"><a href="#Gradle-构建工具" class="headerlink" title="Gradle 构建工具"></a>Gradle 构建工具</h1><p>spring 项目建议使用Gradle进行构建项目，相比maven来讲 Gradle更简洁，而且gradle更时候大型复杂项目的构建。gradle吸收了maven和ant的特点而来，不过目前maven仍然是Java界的主流，大家可以先了解了解。</p>
+<p>一个使用gradle配置的项目:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">buildscript &#123;</div><div class="line">    repositories &#123;</div><div class="line">        maven &#123; url &quot;http://repo.spring.io/libs-snapshot&quot; &#125;</div><div class="line">        mavenLocal()</div><div class="line">    &#125;</div><div class="line">    dependencies &#123;</div><div class="line">        classpath(&quot;org.springframework.boot:spring-boot-gradle-plugin:1.3.6.RELEASE&quot;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">apply plugin: &apos;java&apos;  //添加 Java 插件, 表明这是一个 Java 项目</div><div class="line">apply plugin: &apos;spring-boot&apos; //添加 Spring-boot支持</div><div class="line">apply plugin: &apos;war&apos;  //添加 War 插件, 可以导出 War 包</div><div class="line">apply plugin: &apos;eclipse&apos; //添加 Eclipse 插件, 添加 Eclipse IDE 支持, Intellij Idea 为 &quot;idea&quot;</div><div class="line"></div><div class="line">war &#123;</div><div class="line">    baseName = &apos;favorites&apos;</div><div class="line">    version =  &apos;0.1.0&apos;</div><div class="line">&#125;</div><div class="line"></div><div class="line">sourceCompatibility = 1.7  //最低兼容版本 JDK1.7</div><div class="line">targetCompatibility = 1.7  //目标兼容版本 JDK1.7</div><div class="line"></div><div class="line">repositories &#123;     //  Maven 仓库</div><div class="line">    mavenLocal()        //使用本地仓库</div><div class="line">    mavenCentral()      //使用中央仓库</div><div class="line">    maven &#123; url &quot;http://repo.spring.io/libs-snapshot&quot; &#125; //使用远程仓库</div><div class="line">&#125;</div><div class="line"> </div><div class="line">dependencies &#123;   // 各种 依赖的jar包</div><div class="line">    compile(&quot;org.springframework.boot:spring-boot-starter-web:1.3.6.RELEASE&quot;)</div><div class="line">    compile(&quot;org.springframework.boot:spring-boot-starter-thymeleaf:1.3.6.RELEASE&quot;)</div><div class="line">    compile(&quot;org.springframework.boot:spring-boot-starter-data-jpa:1.3.6.RELEASE&quot;)</div><div class="line">    compile group: &apos;mysql&apos;, name: &apos;mysql-connector-java&apos;, version: &apos;5.1.6&apos;</div><div class="line">    compile group: &apos;org.apache.commons&apos;, name: &apos;commons-lang3&apos;, version: &apos;3.4&apos;</div><div class="line">    compile(&quot;org.springframework.boot:spring-boot-devtools:1.3.6.RELEASE&quot;)</div><div class="line">    compile(&quot;org.springframework.boot:spring-boot-starter-test:1.3.6.RELEASE&quot;)</div><div class="line">    compile &apos;org.webjars.bower:bootstrap:3.3.6&apos;</div><div class="line">	compile &apos;org.webjars.bower:jquery:2.2.4&apos;</div><div class="line">    compile(&quot;org.webjars:vue:1.0.24&quot;)</div><div class="line">	compile &apos;org.webjars.bower:vue-resource:0.7.0&apos;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">bootRun &#123;</div><div class="line">    addResources = true</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="WebJars"><a href="#WebJars" class="headerlink" title="WebJars"></a>WebJars</h1><p>WebJars是一个很神奇的东西，可以让大家以jar包的形式来使用前端的各种框架、组件。</p>
+<h2 id="什么是WebJars"><a href="#什么是WebJars" class="headerlink" title="什么是WebJars"></a>什么是WebJars</h2><p>什么是WebJars？WebJars是将客户端（浏览器）资源（JavaScript，Css等）打成jar包文件，以对资源进行统一依赖管理。WebJars的jar包部署在Maven中央仓库上。(第一次看到这个介绍的时候我觉得真是66666)</p>
+<h2 id="为什么使用"><a href="#为什么使用" class="headerlink" title="为什么使用"></a>为什么使用</h2><p>我们在开发Java web项目的时候会使用像Maven，Gradle等构建工具以实现对jar包版本依赖管理，以及项目的自动化管理，但是对于JavaScript，Css等前端资源包，我们只能采用拷贝到webapp下的方式，这样做就无法对这些资源进行依赖管理。那么WebJars就提供给我们这些前端资源的jar包形势，我们就可以进行依赖管理。</p>
+<h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><ol>
+<li>WebJars主官网 查找对于的组件，比如Vuejs</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;dependency&gt;</div><div class="line">    &lt;groupId&gt;org.webjars.bower&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;vue&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;1.0.21&lt;/version&gt;</div><div class="line">&lt;/dependency&gt;</div></pre></td></tr></table></figure>
+<ol>
+<li>页面引入<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">th:href</span>=<span class="string">"@&#123;/webjars/bootstrap/3.3.6/dist/css/bootstrap.css&#125;"</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span>&gt;</span><span class="tag">&lt;/<span class="name">link</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>就可以正常使用了！</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/spring-boot/" rel="tag"># spring boot</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/04/06/spring boot(一) spring boot项目构建/" rel="next" title="spring boot(一) spring boot项目构建">
+                <i class="fa fa-chevron-left"></i> spring boot(一) spring boot项目构建
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+           
+              <p class="site-description motion-element" itemprop="description">个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#web开发"><span class="nav-number">1.</span> <span class="nav-text">web开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#json-接口开发"><span class="nav-number">1.1.</span> <span class="nav-text">json 接口开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义Filter"><span class="nav-number">1.2.</span> <span class="nav-text">自定义Filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义Property"><span class="nav-number">1.3.</span> <span class="nav-text">自定义Property</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置在application-properties中"><span class="nav-number">1.3.1.</span> <span class="nav-text">配置在application.properties中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义配置类"><span class="nav-number">1.3.2.</span> <span class="nav-text">自定义配置类</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#log-配置"><span class="nav-number">1.4.</span> <span class="nav-text">log 配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库操作"><span class="nav-number">2.</span> <span class="nav-text">数据库操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#JPA-Hibernate-Spring-Data概念"><span class="nav-number">2.1.</span> <span class="nav-text">JPA/Hibernate/Spring Data概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是JPA"><span class="nav-number">2.2.</span> <span class="nav-text">什么是JPA?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Hibernate"><span class="nav-number">2.3.</span> <span class="nav-text">什么是Hibernate?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Spring-Data"><span class="nav-number">2.4.</span> <span class="nav-text">什么是Spring Data?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是Spring-Data-JPA"><span class="nav-number">2.5.</span> <span class="nav-text">什么是Spring Data JPA?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JPA-Hibernate关系？"><span class="nav-number">2.6.</span> <span class="nav-text">JPA/Hibernate关系？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#POM中添加依赖"><span class="nav-number">2.7.</span> <span class="nav-text">POM中添加依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#application-properties增加配置"><span class="nav-number">2.8.</span> <span class="nav-text">application.properties增加配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加实体类和Dao"><span class="nav-number">2.9.</span> <span class="nav-text">添加实体类和Dao</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试"><span class="nav-number">2.10.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#thymeleaf模板"><span class="nav-number">3.</span> <span class="nav-text">thymeleaf模板</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Thymeleaf-介绍"><span class="nav-number">3.1.</span> <span class="nav-text">Thymeleaf 介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#URL"><span class="nav-number">3.2.</span> <span class="nav-text">URL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件求值"><span class="nav-number">3.3.</span> <span class="nav-text">条件求值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#for-循环"><span class="nav-number">3.4.</span> <span class="nav-text">for 循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#页面既原型"><span class="nav-number">3.5.</span> <span class="nav-text">页面既原型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradle-构建工具"><span class="nav-number">4.</span> <span class="nav-text">Gradle 构建工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WebJars"><span class="nav-number">5.</span> <span class="nav-text">WebJars</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是WebJars"><span class="nav-number">5.1.</span> <span class="nav-text">什么是WebJars</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用"><span class="nav-number">5.2.</span> <span class="nav-text">为什么使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用"><span class="nav-number">5.3.</span> <span class="nav-text">如何使用</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "4aef8615f4b5476dad10f9698803296c",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+   
+</body>
+</html>
