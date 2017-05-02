@@ -1,0 +1,1062 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="dubbo,微服务,SOA," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="在网上看到一篇“互联网架构为什么要做服务化”的文章后。我发现结合我目前开发工作所遇到的问题、遇到的坑，其实都可以根据服务化的方式进行合理解决。无奈我开发的这个项目其实是一套相对独立的，以市场推动为主的项目。五脏俱全但是公司又不会投入太多精力对其进行架构方面的改进和升级。这里贴上这篇文章的目的是为了我后续的工作和面试提供一些参考，也是一个总结。该篇也可算作对之前那篇《SSM集成Dubbo+Zoo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="结合日常开发说说互联网架构为什么要做服务化">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/05/02/结合日常开发说说互联网架构为什么要做服务化/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="在网上看到一篇“互联网架构为什么要做服务化”的文章后。我发现结合我目前开发工作所遇到的问题、遇到的坑，其实都可以根据服务化的方式进行合理解决。无奈我开发的这个项目其实是一套相对独立的，以市场推动为主的项目。五脏俱全但是公司又不会投入太多精力对其进行架构方面的改进和升级。这里贴上这篇文章的目的是为了我后续的工作和面试提供一些参考，也是一个总结。该篇也可算作对之前那篇《SSM集成Dubbo+Zoo">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/nexus.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/1.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/2.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/3.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/4.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/5.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/6.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/7.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/8.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/9.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/10.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/11.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/12.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/13.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/service/14.png">
+<meta property="og:updated_time" content="2017-05-02T10:35:32.849Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="结合日常开发说说互联网架构为什么要做服务化">
+<meta name="twitter:description" content="在网上看到一篇“互联网架构为什么要做服务化”的文章后。我发现结合我目前开发工作所遇到的问题、遇到的坑，其实都可以根据服务化的方式进行合理解决。无奈我开发的这个项目其实是一套相对独立的，以市场推动为主的项目。五脏俱全但是公司又不会投入太多精力对其进行架构方面的改进和升级。这里贴上这篇文章的目的是为了我后续的工作和面试提供一些参考，也是一个总结。该篇也可算作对之前那篇《SSM集成Dubbo+Zoo">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/nexus.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/05/02/结合日常开发说说互联网架构为什么要做服务化/"/>
+
+
+
+
+
+  <title> 结合日常开发说说互联网架构为什么要做服务化 | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhfeat's - blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/05/02/结合日常开发说说互联网架构为什么要做服务化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="z h.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/mht.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhfeat's - blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                结合日常开发说说互联网架构为什么要做服务化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-02T18:35:33+08:00">
+                2017-05-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/架构/" itemprop="url" rel="index">
+                    <span itemprop="name">架构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/blog/2017/05/02/结合日常开发说说互联网架构为什么要做服务化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://zhfeat.cc/blog/images/bg/nexus.jpg"></p>
+<blockquote>
+<p>在网上看到一篇“互联网架构为什么要做服务化”的文章后。我发现结合我目前开发工作所遇到的问题、遇到的坑，其实都可以根据服务化的方式进行合理解决。无奈我开发的这个项目其实是一套相对独立的，以市场推动为主的项目。五脏俱全但是公司又不会投入太多精力对其进行架构方面的改进和升级。这里贴上这篇文章的目的是为了我后续的工作和面试提供一些参考，也是一个总结。该篇也可算作对之前那篇《SSM集成Dubbo+Zookeeper实现服务化》的一些补充。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="一、互联网高可用架构，为什么要服务化？"><a href="#一、互联网高可用架构，为什么要服务化？" class="headerlink" title="一、互联网高可用架构，为什么要服务化？"></a>一、互联网高可用架构，为什么要服务化？</h1><h2 id="【服务化之前高可用架构】"><a href="#【服务化之前高可用架构】" class="headerlink" title="【服务化之前高可用架构】"></a>【服务化之前高可用架构】</h2><p>在服务化之前，互联网的高可用架构大致是这样一个架构：</p>
+<p><img src="http://zhfeat.cc/blog/images/service/1.png"></p>
+<ol>
+<li><p>用户端是浏览器 browser ， APP 客户端</p>
+</li>
+<li><p>后端入口是高可用的 nginx 集群，用于做反向代理</p>
+</li>
+<li><p>中间核心是高可用的 web-server 集群， <span style="red">研发工程师主要编码工作就是在这一层</span></p>
+</li>
+<li><p>后端存储是高可用的 db 集群，数据存储在这一层</p>
+</li>
+</ol>
+<p><img src="http://zhfeat.cc/blog/images/service/2.png"></p>
+<p>更典型的， web-server 层是通过 DAO/ORM 等技术来访问数据库的。</p>
+<p>可以看到，最初都是没有服务层的，此时架构会碰到一些什么痛点呢？</p>
+<h2 id="【架构痛点一：代码到处拷贝】"><a href="#【架构痛点一：代码到处拷贝】" class="headerlink" title="【架构痛点一：代码到处拷贝】"></a>【架构痛点一：代码到处拷贝】</h2><p>举一个最常见的业务的例子 -&gt; 用户数据的访问，绝大部分公司都有一个数据库存储用户数据，各个业务都有访问用户数据的需求：</p>
+<p><img src="http://zhfeat.cc/blog/images/service/3.png"></p>
+<p>在有用户服务之前， <span style="red">各个业务线都是自己通过 DAO 写 SQL 访问 user 库来存取用户数据，这无形中就导致了代码的拷贝</span>。</p>
+<h2 id="【架构痛点二：复杂性扩散】"><a href="#【架构痛点二：复杂性扩散】" class="headerlink" title="【架构痛点二：复杂性扩散】"></a>【架构痛点二：复杂性扩散】</h2><p>随着并发量的越来越高，用户数据的访问数据库成了瓶颈，需要加入缓存来降低数据库的读压力，于是架构中引入了缓存，由于没有统一的服务层，<span style="red">各个业务线都需要关注缓存的引入导致的复杂性</span>：</p>
+<p><img src="http://zhfeat.cc/blog/images/service/4.png"></p>
+<p>对于用户数据的写请求，所有业务线都要升级代码：</p>
+<ol>
+<li>先淘汰cache</li>
+<li>再写数据</li>
+</ol>
+<p>对于用户数据的读请求，所有业务线也都要升级代码：</p>
+<ol>
+<li>先读cache，命中则返回</li>
+<li>没命中则读数据库</li>
+<li>再把数据放入cache<br>这个复杂性是典型的“业务无关”的复杂性，业务方需要被迫升级。</li>
+</ol>
+<p>随着数据量的越来越大，数据库需要进行水平拆分，于是架构中又引入了分库分表，由于没有统一的服务层，<span style="red">各个业务线都需要关注分库分表的引入导致的复杂性</span>：</p>
+<p><img src="http://zhfeat.cc/blog/images/service/5.png"></p>
+<p>这个复杂性也是典型的“业务无关”的复杂性，业务方需要被迫升级。<br><span style="red">包括bug的修改，发现一个bug，多个地方都需要修改</span>。</p>
+<h2 id="【架构痛点三：库的复用与耦合】"><a href="#【架构痛点三：库的复用与耦合】" class="headerlink" title="【架构痛点三：库的复用与耦合】"></a>【架构痛点三：库的复用与耦合】</h2><p>服务化并不是唯一的解决上述两痛点的方法，抽象出统一的“库”是最先容易想到的解决：</p>
+<ol>
+<li>代码拷贝</li>
+<li>复杂性扩散</li>
+</ol>
+<p>的方法。抽象出一个user.so，负责整个用户数据的存取，从而避免代码的拷贝。至于复杂性，也只有user.so这一个地方需要关注了。</p>
+<p>解决了旧的问题，会引入新的问题，<span style="red">库的版本维护与业务线之间代码的耦合</span>：</p>
+<p>业务线A将user.so由版本1升级至版本2，如果不兼容业务线B的代码，会导致B业务出现问题；业务线A如果通知了业务线B升级，则是的业务线B会无故做一些“自身业务无关”的升级，非常郁闷。当然，如果各个业务线都是拷贝了一份代码则不存在这个问题。</p>
+<h2 id="【架构痛点四：SQL质量得不到保障，业务相互影响】"><a href="#【架构痛点四：SQL质量得不到保障，业务相互影响】" class="headerlink" title="【架构痛点四：SQL质量得不到保障，业务相互影响】"></a>【架构痛点四：SQL质量得不到保障，业务相互影响】</h2><p>业务线通过DAO访问数据库：</p>
+<p><img src="http://zhfeat.cc/blog/images/service/6.png"></p>
+<p>本质上SQL语句还是各个业务线拼装的，资深的工程师写出高质量的SQL没啥问题，经验没有这么丰富的工程师可能会写出一些低效的SQL，<span style="red">假如业务线A写了一个全表扫描的SQL，导致数据库的CPU100%，影响的不只是一个业务线，而是所有的业务线都会受影响。</span></p>
+<h2 id="【架构痛点五：疯狂的DB耦合】"><a href="#【架构痛点五：疯狂的DB耦合】" class="headerlink" title="【架构痛点五：疯狂的DB耦合】"></a>【架构痛点五：疯狂的DB耦合】</h2><p>业务线不只访问user数据，还会结合自己的业务访问自己的数据：</p>
+<p><img src="http://zhfeat.cc/blog/images/service/7.png"></p>
+<p>典型的，通过join数据表来实现各自业务线的一些业务逻辑。</p>
+<p>这样的话，业务线A的table-user与table-A耦合在了一起，业务线B的table-user与table-B耦合在了一起，业务线C的table-user与table-C耦合在了一起，结果就是：<span style="red">table-user，table-A，table-B，table-C都耦合在了一起。</span></p>
+<p>随着数据量的越来越大，业务线ABC的数据库是无法垂直拆分开的，必须使用一个大库（疯了，一个大库300多个业务表 =_=）。</p>
+<h1 id="二、服务化解决什么问题？"><a href="#二、服务化解决什么问题？" class="headerlink" title="二、服务化解决什么问题？"></a>二、服务化解决什么问题？</h1><p>为了解决上面的诸多问题，互联网高可用分层架构演进的过程中，引入了“服务层”。</p>
+<p><img src="http://zhfeat.cc/blog/images/service/8.png"></p>
+<p>以上文中的用户业务为例，引入了user-service，对业务线响应所用用户数据的存取。引入服务层有什么好处，解决什么问题呢？</p>
+<h2 id="【好处一：调用方爽】"><a href="#【好处一：调用方爽】" class="headerlink" title="【好处一：调用方爽】"></a>【好处一：调用方爽】</h2><p>有服务层之前：业务方访问用户数据，需要通过DAO拼装SQL访问<br>有服务层之后：<span style="red">业务方通过RPC访问用户数据，就像调用一个本地函数一样，非常之爽</span><br>User = UserService::GetUserById(uid);<br>传入一个uid，得到一个User实体，就像调用本地函数一样，不需要关心序列化，网络传输，后端执行，网络传输，范序列化等复杂性。</p>
+<h2 id="【好处二：复用性，防止代码拷贝】"><a href="#【好处二：复用性，防止代码拷贝】" class="headerlink" title="【好处二：复用性，防止代码拷贝】"></a>【好处二：复用性，防止代码拷贝】</h2><p>这个不展开叙述，所有user数据的存取，都通过user-service来进行，代码只此一份，不存在拷贝。</p>
+<p><span style="red">升级一处升级，bug修改一处修改。</span></p>
+<h2 id="【好处三：专注性，屏蔽底层复杂度】"><a href="#【好处三：专注性，屏蔽底层复杂度】" class="headerlink" title="【好处三：专注性，屏蔽底层复杂度】"></a>【好处三：专注性，屏蔽底层复杂度】</h2><p><img src="http://zhfeat.cc/blog/images/service/9.png"></p>
+<p>在没有服务层之前，所有业务线都需要关注缓存、分库分表这些细节。</p>
+<p><img src="http://zhfeat.cc/blog/images/service/10.png"></p>
+<p>在<span style="red">有了服务层之后，只有服务层需要专注关注底层的复杂性了，向上游屏蔽了细节。</span></p>
+<h2 id="【好处四：SQL质量得到保障】"><a href="#【好处四：SQL质量得到保障】" class="headerlink" title="【好处四：SQL质量得到保障】"></a>【好处四：SQL质量得到保障】</h2><p><img src="http://zhfeat.cc/blog/images/service/11.png"></p>
+<p>原来是业务向上游直接拼接SQL访问数据库。</p>
+<p><img src="http://zhfeat.cc/blog/images/service/12.png"></p>
+<p>有了服务层之后，<span style="red">所有的SQL都是服务层提供的，业务线不能再为所欲为了。</span>底层服务对于稳定性的要求更好的话，可以由更资深的工程师维护，而不是像原来SQL难以收口，难以控制。</p>
+<h2 id="【好处五：数据库解耦】"><a href="#【好处五：数据库解耦】" class="headerlink" title="【好处五：数据库解耦】"></a>【好处五：数据库解耦】</h2><p><img src="http://zhfeat.cc/blog/images/service/13.png"></p>
+<p>原来各个业务的数据库都混在一个大库里，相互join，难以拆分。</p>
+<p><img src="http://zhfeat.cc/blog/images/service/14.png"></p>
+<p>服务化之后，<span style="red">底层的数据库被隔离开了，可以很方便的拆分出来，进行扩容</span>。</p>
+<h2 id="【好处六：提供有限接口，无限性能】"><a href="#【好处六：提供有限接口，无限性能】" class="headerlink" title="【好处六：提供有限接口，无限性能】"></a>【好处六：提供有限接口，无限性能】</h2><p>在服务化之前，各业务线上游想怎么操纵数据库都行，遇到了性能瓶颈，各业务线容易扯皮，相互推诿。<br>服务化之后，<span style="red">服务只提供有限的通用接口，理论上服务集群能够提供无限性能，性能出现瓶颈，服务层一处集中优化</span>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/dubbo/" rel="tag"># dubbo</a>
+          
+            <a href="/blog/tags/微服务/" rel="tag"># 微服务</a>
+          
+            <a href="/blog/tags/SOA/" rel="tag"># SOA</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/05/02/使用Nexus搭建Maven私服/" rel="next" title="使用Nexus搭建Maven私服">
+                <i class="fa fa-chevron-left"></i> 使用Nexus搭建Maven私服
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+           
+              <p class="site-description motion-element" itemprop="description">个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">42</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、互联网高可用架构，为什么要服务化？"><span class="nav-number">1.</span> <span class="nav-text">一、互联网高可用架构，为什么要服务化？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#【服务化之前高可用架构】"><span class="nav-number">1.1.</span> <span class="nav-text">【服务化之前高可用架构】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【架构痛点一：代码到处拷贝】"><span class="nav-number">1.2.</span> <span class="nav-text">【架构痛点一：代码到处拷贝】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【架构痛点二：复杂性扩散】"><span class="nav-number">1.3.</span> <span class="nav-text">【架构痛点二：复杂性扩散】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【架构痛点三：库的复用与耦合】"><span class="nav-number">1.4.</span> <span class="nav-text">【架构痛点三：库的复用与耦合】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【架构痛点四：SQL质量得不到保障，业务相互影响】"><span class="nav-number">1.5.</span> <span class="nav-text">【架构痛点四：SQL质量得不到保障，业务相互影响】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【架构痛点五：疯狂的DB耦合】"><span class="nav-number">1.6.</span> <span class="nav-text">【架构痛点五：疯狂的DB耦合】</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、服务化解决什么问题？"><span class="nav-number">2.</span> <span class="nav-text">二、服务化解决什么问题？</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#【好处一：调用方爽】"><span class="nav-number">2.1.</span> <span class="nav-text">【好处一：调用方爽】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【好处二：复用性，防止代码拷贝】"><span class="nav-number">2.2.</span> <span class="nav-text">【好处二：复用性，防止代码拷贝】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【好处三：专注性，屏蔽底层复杂度】"><span class="nav-number">2.3.</span> <span class="nav-text">【好处三：专注性，屏蔽底层复杂度】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【好处四：SQL质量得到保障】"><span class="nav-number">2.4.</span> <span class="nav-text">【好处四：SQL质量得到保障】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【好处五：数据库解耦】"><span class="nav-number">2.5.</span> <span class="nav-text">【好处五：数据库解耦】</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【好处六：提供有限接口，无限性能】"><span class="nav-number">2.6.</span> <span class="nav-text">【好处六：提供有限接口，无限性能】</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "4aef8615f4b5476dad10f9698803296c",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+   
+</body>
+</html>
