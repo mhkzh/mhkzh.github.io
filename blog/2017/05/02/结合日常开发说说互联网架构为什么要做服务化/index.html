@@ -93,7 +93,7 @@
 <meta property="og:url" content="http://zhfeat.cc/blog/2017/05/02/结合日常开发说说互联网架构为什么要做服务化/index.html">
 <meta property="og:site_name" content="zhfeat's - blog">
 <meta property="og:description" content="在网上看到一篇“互联网架构为什么要做服务化”的文章后。我发现结合我目前开发工作所遇到的问题、遇到的坑，其实都可以根据服务化的方式进行合理解决。无奈我开发的这个项目其实是一套相对独立的，以市场推动为主的项目。五脏俱全但是公司又不会投入太多精力对其进行架构方面的改进和升级。这里贴上这篇文章的目的是为了我后续的工作和面试提供一些参考，也是一个总结。该篇也可算作对之前那篇《SSM集成Dubbo+Zoo">
-<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/nexus.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/service.jpg">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/service/1.png">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/service/2.png">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/service/3.png">
@@ -108,11 +108,11 @@
 <meta property="og:image" content="http://zhfeat.cc/blog/images/service/12.png">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/service/13.png">
 <meta property="og:image" content="http://zhfeat.cc/blog/images/service/14.png">
-<meta property="og:updated_time" content="2017-05-02T10:35:32.849Z">
+<meta property="og:updated_time" content="2017-05-02T10:48:09.787Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="结合日常开发说说互联网架构为什么要做服务化">
 <meta name="twitter:description" content="在网上看到一篇“互联网架构为什么要做服务化”的文章后。我发现结合我目前开发工作所遇到的问题、遇到的坑，其实都可以根据服务化的方式进行合理解决。无奈我开发的这个项目其实是一套相对独立的，以市场推动为主的项目。五脏俱全但是公司又不会投入太多精力对其进行架构方面的改进和升级。这里贴上这篇文章的目的是为了我后续的工作和面试提供一些参考，也是一个总结。该篇也可算作对之前那篇《SSM集成Dubbo+Zoo">
-<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/nexus.jpg">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/service.jpg">
 
 
 
@@ -448,7 +448,7 @@
       
 
       
-        <p><img src="http://zhfeat.cc/blog/images/bg/nexus.jpg"></p>
+        <p><img src="http://zhfeat.cc/blog/images/bg/service.jpg"></p>
 <blockquote>
 <p>在网上看到一篇“互联网架构为什么要做服务化”的文章后。我发现结合我目前开发工作所遇到的问题、遇到的坑，其实都可以根据服务化的方式进行合理解决。无奈我开发的这个项目其实是一套相对独立的，以市场推动为主的项目。五脏俱全但是公司又不会投入太多精力对其进行架构方面的改进和升级。这里贴上这篇文章的目的是为了我后续的工作和面试提供一些参考，也是一个总结。该篇也可算作对之前那篇《SSM集成Dubbo+Zookeeper实现服务化》的一些补充。</p>
 </blockquote>
@@ -460,7 +460,7 @@
 </li>
 <li><p>后端入口是高可用的 nginx 集群，用于做反向代理</p>
 </li>
-<li><p>中间核心是高可用的 web-server 集群， <span style="red">研发工程师主要编码工作就是在这一层</span></p>
+<li><p>中间核心是高可用的 web-server 集群， <strong>研发工程师主要编码工作就是在这一层</strong></p>
 </li>
 <li><p>后端存储是高可用的 db 集群，数据存储在这一层</p>
 </li>
@@ -470,8 +470,8 @@
 <p>可以看到，最初都是没有服务层的，此时架构会碰到一些什么痛点呢？</p>
 <h2 id="【架构痛点一：代码到处拷贝】"><a href="#【架构痛点一：代码到处拷贝】" class="headerlink" title="【架构痛点一：代码到处拷贝】"></a>【架构痛点一：代码到处拷贝】</h2><p>举一个最常见的业务的例子 -&gt; 用户数据的访问，绝大部分公司都有一个数据库存储用户数据，各个业务都有访问用户数据的需求：</p>
 <p><img src="http://zhfeat.cc/blog/images/service/3.png"></p>
-<p>在有用户服务之前， <span style="red">各个业务线都是自己通过 DAO 写 SQL 访问 user 库来存取用户数据，这无形中就导致了代码的拷贝</span>。</p>
-<h2 id="【架构痛点二：复杂性扩散】"><a href="#【架构痛点二：复杂性扩散】" class="headerlink" title="【架构痛点二：复杂性扩散】"></a>【架构痛点二：复杂性扩散】</h2><p>随着并发量的越来越高，用户数据的访问数据库成了瓶颈，需要加入缓存来降低数据库的读压力，于是架构中引入了缓存，由于没有统一的服务层，<span style="red">各个业务线都需要关注缓存的引入导致的复杂性</span>：</p>
+<p>在有用户服务之前， <strong>各个业务线都是自己通过 DAO 写 SQL 访问 user 库来存取用户数据，这无形中就导致了代码的拷贝</strong>。</p>
+<h2 id="【架构痛点二：复杂性扩散】"><a href="#【架构痛点二：复杂性扩散】" class="headerlink" title="【架构痛点二：复杂性扩散】"></a>【架构痛点二：复杂性扩散】</h2><p>随着并发量的越来越高，用户数据的访问数据库成了瓶颈，需要加入缓存来降低数据库的读压力，于是架构中引入了缓存，由于没有统一的服务层，<strong>各个业务线都需要关注缓存的引入导致的复杂性</strong>：</p>
 <p><img src="http://zhfeat.cc/blog/images/service/4.png"></p>
 <p>对于用户数据的写请求，所有业务线都要升级代码：</p>
 <ol>
@@ -484,44 +484,44 @@
 <li>没命中则读数据库</li>
 <li>再把数据放入cache<br>这个复杂性是典型的“业务无关”的复杂性，业务方需要被迫升级。</li>
 </ol>
-<p>随着数据量的越来越大，数据库需要进行水平拆分，于是架构中又引入了分库分表，由于没有统一的服务层，<span style="red">各个业务线都需要关注分库分表的引入导致的复杂性</span>：</p>
+<p>随着数据量的越来越大，数据库需要进行水平拆分，于是架构中又引入了分库分表，由于没有统一的服务层，<strong>各个业务线都需要关注分库分表的引入导致的复杂性</strong>：</p>
 <p><img src="http://zhfeat.cc/blog/images/service/5.png"></p>
-<p>这个复杂性也是典型的“业务无关”的复杂性，业务方需要被迫升级。<br><span style="red">包括bug的修改，发现一个bug，多个地方都需要修改</span>。</p>
+<p>这个复杂性也是典型的“业务无关”的复杂性，业务方需要被迫升级。<br><strong>包括bug的修改，发现一个bug，多个地方都需要修改</strong>。</p>
 <h2 id="【架构痛点三：库的复用与耦合】"><a href="#【架构痛点三：库的复用与耦合】" class="headerlink" title="【架构痛点三：库的复用与耦合】"></a>【架构痛点三：库的复用与耦合】</h2><p>服务化并不是唯一的解决上述两痛点的方法，抽象出统一的“库”是最先容易想到的解决：</p>
 <ol>
 <li>代码拷贝</li>
 <li>复杂性扩散</li>
 </ol>
 <p>的方法。抽象出一个user.so，负责整个用户数据的存取，从而避免代码的拷贝。至于复杂性，也只有user.so这一个地方需要关注了。</p>
-<p>解决了旧的问题，会引入新的问题，<span style="red">库的版本维护与业务线之间代码的耦合</span>：</p>
+<p>解决了旧的问题，会引入新的问题，<strong>库的版本维护与业务线之间代码的耦合</strong>：</p>
 <p>业务线A将user.so由版本1升级至版本2，如果不兼容业务线B的代码，会导致B业务出现问题；业务线A如果通知了业务线B升级，则是的业务线B会无故做一些“自身业务无关”的升级，非常郁闷。当然，如果各个业务线都是拷贝了一份代码则不存在这个问题。</p>
 <h2 id="【架构痛点四：SQL质量得不到保障，业务相互影响】"><a href="#【架构痛点四：SQL质量得不到保障，业务相互影响】" class="headerlink" title="【架构痛点四：SQL质量得不到保障，业务相互影响】"></a>【架构痛点四：SQL质量得不到保障，业务相互影响】</h2><p>业务线通过DAO访问数据库：</p>
 <p><img src="http://zhfeat.cc/blog/images/service/6.png"></p>
-<p>本质上SQL语句还是各个业务线拼装的，资深的工程师写出高质量的SQL没啥问题，经验没有这么丰富的工程师可能会写出一些低效的SQL，<span style="red">假如业务线A写了一个全表扫描的SQL，导致数据库的CPU100%，影响的不只是一个业务线，而是所有的业务线都会受影响。</span></p>
+<p>本质上SQL语句还是各个业务线拼装的，资深的工程师写出高质量的SQL没啥问题，经验没有这么丰富的工程师可能会写出一些低效的SQL，<strong>假如业务线A写了一个全表扫描的SQL，导致数据库的CPU100%，影响的不只是一个业务线，而是所有的业务线都会受影响。</strong></p>
 <h2 id="【架构痛点五：疯狂的DB耦合】"><a href="#【架构痛点五：疯狂的DB耦合】" class="headerlink" title="【架构痛点五：疯狂的DB耦合】"></a>【架构痛点五：疯狂的DB耦合】</h2><p>业务线不只访问user数据，还会结合自己的业务访问自己的数据：</p>
 <p><img src="http://zhfeat.cc/blog/images/service/7.png"></p>
 <p>典型的，通过join数据表来实现各自业务线的一些业务逻辑。</p>
-<p>这样的话，业务线A的table-user与table-A耦合在了一起，业务线B的table-user与table-B耦合在了一起，业务线C的table-user与table-C耦合在了一起，结果就是：<span style="red">table-user，table-A，table-B，table-C都耦合在了一起。</span></p>
-<p>随着数据量的越来越大，业务线ABC的数据库是无法垂直拆分开的，必须使用一个大库（疯了，一个大库300多个业务表 =_=）。</p>
+<p>这样的话，业务线A的table-user与table-A耦合在了一起，业务线B的table-user与table-B耦合在了一起，业务线C的table-user与table-C耦合在了一起，结果就是：**table-user，table-A，table-B，table-C都耦合在了一起。</p>
+<p>随着数据量的越来越大，业务线ABC的数据库是无法垂直拆分开的**，必须使用一个大库（疯了，一个大库300多个业务表 =_=）。</p>
 <h1 id="二、服务化解决什么问题？"><a href="#二、服务化解决什么问题？" class="headerlink" title="二、服务化解决什么问题？"></a>二、服务化解决什么问题？</h1><p>为了解决上面的诸多问题，互联网高可用分层架构演进的过程中，引入了“服务层”。</p>
 <p><img src="http://zhfeat.cc/blog/images/service/8.png"></p>
 <p>以上文中的用户业务为例，引入了user-service，对业务线响应所用用户数据的存取。引入服务层有什么好处，解决什么问题呢？</p>
-<h2 id="【好处一：调用方爽】"><a href="#【好处一：调用方爽】" class="headerlink" title="【好处一：调用方爽】"></a>【好处一：调用方爽】</h2><p>有服务层之前：业务方访问用户数据，需要通过DAO拼装SQL访问<br>有服务层之后：<span style="red">业务方通过RPC访问用户数据，就像调用一个本地函数一样，非常之爽</span><br>User = UserService::GetUserById(uid);<br>传入一个uid，得到一个User实体，就像调用本地函数一样，不需要关心序列化，网络传输，后端执行，网络传输，范序列化等复杂性。</p>
+<h2 id="【好处一：调用方爽】"><a href="#【好处一：调用方爽】" class="headerlink" title="【好处一：调用方爽】"></a>【好处一：调用方爽】</h2><p>有服务层之前：业务方访问用户数据，需要通过DAO拼装SQL访问<br>有服务层之后：<strong>业务方通过RPC访问用户数据，就像调用一个本地函数一样，非常之爽</strong><br>User = UserService::GetUserById(uid);<br>传入一个uid，得到一个User实体，就像调用本地函数一样，不需要关心序列化，网络传输，后端执行，网络传输，范序列化等复杂性。</p>
 <h2 id="【好处二：复用性，防止代码拷贝】"><a href="#【好处二：复用性，防止代码拷贝】" class="headerlink" title="【好处二：复用性，防止代码拷贝】"></a>【好处二：复用性，防止代码拷贝】</h2><p>这个不展开叙述，所有user数据的存取，都通过user-service来进行，代码只此一份，不存在拷贝。</p>
-<p><span style="red">升级一处升级，bug修改一处修改。</span></p>
+<p><strong>升级一处升级，bug修改一处修改。</strong></p>
 <h2 id="【好处三：专注性，屏蔽底层复杂度】"><a href="#【好处三：专注性，屏蔽底层复杂度】" class="headerlink" title="【好处三：专注性，屏蔽底层复杂度】"></a>【好处三：专注性，屏蔽底层复杂度】</h2><p><img src="http://zhfeat.cc/blog/images/service/9.png"></p>
 <p>在没有服务层之前，所有业务线都需要关注缓存、分库分表这些细节。</p>
 <p><img src="http://zhfeat.cc/blog/images/service/10.png"></p>
-<p>在<span style="red">有了服务层之后，只有服务层需要专注关注底层的复杂性了，向上游屏蔽了细节。</span></p>
+<p>在<strong>有了服务层之后，只有服务层需要专注关注底层的复杂性了，向上游屏蔽了细节</strong>。</p>
 <h2 id="【好处四：SQL质量得到保障】"><a href="#【好处四：SQL质量得到保障】" class="headerlink" title="【好处四：SQL质量得到保障】"></a>【好处四：SQL质量得到保障】</h2><p><img src="http://zhfeat.cc/blog/images/service/11.png"></p>
 <p>原来是业务向上游直接拼接SQL访问数据库。</p>
 <p><img src="http://zhfeat.cc/blog/images/service/12.png"></p>
-<p>有了服务层之后，<span style="red">所有的SQL都是服务层提供的，业务线不能再为所欲为了。</span>底层服务对于稳定性的要求更好的话，可以由更资深的工程师维护，而不是像原来SQL难以收口，难以控制。</p>
+<p>有了服务层之后，<strong>所有的SQL都是服务层提供的，业务线不能再为所欲为了</strong>。底层服务对于稳定性的要求更好的话，可以由更资深的工程师维护，而不是像原来SQL难以收口，难以控制。</p>
 <h2 id="【好处五：数据库解耦】"><a href="#【好处五：数据库解耦】" class="headerlink" title="【好处五：数据库解耦】"></a>【好处五：数据库解耦】</h2><p><img src="http://zhfeat.cc/blog/images/service/13.png"></p>
 <p>原来各个业务的数据库都混在一个大库里，相互join，难以拆分。</p>
 <p><img src="http://zhfeat.cc/blog/images/service/14.png"></p>
-<p>服务化之后，<span style="red">底层的数据库被隔离开了，可以很方便的拆分出来，进行扩容</span>。</p>
-<h2 id="【好处六：提供有限接口，无限性能】"><a href="#【好处六：提供有限接口，无限性能】" class="headerlink" title="【好处六：提供有限接口，无限性能】"></a>【好处六：提供有限接口，无限性能】</h2><p>在服务化之前，各业务线上游想怎么操纵数据库都行，遇到了性能瓶颈，各业务线容易扯皮，相互推诿。<br>服务化之后，<span style="red">服务只提供有限的通用接口，理论上服务集群能够提供无限性能，性能出现瓶颈，服务层一处集中优化</span>。</p>
+<p>服务化之后，<strong>底层的数据库被隔离开了，可以很方便的拆分出来，进行扩容</strong>。</p>
+<h2 id="【好处六：提供有限接口，无限性能】"><a href="#【好处六：提供有限接口，无限性能】" class="headerlink" title="【好处六：提供有限接口，无限性能】"></a>【好处六：提供有限接口，无限性能】</h2><p>在服务化之前，各业务线上游想怎么操纵数据库都行，遇到了性能瓶颈，各业务线容易扯皮，相互推诿。<br>服务化之后，<strong>服务只提供有限的通用接口，理论上服务集群能够提供无限性能，性能出现瓶颈，服务层一处集中优化</strong>。</p>
 
       
     </div>
