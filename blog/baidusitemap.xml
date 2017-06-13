@@ -4,6 +4,30 @@
 
     
   <url>
+    <loc>http://zhfeat.cc/blog/blog/2017/06/13/CAS%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E5%8E%9F%E7%90%86%E5%8F%8A%E5%AE%9E%E7%8E%B0/</loc>
+    <lastmod>2017-06-13T08:33:13.609Z</lastmod>
+    <data>
+        <display>
+        <title>CAS单点登录原理及实现</title>
+        <pubTime>2017-06-13T08:31:11.000Z</pubTime>
+        
+        <tag>CAS</tag>
+         
+        <tag>SSO</tag>
+         
+        <tag>单点登录</tag>
+         
+         
+           
+             
+              <breadCrumb title="SSM框架整合" url="http://zhfeat.cc/blog/blog/categories/SSM%E6%A1%86%E6%9E%B6%E6%95%B4%E5%90%88/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zhfeat.cc/blog/blog/2017/06/02/redis%E5%AE%9E%E7%8E%B0%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</loc>
     <lastmod>2017-06-02T03:26:12.832Z</lastmod>
     <data>
@@ -490,9 +514,9 @@
         <title>一次没有最后期限的编程之旅</title>
         <pubTime>2017-02-22T03:12:43.000Z</pubTime>
         
-        <tag>Maven</tag>
-         
         <tag>SSM</tag>
+         
+        <tag>Maven</tag>
          
         <tag>JavaWeb</tag>
          
