@@ -1,0 +1,1043 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="SVN,版本控制," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="在进行项目开发时，比较稳妥的做法是确定一个稳定的主干版本，用于线上发布，基于主干版本建立一个分支版本，用于bug调试和新功能开发。分支版本在发布到测试服务器测试通过后，再从分支将代码合并到主干。这样就有效的避免了频繁的在一套程序上进行bug修改和新功能增加，导致项目处于不稳定状态。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Eclipse中SVN分支创建及合并">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/05/09/Eclipse中SVN分支创建及合并/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="在进行项目开发时，比较稳妥的做法是确定一个稳定的主干版本，用于线上发布，基于主干版本建立一个分支版本，用于bug调试和新功能开发。分支版本在发布到测试服务器测试通过后，再从分支将代码合并到主干。这样就有效的避免了频繁的在一套程序上进行bug修改和新功能增加，导致项目处于不稳定状态。">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/fz.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/1.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/2.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/3.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/4.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/5.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/6.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/7.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/8.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/9.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/10.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/11.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/12.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/13.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/14.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/15.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/16.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/17.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/18.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/19.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/20.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/21.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/fz/22.png">
+<meta property="og:updated_time" content="2017-07-03T09:17:59.092Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Eclipse中SVN分支创建及合并">
+<meta name="twitter:description" content="在进行项目开发时，比较稳妥的做法是确定一个稳定的主干版本，用于线上发布，基于主干版本建立一个分支版本，用于bug调试和新功能开发。分支版本在发布到测试服务器测试通过后，再从分支将代码合并到主干。这样就有效的避免了频繁的在一套程序上进行bug修改和新功能增加，导致项目处于不稳定状态。">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/fz.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/05/09/Eclipse中SVN分支创建及合并/"/>
+
+
+
+
+
+  <title> Eclipse中SVN分支创建及合并 | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhfeat's - blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/05/09/Eclipse中SVN分支创建及合并/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="z h.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/mht.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhfeat's - blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Eclipse中SVN分支创建及合并
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-09T19:05:33+08:00">
+                2017-05-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/开发技巧/" itemprop="url" rel="index">
+                    <span itemprop="name">开发技巧</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/blog/2017/05/09/Eclipse中SVN分支创建及合并/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p> <img src="http://zhfeat.cc/blog/images/bg/fz.jpg"> </p>
+<blockquote>
+<p>在进行项目开发时，比较稳妥的做法是确定一个稳定的主干版本，用于线上发布，基于主干版本建立一个分支版本，用于bug调试和新功能开发。分支版本在发布到测试服务器测试通过后，再从分支将代码合并到主干。这样就有效的避免了频繁的在一套程序上进行bug修改和新功能增加，导致项目处于不稳定状态。</p>
+</blockquote>
+ <a id="more"></a>
+<h1 id="问题起因"><a href="#问题起因" class="headerlink" title="问题起因"></a>问题起因</h1><p> 在进行项目开发时，由于我开发的项目中为其他项目提供了接口，导致其他项目在批量上线时出现版本不一致的问题，具体原因是因为调用我接口的项目同时部署在了集团内的多家影院内，上线时间不同步，导致一部分升级到了最新的版本，一部分还停留在旧版本。但是我为其提供的接口是针对该项目的最新版本的联调开发的，而且我这边因项目需要也上线了几个版本，这样就会出现对方旧版本项目无法使用我这边新版本项目的最新接口的问题。需要我把我的项目代码回滚到旧版本再进行部署，但是由于我再此基础上已经修改了多处bug，增加了很多新功能，所以想回到之前确切的版本十分困难，只能将之前发布的代码进行反编译，抽离出来，进行二次开发。</p>
+<p> 所以，经项目组讨论，以后再进行开发时，要确定一个主干版本，用于线上发布，针对具体功能基于主干版本建立一个分支版本，用于bug调试和新功能开发，分支版本发布到测试服务器测试通过后，再从分支将代码合并到主干。这样就有效的避免了我在一套程序上进行bug修改，新功能增加，开发工作进行到一半，其他项目组出现了问题，让我回滚代码到旧版本进行适配的问题。</p>
+<h1 id="创建分支"><a href="#创建分支" class="headerlink" title="创建分支"></a>创建分支</h1><p> 创建分支实际上就是将程序(通常是测试通过后运行稳定的一个版本)copy一份到指定的分支目录，如下图示：</p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/1.png"> </p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/2.png"> </p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/3.png"> </p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/4.png"> </p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/5.png"> </p>
+<p>  <strong>分支创建完毕,查看svn资源库中可以看到，分支信息</strong>：</p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/6.png"> </p>
+<h1 id="分支合并主干"><a href="#分支合并主干" class="headerlink" title="分支合并主干"></a>分支合并主干</h1><h2 id="切换到分支，如图"><a href="#切换到分支，如图" class="headerlink" title="切换到分支，如图"></a>切换到分支，如图</h2><p>  <img src="http://zhfeat.cc/blog/images/fz/7.png"> </p>
+<p>切换：</p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/8.png"> </p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/9.png"> </p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/10.png"> </p>
+<h2 id="修改分支信息"><a href="#修改分支信息" class="headerlink" title="修改分支信息"></a>修改分支信息</h2><p>在pojo中新增Test类，并提交到svn中（一定要提交哦！）</p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/11.png"> </p>
+<h2 id="切换到主干中，准备合并主干"><a href="#切换到主干中，准备合并主干" class="headerlink" title="切换到主干中，准备合并主干"></a>切换到主干中，准备合并主干</h2><p><strong>此时主干的pojo中是没有Test类的。</strong></p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/12.png"></p>
+<h2 id="分支合并主干，在主干上操作"><a href="#分支合并主干，在主干上操作" class="headerlink" title="分支合并主干，在主干上操作"></a>分支合并主干，在主干上操作</h2><p>  <img src="http://zhfeat.cc/blog/images/fz/13.png"></p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/14.png"></p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/15.png"></p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/16.png"></p>
+<h1 id="主干合并分支"><a href="#主干合并分支" class="headerlink" title="主干合并分支"></a>主干合并分支</h1><h2 id="修改主干Test类中信息，并提交。"><a href="#修改主干Test类中信息，并提交。" class="headerlink" title="修改主干Test类中信息，并提交。"></a>修改主干Test类中信息，并提交。</h2><p>  <img src="http://zhfeat.cc/blog/images/fz/17.png"></p>
+<h2 id="切换到分支中，准备合并分支"><a href="#切换到分支中，准备合并分支" class="headerlink" title="切换到分支中，准备合并分支"></a>切换到分支中，准备合并分支</h2><p>  <img src="http://zhfeat.cc/blog/images/fz/18.png"></p>
+<h2 id="主干合并分支，在分支上操作"><a href="#主干合并分支，在分支上操作" class="headerlink" title="主干合并分支，在分支上操作"></a>主干合并分支，在分支上操作</h2><p>  <img src="http://zhfeat.cc/blog/images/fz/19.png"></p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/20.png"></p>
+<p>  <img src="http://zhfeat.cc/blog/images/fz/21.png"></p>
+<p><strong>合并完毕，提交分支代码到svn中</strong></p>
+<p><img src="http://zhfeat.cc/blog/images/fz/22.png"></p>
+<p>这里分支和主干采用的都是Head版本，仅作为图解示例，项目中使用时From的版本要对应选择分支或者主干的最初版本。</p>
+<h1 id="实际开发中遇到的坑记录-20170703"><a href="#实际开发中遇到的坑记录-20170703" class="headerlink" title="实际开发中遇到的坑记录(20170703)"></a>实际开发中遇到的坑记录(20170703)</h1><p>SVN合并包含两点，首先2个版本库树比较，然后将区别应用到本地拷贝。</p>
+<p>这个命令包括3个参数：</p>
+<ul>
+<li>初始的版本树（通常叫做比较的左边，FROM）</li>
+<li>最终的版本树（通常叫做比较的右边，TO）</li>
+<li>一个接收区别的工作拷贝（通常叫做合并的目标，WORK COPY）</li>
+</ul>
+<p>其实使用这个功能后的过程是把To的版本和From版本进行对比，然后把之间的差异合并到当前的版本中。比如要把一个分支的修改全部给合并进来，From就应该选择主线创建了分支的那个版本，To就应该选择分支的Head版本。如果版本选择的不正确，比如说From选择了主线的Head版本，就会把所有分支和主线Head不同的文件都覆盖到主线上来，造成主线上修改信息的丢失。</p>
+<p>所以，多个分支合并的时候一定要当前最新的分支代码合并到所有分支的“公共版本”上（创建这些分支的最初版本）,只要来自于同一项目，必定存在公共版本。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/SVN/" rel="tag"># SVN</a>
+          
+            <a href="/blog/tags/版本控制/" rel="tag"># 版本控制</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/05/02/结合日常开发说说互联网架构为什么要做服务化/" rel="next" title="结合日常开发说说互联网架构为什么要做服务化">
+                <i class="fa fa-chevron-left"></i> 结合日常开发说说互联网架构为什么要做服务化
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2017/06/02/redis实现消息队列/" rel="prev" title="redis实现消息队列">
+                redis实现消息队列 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+           
+              <p class="site-description motion-element" itemprop="description">个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#问题起因"><span class="nav-number">1.</span> <span class="nav-text">问题起因</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建分支"><span class="nav-number">2.</span> <span class="nav-text">创建分支</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#分支合并主干"><span class="nav-number">3.</span> <span class="nav-text">分支合并主干</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#切换到分支，如图"><span class="nav-number">3.1.</span> <span class="nav-text">切换到分支，如图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改分支信息"><span class="nav-number">3.2.</span> <span class="nav-text">修改分支信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切换到主干中，准备合并主干"><span class="nav-number">3.3.</span> <span class="nav-text">切换到主干中，准备合并主干</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分支合并主干，在主干上操作"><span class="nav-number">3.4.</span> <span class="nav-text">分支合并主干，在主干上操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主干合并分支"><span class="nav-number">4.</span> <span class="nav-text">主干合并分支</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#修改主干Test类中信息，并提交。"><span class="nav-number">4.1.</span> <span class="nav-text">修改主干Test类中信息，并提交。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#切换到分支中，准备合并分支"><span class="nav-number">4.2.</span> <span class="nav-text">切换到分支中，准备合并分支</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主干合并分支，在分支上操作"><span class="nav-number">4.3.</span> <span class="nav-text">主干合并分支，在分支上操作</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实际开发中遇到的坑记录-20170703"><span class="nav-number">5.</span> <span class="nav-text">实际开发中遇到的坑记录(20170703)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "4aef8615f4b5476dad10f9698803296c",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+   
+</body>
+</html>

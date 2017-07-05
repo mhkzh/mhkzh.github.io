@@ -1,0 +1,1029 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Kail linux,Fluxion,社会工程学,钓鱼程序," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="fluxion是一款无线安全测试工具，其攻击的原理更偏向于社会工程学中的钓鱼。fluxion有一个人性化的脚本，可以迅速帮你检查所需要的插件并进行安装，可以在短时间内搭建出一个完整的wifi渗透环境。省去了敲命令行的繁琐，新版本增加了对中文的支持。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="运用Fluxion社工高效破解WiFi密码">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/02/08/运用Fluxion高效破解WiFi密码/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="fluxion是一款无线安全测试工具，其攻击的原理更偏向于社会工程学中的钓鱼。fluxion有一个人性化的脚本，可以迅速帮你检查所需要的插件并进行安装，可以在短时间内搭建出一个完整的wifi渗透环境。省去了敲命令行的繁琐，新版本增加了对中文的支持。">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/bg.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/1.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/2.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/3.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/4.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/5.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/6.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/7.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/8.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/9.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/10.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/11.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/12.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/13.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/14.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/15.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/16.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/17.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/18.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/19.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/20.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/21.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/22.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/wifiAp/23.png">
+<meta property="og:updated_time" content="2017-03-16T08:06:58.742Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="运用Fluxion社工高效破解WiFi密码">
+<meta name="twitter:description" content="fluxion是一款无线安全测试工具，其攻击的原理更偏向于社会工程学中的钓鱼。fluxion有一个人性化的脚本，可以迅速帮你检查所需要的插件并进行安装，可以在短时间内搭建出一个完整的wifi渗透环境。省去了敲命令行的繁琐，新版本增加了对中文的支持。">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/wifiAp/bg.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/02/08/运用Fluxion高效破解WiFi密码/"/>
+
+
+
+
+
+  <title> 运用Fluxion社工高效破解WiFi密码 | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhfeat's - blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/02/08/运用Fluxion高效破解WiFi密码/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="z h.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/mht.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhfeat's - blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                运用Fluxion社工高效破解WiFi密码
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-08T13:03:43+08:00">
+                2017-02-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/无线安全/" itemprop="url" rel="index">
+                    <span itemprop="name">无线安全</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a class="cloud-tie-join-count" href="/blog/2017/02/08/运用Fluxion高效破解WiFi密码/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count join-count" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://zhfeat.cc/blog/images/wifiAp/bg.jpg"></p>
+<blockquote>
+<p>fluxion是一款无线安全测试工具，其攻击的原理更偏向于社会工程学中的钓鱼。fluxion有一个人性化的脚本，可以迅速帮你检查所需要的插件并进行安装，可以在短时间内搭建出一个完整的wifi渗透环境。省去了敲命令行的繁琐，新版本增加了对中文的支持。</p>
+</blockquote>
+<a id="more"></a> 
+<p>github地址：<a href="https://github.com/deltaxflux/fluxion" target="_blank" rel="external">deltaxflux/fluxion</a></p>
+<p>工作原理（大体步骤）</p>
+<p>　　1.扫描能够接收到的WIFI信号</p>
+<p>　　2.抓取握手包(这一步的目的是为了验证WiFi密码是否正确)</p>
+<p>　　3.使用WEB接口</p>
+<p>　　4.启动一个假的AP实例来模拟原本的接入点</p>
+<p>　　5.然后会生成一个MDK3进程。如果普通用户已经连接到这个WiFi，也会输入WiFi密码</p>
+<p>　　6.随后启动一个模拟的DNS服务器并且抓取所有的DNS请求，并且会把这些请求重新定向到一个含有恶意脚本的HOST地址</p>
+<p>　　7.随后会弹出一个窗口提示用户输入正确的WiFi密码</p>
+<p>　　8.用户输入的密码将和第二步抓到的握手包做比较来核实密码是否正确</p>
+<p>　　9.这个程序是自动化运行的，并且能够很快的抓取到WiFi密码</p>
+<p>环境设置</p>
+<ul>
+<li>目标WIFI SSID:WIFITEST(360安全路由器p1)</li>
+<li>目标设备：Redmi Note 3（模拟目标wifi的主人）</li>
+<li>操作机：Kali 2016.2（Penetration Testing and Ethical Hacking Linux Distribution）</li>
+</ul>
+<p>安装<br>我们直接在github将所有文件克隆到本机，当然你也可以自行下载然后解压。<br>git clone <a href="https://github.com/deltaxflux/fluxion.git" target="_blank" rel="external">https://github.com/deltaxflux/fluxion.git</a><br><img src="http://zhfeat.cc/blog/images/wifiAp/1.png"><br>下载完成<br><img src="http://zhfeat.cc/blog/images/wifiAp/2.png"><br>所有文件及文件路径<br><img src="http://zhfeat.cc/blog/images/wifiAp/3.png"><br><strong>启动</strong><br><img src="http://zhfeat.cc/blog/images/wifiAp/4.png"></p>
+<blockquote>
+<p>./fluxion</p>
+</blockquote>
+<p>启动后会自动检测本机是否安装其所依赖的其他软件，如果任意一项不存在软件会自动退出并提示缺少的工具<br><img src="http://zhfeat.cc/blog/images/wifiAp/5.png"></p>
+<p>fluxion目录下有一个‘Installer.sh’脚本文件，运行后会自动更新或安装缺少的工具。</p>
+<blockquote>
+<p>./Installer.sh </p>
+</blockquote>
+<p>这个过程可能需要很长一段时间，更新安装完成如图<br><img src="http://zhfeat.cc/blog/images/wifiAp/6.png"></p>
+<p>再次启动，出现用户协议<br><img src="http://zhfeat.cc/blog/images/wifiAp/7.png"></p>
+<p><strong>正菜开始</strong><br>在经过用户协议及软件检查更新后，就进入了我们今天的正菜，下面我将介绍每一步的作用。</p>
+<p>选择语种，这个工具在更新后增加了对中文的支持，虽然有部分菜单翻译不全，但是还是很良心的，这次我们使用中文，选择‘6’<br><img src="http://zhfeat.cc/blog/images/wifiAp/8.png"><br>选择信道，我们选择‘1’所有信道<br><img src="http://zhfeat.cc/blog/images/wifiAp/9.png"><br>fluxion调用aircrack扫描附近WIFI<br><img src="http://zhfeat.cc/blog/images/wifiAp/10.png"></p>
+<p>在找到目标WIFI后按‘Ctrl+c’，fluxion会列出扫描结果并通过id进行选择<br><img src="http://zhfeat.cc/blog/images/wifiAp/11.png"><br>选择目标后 出现WIFI的基本信息及攻击选项 选择‘1 伪装AP’<br><img src="http://zhfeat.cc/blog/images/wifiAp/12.png"><br>输入握手包存放路径 我们按回车使用默认路径<br><img src="http://zhfeat.cc/blog/images/wifiAp/13.png"><br>选择抓取握手包的工具 我们选择第一个 aircrack-ag套件<br><img src="http://zhfeat.cc/blog/images/wifiAp/14.png"></p>
+<p>选择攻击方式 我们选择‘1’对所有目标发起deauthentication攻击（详细介绍：<a href="http://ixuehua.blog.163.com/blog/static/25995203820163285235464/" target="_blank" rel="external">无线攻击利器-mdk3</a>）<br><img src="http://zhfeat.cc/blog/images/wifiAp/15.png"></p>
+<p>出现两个窗口，一个是deauthentication攻击，此时连在目标路由器的客户端会强制解除验证解除连接掉线；另一个是aircrack等待抓取握手包，客户端在掉线后重新连接时会抓取握手包。当在aircrack窗口出现WPA handshake时证明已经抓到握手包，然后我们选择‘1 检查握手包’<br><img src="http://zhfeat.cc/blog/images/wifiAp/16.png"><br>选择获取密码的方式，第一种 web注入 也是我们今天只要介绍的 第二种跑包（暴力破解）之前的文章已经说过 这里我们选泽‘1’<br><img src="http://zhfeat.cc/blog/images/wifiAp/17.png"></p>
+<p>选择web页面语言，包括了大部分路由器品牌的页面，当然我们也可以根据自己的需要在 /fluxion/Sites/ 修改页面。本次演示我们选择7 中文通用页面<br><img src="http://zhfeat.cc/blog/images/wifiAp/18.png"></p>
+<p>这时fluxion会调用多个工具对原有路由器进行攻击，并迫使客户端连接到我们伪造的ap中，同时对dns进行欺骗将客户端流量转到我们的钓鱼页面<br><img src="http://zhfeat.cc/blog/images/wifiAp/19.png"></p>
+<p>手机会断开原来的wifi 并连接到我们伪造的ap 并弹出认证页面 由于对dns进行了转发，所以即时关闭认证页面 只要打开任意页面都会转到到这<br><img src="http://zhfeat.cc/blog/images/wifiAp/20.png"></p>
+<p>我们输入错误密码<br><img src="http://zhfeat.cc/blog/images/wifiAp/21.png"></p>
+<p>输入正确密码<br><img src="http://zhfeat.cc/blog/images/wifiAp/22.png"></p>
+<p>在通过对比密码正确后，fluxion会关闭伪造的ap 使客户端重新连接到原来的ap 并给出ap密码 退出程序<br><img src="http://zhfeat.cc/blog/images/wifiAp/23.png"></p>
+<p>你们都说不明白 这次加了一个短视频 可以结合文章步骤作参考。</p>
+<p>视频地址：</p>
+<p>fluxion的使用<a href="http://www.iqiyi.com/w_19ru5vgdjt.html" target="_blank" rel="external">http://www.iqiyi.com/w_19ru5vgdjt.html</a></p>
+<p>更新：</p>
+<p>Kali支持的网卡类型：</p>
+<p><a href="http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html" target="_blank" rel="external">http://www.wirelesshack.org/best-kali-linux-compatible-usb-adapter-dongles-2016.html</a></p>
+<p><a href="https://www.aircrack-ng.org/doku.php?id=compatibility_drivers&amp;DokuWiki=ha1cljqc5mnki5hpvmhv1tkfm0#compatibility" target="_blank" rel="external">https://www.aircrack-ng.org/doku.php?id=compatibility_drivers&amp;DokuWiki=ha1cljqc5mnki5hpvmhv1tkfm0#compatibility</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/Kail-linux/" rel="tag"># Kail linux</a>
+          
+            <a href="/blog/tags/Fluxion/" rel="tag"># Fluxion</a>
+          
+            <a href="/blog/tags/社会工程学/" rel="tag"># 社会工程学</a>
+          
+            <a href="/blog/tags/钓鱼程序/" rel="tag"># 钓鱼程序</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/02/06/WPA-PSK无线网络破解原理及过程/" rel="next" title="WPA-PSK无线网络破解原理及过程">
+                <i class="fa fa-chevron-left"></i> WPA-PSK无线网络破解原理及过程
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2017/02/22/一次没有最后期限的编程之旅(转)/" rel="prev" title="一次没有最后期限的编程之旅">
+                一次没有最后期限的编程之旅 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+           
+              <p class="site-description motion-element" itemprop="description">个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+    
+    <script>
+      var cloudTieConfig = {
+        url: document.location.href, 
+        sourceId: "",
+        productKey: "4aef8615f4b5476dad10f9698803296c",
+        target: "cloud-tie-wrapper"
+      };
+    </script>
+    <script src="https://img1.ws.126.net/f2e/tie/yun/sdk/loader.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+   
+</body>
+</html>
