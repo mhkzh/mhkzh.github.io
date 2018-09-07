@@ -1,0 +1,974 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Maven,SSM,JavaWeb,quick4j,Metronic," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="写的真的很好，一名老程序员独自去探索陌生的技术，陌生的世界。引用文章中的一句话：这个世界，无从选择。也许，走出去，是旅行；只在一处，也是旅行。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一次没有最后期限的编程之旅">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/02/22/一次没有最后期限的编程之旅(转)/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="写的真的很好，一名老程序员独自去探索陌生的技术，陌生的世界。引用文章中的一句话：这个世界，无从选择。也许，走出去，是旅行；只在一处，也是旅行。">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/qx.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/qx/1.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/qx/2.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/qx/3.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/qx/4.jpeg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/qx/5.jpeg">
+<meta property="og:updated_time" content="2017-03-16T08:45:16.675Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="一次没有最后期限的编程之旅">
+<meta name="twitter:description" content="写的真的很好，一名老程序员独自去探索陌生的技术，陌生的世界。引用文章中的一句话：这个世界，无从选择。也许，走出去，是旅行；只在一处，也是旅行。">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/qx.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/02/22/一次没有最后期限的编程之旅(转)/"/>
+
+
+
+
+
+  <title> 一次没有最后期限的编程之旅 | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhfeat's - blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/02/22/一次没有最后期限的编程之旅(转)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="z h.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/mht.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhfeat's - blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                一次没有最后期限的编程之旅
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-22T11:12:43+08:00">
+                2017-02-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/深度好文/" itemprop="url" rel="index">
+                    <span itemprop="name">深度好文</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://zhfeat.cc/blog/images/bg/qx.jpg"></p>
+<blockquote>
+<p>写的真的很好，一名老程序员独自去探索陌生的技术，陌生的世界。引用文章中的一句话：这个世界，无从选择。也许，走出去，是旅行；只在一处，也是旅行。</p>
+</blockquote>
+<a id="more"></a> 
+<p>今年上半年，是我工作以来最繁忙的六个月，总之遇到了最艰难的教程、最冗长的文档、最繁琐的代码以及最窘迫的合作，最终的极度疲劳成了压垮了我的最后一根稻草。<br>那年杭州，接连40摄氏度以上的连续高温，忽然一天39度，竟然觉得整个世界都清凉了。人，就是这么犯贱，稍有舒缓，便全然忘记曾经的抓狂。<br>“写一个Apple Watch APP玩玩”，忽然闪过这么一个念头。这对执着于《证明论》和《集合论》的苦行者而言，浮现的不过是一次短暂的旅行。<br>旅行，不是迁移，抑或流浪，终究是要回归的。<br>记得还是在2003年的时候，万老师曾不经意间对我说过一句话，“编程这东西，如果不是每次都催得很急的话，其实还是蛮有乐趣的。”<br>从96年初次接触Pascal开始到现在，整整19年了。我不知道编程这东西在满足一切诡异的条件下，是否依旧还有当年的乐趣。譬如，重返19岁。</p>
+<p><img src="http://zhfeat.cc/blog/images/qx/1.jpeg"><br>图1 Turbo Pasca</p>
+<p>没有什么需要整理的行囊，也没有什么设定的归期，说走就走，不知何时归来的编程之旅。我并非坚定的要找寻一些所谓编程的乐趣，只是一路风景，一路散心。<br>写点什么呢？我没有做过移动端开发，可生活却早已离不开移动端的APP，使用频率极高的不外是“微信”、“网易新闻”、“QQ”、“支付宝”、“淘宝”、“百度地图”、“哔哩哔哩动画”、“大众点评”以及“Uber”。我想一款优秀的移动端APP，除了移动便携的基本特征之外，还应能充分利用碎片时间以及丰富多源的感知设备。<br>事实上，游离了好久，没有什么惊艳想法。随意翻阅早已在案头，却无暇顾及的两册图书《Objective-C基础教程》和《精通iOS开发》，大致都是一些移动客户端面向对象的可视化设计。我想拥有一个优秀的IDE，一整套API以及丰富文档的支持，iOS开发的学习曲线应该不会太陡峭。<br>于是，关注点就自然转移到了Web服务端的开发。Web服务端的开发是熟悉的，也是陌生的。最早接触Web开发是在2000年春，用的是ASP2.0，VB5.0编写的ActiveX作为控件，浏览器通过数字签名下载到客户端，实现服务器端文件的下载以及数据库的连接。第二次系统性的开发Web应用程序是2005年，用的是WebLogic 8.1提供的一整套解决方案，包括IDE、页面标签、web服务器、中间件、工作流等，这是一次真正意义上的J2EE开发，但因其优秀的封装，却让我无意间失去了一次自主搭建和配置Java web开发环境的绝好机会。2010年经历了第三次Web工程项目的开发，用的是ASP.NET 4.0，整个解决方案除了web工程之外，其余都是C#编写的类库工程，Web Service、自定义网站模板、自定义页面控件以及各种支付接口，在微软从开发环境到部署的一系列支持下，ASP.NET异常强大，超乎我的想象。<br>我搜了一些iOS服务端的开发，也不乏使用ASP.NET的Web Service的案例。既然是一次漫无目的的旅行，不妨选择一些对我而言极为陌生的技术。然而，仅仅才是初步的调研，就发现我面对的不是一种或几种陌生的技术，而是一个陌生的世界。<br>你好，世界。<br>Java还是PHP，形而上的选择Java。形而上，也不全是信仰。杭州两家大型互联网公司，阿里巴巴和网易（网易杭州研发中心）的应用服务端也是用Java开发的。每次选择JDK的版本，通常只是偷懒的做法，我不是什么资深的Java程序员，也没有成熟老旧的代码需要兼容，直接在Oracle主页上下载最新的1.8版本，虽然1.6和1.7依旧是主流。<br>继续Eclipse么？这次终于可以选择了，因为这次选择权掌握在自己手里。2007年使用Eclipse Plug-in参与开发一个无线传感网络（WSN）自定义语言的集成开发环境，尤其是开发Debug功能，简直是噩梦，到现在都还有恐惧的后遗症。论文的最终版本终于废弃了调试功能，但在presentation的时候还是被人问到。我用蹩脚的口语搪塞道，“It’s very difficult to implement, and need further research.”其实，这还算不得research，只是真的没法implement。虽然还不至于到达算法边界，但早已在我的编程能力之外了。据我了解，现在很多Java程序员在使用Intellij IDEA开发。有一个毛估估的统计数据，网易杭州研发中心的开发人员中使用Eclipse和Intellij IDEA的比例已经达到了1:1。相比免费的Eclipse，2000多元的Personal License可能是贵了点，不过对于如此一款优秀的IDE，这个价格真不算高。我下载了试用版，这就算开始了。可选的经典Darcula主题确实相当美观。至于和Maven完美结合之类优点，我自然体会不到的，因为这将是我第一次使用Maven开发。</p>
+<p><img src="http://zhfeat.cc/blog/images/qx/2.jpeg"><br>图2 Darcula主题的Intellij IDEA</p>
+<p>此前，对于Maven，我是极度陌生的。好在现在互联网上学习教程太多了，首先从Apache官网上下载最新的Maven应用程序，接着配置 Maven的环境变量，然后Intellij IDEA设置下Maven的home directory，当然也可直接使用Intellij IDEA内嵌的Bundled (Maven 3)插件。现在可以使用Intellij IDEA开发Maven Project了。建立maven-archetype-webapp工程，在pom.xml中配置好Maven插件，以及各种需要引用的库。使用Maven管理库，确实非常方便，真是一种全新的开发体验。<br>直到要运行了，才想起web服务器都没有安装。不管三七二十一，下了Tomcat8.0.23，照着网上的教程，在Intellij IDEA配置好了运行环境。浏览器中出现了“hello, world”，“全小写，有逗号，逗号后空一格，且无感叹号。”至此，JDK 1.8, Maven3.3.3, Intellij IDEA14.1.4, Tomcat8.0.23以及一个“Hello,World”程序，一个很美好的开端。<br>“Hello, World”写完了，没有下一步的计划和目标。Spring是主流么？反正阿里巴巴和网易都用Spring。于是，买本书《Spring MVC学习指南》看看，翻了三两个小时，对Web服务端开发依旧没有什么清晰的概念。看来我的这次没有计划的旅行似乎有了下一个目标，把Java web开发的架构搞搞清楚。毕竟搞清楚了架构，剩下的无非是算法了。<br>寻找并学习Jave web架构的最佳实践，比我预想的困难的多。疯狂搜索的结果是各种技术及其框架浩如烟海，完全没有概念，直到发现在GitHub上有一个叫quick4j的开源项目(<a href="https://github.com/starzou/quick4j)，让我对Jave" target="_blank" rel="external">https://github.com/starzou/quick4j)，让我对Jave</a> web开发的架构有了初步认识。<br>我很快在IntellijIDEA中导入了quick4j这个项目，并根据README.md的说明在MySQL中运行了数据库脚本，建立了数据库及表。关于MySQL，我不得不多数几句。MySQL是2015年9月DB-Engines排名第二的数据库，我却从来没有使用过，主要因为2010年以后再无开发数据库相关系统，而2010年以前几次开发数据库的工程主要使用Oracle和SQL Server。现在大型互联网公司大都使用根据自身业务优化的特定分布式实时数据库。当然，对于中小企业的开发，MySQL依旧是上佳选择。此外，在一个应用中同时建立与MySQL和MongoDB的连接，合理利用每一种数据库的优点也是一种趋势。</p>
+<p><img src="http://zhfeat.cc/blog/images/qx/3.jpeg"><br>图3 SQL Server存储过程</p>
+<p>quick4j采用Druid作为数据库连接池。我查了下才知道，Druid是阿里巴巴的开源项目，是JDBC的一个扩展，项目负责人的年纪应该和我差不多。既然是开源，用的人似乎也不少，那就学习下。在pom.xml中配置好依赖（dependency），然后在applicationContext.xml中配置bean的一些系列参数，除了修改url，username以及password外，其余参数留着以后有兴趣提升性能的时候再去研究罢。<br>在Druid之上，quick4j采用的是Mybatis，也是完全没用过，查了下和Hibernate是一个层次的东西，属于对象关系模型（ORM）范畴。Hibernate很久以前似乎还用过，当年的学习曲线如何，已没了印象。不过，Mybatis的入门似乎非常简单，在applicationContext.xml中将Mybatis和Druid关联好，就可以在xml中编写SQL了。quick4j对于Mybatis的XML文件写得还是很不错的，是一个非常好的范例，尤其对我这样一个初学者，比网上一些介绍Mybatis概念的示例强得多。几乎就是一张表对应一个XML配置文件和一个DAO接口，这些DAO接口很容易被上层调用。<br>在quick4j中，最初使用Mybatis的是一个叫Shiro的安全框架，用于用户的权限管理。当然quick4j在DAO（Mapper）层和Shiro调用之间还封装了一层Service。权限管理是一件令人头疼的事情，好在权限管理再复杂，其关系不过张二维表。根据quick4j的5张表（user、user_role、role、role_permission、permission），我建立了一个权限的示意关系表，三个字段名分别是“Username”、“Role”、“Permission”，Username表示用户名称，如admin、lace；Role表示用户角色，如Admin（管理员）、Guest（访客）；Permission表示许可，如user: create、user: read、user: update、user: delete等。在概要设计时，通常先建立这张权限的示意关系表，然后再转化为实际的数据表。至于Shiro基本功能使用，如SecurityRealm中doGetAuthorizationInfo和doGetAuthenticationInfo的编写并不太复杂，而且quick4j也给出了很好的样例。<br>终于到了Spring MVC这一层，因为这东西刚看过书，整体的概念要比什么Druid、Mybatis、Shiro强的多。除了配置pom.xml, web.xml, dispatcher-servlet.xml外，主要就是这个Controller类。其实也就是request和response了，根据@RequestMapping注解指定访问的URL，关联的方法处理提交的数据，处理完了return一个网页回去，就这么简明。只是封装的过于完美，让我感觉都不像在编程。<br>旅行，不是定居，亦非常年生活，浅尝即止。<br>所谓服务端开发似乎浏览完了，顺便也了解下quick4j的前端开发。quick4j采用了一套被称为“响应式后台管理模板”Metronic来实现（这里指的“后台”是业务的后台），版本是1.5.5，不过即使是1.5.5，其效果也足以让我惊讶了。我上网查了下，最新版本已经是4.1.0了。Metronic是收费的，Regular License价格为28美元，而Extended License价格达到了1400美元。国内也有演示的版本，的确非常精美，万能的淘宝也必然是有的卖的，最新的版本仅仅9块钱人民币。Metronic1.5.5是基于Bootstrap v3.0.3，而Bootstrap则大名鼎鼎，不过我也是刚才知道的。Bootstrap基于HTML5、CSS3以及Javascript，是一套极为优秀的前端开发框架。不过我粗粗看了下，似乎把Metronic以及相关的JQuery用下，前端的UI开发基本也算了解了，Bootstrap暂时是不用学习了。<br>既然Metronic已经4.1.0了，不如替换quick4j的1.5.5。Metronic4.1.0非常大，居然有644M。Metronic4.1.0其实已经支持AngularJS，不过我还是选用了JQuery。原因很简单，据说AngularJS2.0较1.3有非常大的变化，虽然2.0是革命性的，但1.3巨大的用户还处于摇摆不定的状态，可以预见2.0出现需要一大波小白鼠。显然，作为游客，是没有太多精力的。我选择了“v4.1.0\theme\templates\admin4”模板，并没有仔细甄别“\v4.1.0\theme\assets”文件夹，因为引用的目录过于复杂，全部拷贝到webapp目录下，虽然这个assets达到了125M，但模板中引用文件的路径中只要删除“../../”，修改为相对目录即可，因为quick4j在前端页面通过JSP获取了根目录。偷懒是偷懒了点，但增加新的模板文件其实真的很方便。<br>至此，整个开发架构似乎清晰了。数据库采用MySQL；后端包括Druid, Mybatis,Shiro, Spring MVC；前端采用Metronic (HTML5, CSS3, JQuery, Bootstrap)和JSP；IDE、库管理以及Web服务器分别采用IntellijIDE、Maven以及Tomcat。<br>架子终于搭好了，不写个啥的，真是太可惜了。毕竟动手写点什么才叫编程之旅么。先从完善用户登录开始吧。第一个小功能，“记住我”。“记住我”功能仅用前端技术是无法实现的，因为只有在用户名和密码在后台验证正确后，记录这个选项才有意义，记录的方式通过Cookie是最为方便的。后端在验证通过后，将记住我状态，用户名和密码都保存到Cookie中，这样前端页面每次刷新时就可通过js读取Cookie中记住我的状态，并在需要的时候填充到文本框中。此外，还要考虑的一个小问题是用户输入密码不是加密的，而提交的密码是通过sha256加密的，就在每次提交表单时加密。但前端js通过Cookie读取的已经是加密的密码，提交时应防止再次加密。我一下子也没有想到好的办法，只是利用了sha256加密后的长度均为64，而用户密码均小于64这个假设条件来判断。<br>下一个小功能是用户注册，用户注册显然需要用到验证，前端验证自然用到了基于JQuery的jquery.validate验证框架。jquery.validate虽然是前端验证，但也提供通过ajax提交后台验证，正是这个后台验证让我遇到了不少小问题。一般对于格式的验证，比如用户名长度，邮件格式什么的，jquery.validate的前端验证完全胜任。但对于用户名已经被注册这样的功能，则需要通过后台验证。jquery.validate毕竟是一个常用功能，网上的样例非常多，但适用于目前这个架构的却不多。将几种样例反复尝试，始终进入不了Controller中的设置的断点。直到查阅了官方最新样例，竟没有“contentType : “json””这行数据的，我删除之后果然成功了。显然，网上众多的样例是基于不同版本的写法。各种框架集成的首要问题必然是明确各种框架所用的版本，也应多从官方文档中寻找样例。验证通过后，用户信息的提交和后台的处理则没有遇到什么问题，后台Controller直接通过request获取前端的数据，直接调用DAO接口，并插入了新的记录。<br>既然注册都实现了，接下来不妨写一个用户管理功能吧，CRUD么。Create功能似乎和注册功能疑似，唯一的不同是想做一个导航的功能，也就是说左侧是导航菜单，右侧是目标页面。网页框架的设计原本是很熟悉的，核心不过是用边框为0的表格打框架，iframe用作容器，在超链接的target设置iframe的名字，当年几十个核心页面就是这样搭建起来的。世界毕竟变了，Metronic、Bootstrap这些框架都是用DIV来搭建的。那么如何实现导航功能呢？现在JQuery主流的做法是DIV上通过load来实现。一条核心语句就是$(‘#main-content’).load(url);其中main-content为目标DIV的id。明白了这个做法，底气足了很多，很快通过导航左侧点击，右侧出现添加用户页面就做好了。但提交页面数据的方式，我却改用了Ajax，毕竟这是局部刷新。首先，将form中的数据转化为json格式，通过JQuery的$.ajax方式提交，当然后台Controller对应的方法也@ResponseBody的方式，直接接受json数据，这样的写法似乎更有Spring MVC的样式，最后返回个带有success信息的Map给前端意思下。<br>用户管理功能应该有个表，表的每行都可以删除，编辑啥的，表自然是要分页的。接下来，就被这个DataTables搞死了。为了实现数据列表，我想用JQuery的一个插件库DataTables来实现。最初，我使用原生态的DataTables，样式是难看点，先搞清楚数据渲染么。可前端使用DataTables，后端使用Spring MVC响应的几乎没有正确的样例。将网上最为接近的一个样例反复调试和修改，这才关联了后台数据。接下来是前端分页，还是后端分页这个棘手问题了。quick4j其实已经提供后端分页取数据的方法了，因为DataTables前端可以传入当前即将显示记录页面的“记录的起始索引”和“每页显示的行数”，只要将起始索引转换为页码的索引，即可直接调用后端分页方法，从而获取“记录的起始索引”开始，并且长度为“每页显示的行数”的记录列表了，这是一种典型的后端分页方法，实现过程比我想象的要顺利些。数据渲染正确后，使用Metronic中的DataTables替换原生态的DataTables，发现表格数据并没有显示。调试后发现，Metronic4.1修改了原生态DataTables提交的参数名，比如将“iDisplayStart”改为“start”，“iDisplayLength”改为“length”，不明白Metronic 4.1为何如此修改，因为Metronic 1.5.5和标准的DataTables参数还是一致的。最后，通过查看DataTables提交json的参数，修改了Controller的解析方式，使用Metronic样式的DataTables终于可以显示表格数据了。<br>在每行最后添加“编辑”和“删除”链接之后，真正麻烦的问题出现了，在每次点击“上一页”、“下一页”以及“搜索”等操作都会触发向后台取数据的操作，然而返回后“编辑”和“删除”对应的操作完全丢失，反复出现，不得其解。最后还是在强哥的提醒下，这可能是DOM重建的原因，我恍然大悟。将“编辑”和“删除”对应的功能都写在DataTables的fnDrawCallback回调函数，因为fnDrawCallback回调函数会在“初始化、上一页、下一页以及搜索”等情况下会触发。至于编写“编辑”链接相应的功能则较为简单，特别要注意的是，在DIV load的时候要传递当前需要编辑的记录信息，传递的格式为json，毕竟在编辑功能是在原有数据上进行修改，而jsp页面则可通过request.getParameter来获取数据。<br>只剩下删除操作了，不同于编辑功能，点击编辑时会在列表的上方DIV中显示编辑界面，点击删除链接时，应弹出用于提示用户确认的模式对话框。我看了下Metronic的模板页，正好利用原有页面中的id=”portlet-config”的一个div，可以用作模式对话框。接下来的问题是如何通过js向这个div传递当前记录的编号。我在portlet-config这个div中添加了一个隐藏输入框，然后在js中将该隐藏输入框的值设置为当前记录编号。这样，在提交模式对话框时，当前记录编号便被传递至模式对话框所对应的js中，之后再将该记录编号组建成一个json数据，通过Ajax向后台发送一个异步请求，后台的响应和“编辑”类似。当然为了获取模式对话框“确定”还是“取消”，还需要一个页面级的开关变量来控制。<br>至此，这个想到哪写到哪的程序，已经具备了用户登录，注册以及关于用户的添加、编辑、删除以及通过列表方式查看等基本功能。不过，从业务上来讲，超级用户可通过管理员页面登录，具备管理用户的基本功能，而一般的用户则通过前台页面登录。忽然想到，是否能借助Shiro来实现这些功能。首先要做的是分别建立管理员和一般用户登录页面，以及登录后的主页面。管理员登录后，可以添加、列表查看、删除、编辑以及退出功能。而一般用户可登录、注册以及退出操作。建立好两张登录一页面以及对应的js文件后，分别编写对应的Controller，这样写得目的主要区分不同的url，同时也更加清晰。在处理登录url提交时，首先通过Shiro进行身份验证，然后通过subject记录的用户权限判断是否可跳转到相应的主页。此外，为了防止只有超级用户访问的主页被一般用户访问，可在相应的Controller方法上方添加@RequiresRoles(value = RoleSign.ADMIN)。于是，通过Shiro不仅管理了用户登录、退出，而且能根据权限访问指定页面，实现前台、后台的权限管理。</p>
+<p><img src="http://zhfeat.cc/blog/images/qx/4.jpeg"><br>图 4 MyCRUD的DataTables</p>
+<p>给这个程序取了个名MyCRUD，这次编码过程中从GitHub学到了不少，深切的感受了开源的力量。因此，也将此代码上传至GitHub，<a href="https://github.com/lacelove/MyCRUD。同时也好好学习了下GitHub的基本用法。首先，在本地安装msysgit以及一个客户端TortoiseGit，利用客户端工具中的puttygen生成一个公钥和私钥。然后注册一个GitHub的账号，在创建repository之后，设置SSH" target="_blank" rel="external">https://github.com/lacelove/MyCRUD。同时也好好学习了下GitHub的基本用法。首先，在本地安装msysgit以及一个客户端TortoiseGit，利用客户端工具中的puttygen生成一个公钥和私钥。然后注册一个GitHub的账号，在创建repository之后，设置SSH</a> key，也就是客户端生成的公钥。此后，客户端设置好GitHub账号后，就可以Clone、Commit和Push了。其他用户如果获取上述私钥后，也可以直接Commit和Push。当然，其他用户没有私钥的话，则可通过pull request方式贡献自己代码。最后还顺便学习了下GitHub Flavored Markdown来编写RAEDME.md，是用标签控制格式的语法，Latex的感觉，难度不大，简单的写了点。<br>旅行，有些累了，就暂且休息下。<br>过去五年，埋头实时控制系统的设计、开发与测试，忽然抬头看世界，真的变了。这是一次没有最后期限的编程之旅，也是一次陌生世界的探索之旅。一路上，好奇、惊叹一次次冲淡了旅途的疲倦。在没有最后期限，没有需求的设定下，多少重拾了一些编程的乐趣。<br>记得有两部影片，《楚门的世界》和《土拨鼠之日》，主人公的环境非常类似，可最后突破自我的方式却截然不同。在《楚门的世界》里，主人公冒着死亡的危险，也要冲出去看看外面的世界；而《土拨鼠之日》主人公无奈到只能在不断死亡中寻找乐趣，最终还是在这个城市里改变了自我。<br>这个世界，无从选择。<br>也许——<br>走出去，是旅行；<br>只在一处，也是旅行。<br><img src="http://zhfeat.cc/blog/images/qx/5.jpeg"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/Maven/" rel="tag"># Maven</a>
+          
+            <a href="/blog/tags/SSM/" rel="tag"># SSM</a>
+          
+            <a href="/blog/tags/JavaWeb/" rel="tag"># JavaWeb</a>
+          
+            <a href="/blog/tags/quick4j/" rel="tag"># quick4j</a>
+          
+            <a href="/blog/tags/Metronic/" rel="tag"># Metronic</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/02/08/运用Fluxion高效破解WiFi密码/" rel="next" title="运用Fluxion社工高效破解WiFi密码">
+                <i class="fa fa-chevron-left"></i> 运用Fluxion社工高效破解WiFi密码
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2017/02/22/Maven构建过程/" rel="prev" title="Maven构建过程">
+                Maven构建过程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4Mi82MDUw"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+           
+              <p class="site-description motion-element" itemprop="description">个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+   
+</body>
+</html>

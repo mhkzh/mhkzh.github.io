@@ -1,0 +1,1059 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="WebServie,cxf," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="WebService到底是什么？   一言以蔽之：WebService是一种跨编程语言和跨操作系统平台的远程调用技术。
+所谓跨编程语言和跨操作平台，就是说服务端程序采用java编写，客户端程序则可以采用其他编程语言编写，反之亦然！跨操作系统平台则是指服务端程序和客户端程序可以在不同的操作系统上运行。
+所谓远程调用，就是一台计算机a上的一个程序可以调用到另外一台计算机b上的一个对象的方法，譬如，银">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebServie集成">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/03/07/WebServie集成/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="WebService到底是什么？   一言以蔽之：WebService是一种跨编程语言和跨操作系统平台的远程调用技术。
+所谓跨编程语言和跨操作平台，就是说服务端程序采用java编写，客户端程序则可以采用其他编程语言编写，反之亦然！跨操作系统平台则是指服务端程序和客户端程序可以在不同的操作系统上运行。
+所谓远程调用，就是一台计算机a上的一个程序可以调用到另外一台计算机b上的一个对象的方法，譬如，银">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/webService.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/webservice/1.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/webservice/2.png">
+<meta property="og:updated_time" content="2017-03-16T09:02:51.988Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="WebServie集成">
+<meta name="twitter:description" content="WebService到底是什么？   一言以蔽之：WebService是一种跨编程语言和跨操作系统平台的远程调用技术。
+所谓跨编程语言和跨操作平台，就是说服务端程序采用java编写，客户端程序则可以采用其他编程语言编写，反之亦然！跨操作系统平台则是指服务端程序和客户端程序可以在不同的操作系统上运行。
+所谓远程调用，就是一台计算机a上的一个程序可以调用到另外一台计算机b上的一个对象的方法，譬如，银">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/webService.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/03/07/WebServie集成/"/>
+
+
+
+
+
+  <title> WebServie集成 | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhfeat's - blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/03/07/WebServie集成/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="z h.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/mht.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhfeat's - blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                WebServie集成
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-07T11:50:20+08:00">
+                2017-03-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/SSM框架整合/" itemprop="url" rel="index">
+                    <span itemprop="name">SSM框架整合</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://zhfeat.cc/blog/images/bg/webService.jpg"></p>
+<h2 id="WebService到底是什么？"><a href="#WebService到底是什么？" class="headerlink" title="WebService到底是什么？"></a>WebService到底是什么？</h2><p>   <strong>一言以蔽之：WebService是一种跨编程语言和跨操作系统平台的远程调用技术。</strong></p>
+<p>所谓跨编程语言和跨操作平台，就是说服务端程序采用java编写，客户端程序则可以采用其他编程语言编写，反之亦然！跨操作系统平台则是指服务端程序和客户端程序可以在不同的操作系统上运行。</p>
+<p>所谓远程调用，就是一台计算机a上的一个程序可以调用到另外一台计算机b上的一个对象的方法，譬如，银联提供给商场的pos刷卡系统，商场的POS机转账调用的转账方法的代码其实是跑在银行服务器上。再比如，amazon，天气预报系统，淘宝网，校内网，百度等把自己的系统服务以webservice服务的形式暴露出来，让第三方网站和程序可以调用这些服务功能，这样扩展了自己系统的市场占有率，往大的概念上吹，就是所谓的SOA应用。</p>
+<p>其实可以从多个角度来理解WebService，从表面上看，WebService就是一个应用程序向外界暴露出一个能通过Web进行调用的API，也就是说能用编程的方法通过Web来调用这个应用程序。我们把调用这个WebService的应用程序叫做客户端，而把提供这个WebService的应用程序叫做服务端。从深层次看，WebService是建立可互操作的分布式应用程序的新平台，是一个平台，是一套标准。它定义了应用程序如何在Web上实现互操作性，你可以用任何你喜欢的语言，在任何你喜欢的平台上写Web service ，只要我们可以通过Web service标准对这些服务进行查询和访问。 </p>
+<a id="more"></a>
+<h2 id="WebService平台技术"><a href="#WebService平台技术" class="headerlink" title="WebService平台技术"></a>WebService平台技术</h2><p>  <strong>XML+XSD,SOAP和WSDL就是构成WebService平台的三大技术。</strong></p>
+<p><strong>XML+XSD：</strong></p>
+<p>WebService采用HTTP协议传输数据，采用XML格式封装数据（即XML中说明调用远程服务对象的哪个方法，传递的参数是什么，以及服务对象的返回结果是什么）。XML是WebService平台中表示数据的格式。除了易于建立和易于分析外，XML主要的优点在于它既是平台无关的，又是厂商无关的。无关性是比技术优越性更重要的：软件厂商是不会选择一个由竞争对手所发明的技术的。 </p>
+<p>XML解决了数据表示的问题，但它没有定义一套标准的数据类型，更没有说怎么去扩展这套数据类型。例如，整形数到底代表什么？16位，32位，64位？这些细节对实现互操作性很重要。XML Schema(XSD)就是专门解决这个问题的一套标准。它定义了一套标准的数据类型，并给出了一种语言来扩展这套数据类型。WebService平台就是用XSD来作为其数据类型系统的。当你用某种语言(如VB.NET或C#)来构造一个Web service时，为了符合WebService标准，所有你使用的数据类型都必须被转换为XSD类型。你用的工具可能已经自动帮你完成了这个转换，但你很可能会根据你的需要修改一下转换过程。</p>
+<p><strong>SOAP：</strong></p>
+<p>WebService通过HTTP协议发送请求和接收结果时，发送的请求内容和结果内容都采用XML格式封装，并增加了一些特定的HTTP消息头，以说明HTTP消息的内容格式，这些特定的HTTP消息头和XML内容格式就是SOAP协议。SOAP提供了标准的RPC方法来调用Web Service。</p>
+<p>SOAP协议 = HTTP协议 + XML数据格式</p>
+<p>SOAP协议定义了SOAP消息的格式，SOAP协议是基于HTTP协议的，SOAP也是基于XML和XSD的，XML是SOAP的数据编码方式。打个比喻：HTTP就是普通公路，XML就是中间的绿色隔离带和两边的防护栏，SOAP就是普通公路经过加隔离带和防护栏改造过的高速公路。</p>
+<p><strong>WSDL：</strong></p>
+<p>好比我们去商店买东西，首先要知道商店里有什么东西可买，然后再来购买，商家的做法就是张贴广告海报。 WebService也一样，WebService客户端要调用一个WebService服务，首先要有知道这个服务的地址在哪，以及这个服务里有什么方法可以调用，所以，WebService务器端首先要通过一个WSDL文件来说明自己家里有啥服务可以对外调用，服务是什么（服务中有哪些方法，方法接受的参数是什么，返回值是什么），服务的网络地址用哪个url地址表示，服务通过什么方式来调用。</p>
+<p>WSDL(Web Services Description Language)就是这样一个基于XML的语言，用于描述Web Service及其函数、参数和返回值。它是WebService客户端和服务器端都能理解的标准格式。因为是基于XML的，所以WSDL既是机器可阅读的，又是人可阅读的，这将是一个很大的好处。一些最新的开发工具既能根据你的Web service生成WSDL文档，又能导入WSDL文档，生成调用相应WebService的代理类代码。</p>
+<p>WSDL文件保存在Web服务器上，通过一个url地址就可以访问到它。客户端要调用一个WebService服务之前，要知道该服务的WSDL文件的地址。WebService服务提供商可以通过两种方式来暴露它的WSDL文件地址：1.注册到UDDI服务器，以便被人查找；2.直接告诉给客户端调用者。</p>
+<h2 id="WebService开发"><a href="#WebService开发" class="headerlink" title="WebService开发"></a>WebService开发</h2><p>WebService开发可以分为服务器端开发和客户端开发两个方面：</p>
+<p><strong>服务端开发</strong>：把公司内部系统的业务方法发布成WebService服务，供远程合作单位和个人调用。(借助一些WebService框   架可以很轻松地把自己的业务对象发布成WebService服务，Java方面的典型WebService框架包括：axis，xfire，cxf等，java ee服务器通常也支持发布WebService服务，例如JBoss。)</p>
+<p><strong>客户端开发</strong>：调用别人发布的WebService服务，大多数人从事的开发都属于这个方面，例如，调用天气预报WebService服务。（使用厂商的WSDL2Java之类的工具生成静态调用的代理类代码；使用厂商提供的客户端编程API类；使用SUN公司早期标准的jax-rpc开发包；使用SUN公司最新标准的jax-ws开发包。当然SUN已被ORACLE收购)</p>
+<p><strong>WebService的工作调用原理</strong>：对客户端而言，我们给这各类WebService客户端API传递wsdl文件的url地址，这些API就会创建出底层的代理类，我调用这些代理，就可以访问到webservice服务。代理类把客户端的方法调用变成soap格式的请求数据再通过HTTP协议发出去，并把接收到的soap数据变成返回值返回。对服务端而言，各类WebService框架的本质就是一个大大的Servlet，当远程调用客户端给它通过http协议发送过来soap格式的请求数据时，它分析这个数据，就知道要调用哪个java类的哪个方法，于是去查找或创建这个对象，并调用其方法，再把方法返回的结果包装成soap格式的数据，通过http响应消息回给客户端。</p>
+<h2 id="WebService框架"><a href="#WebService框架" class="headerlink" title="WebService框架"></a>WebService框架</h2><p>1、<strong>Axis2</strong>是Apache下的一个重量级WebService框架，准确说它是一个Web Services / SOAP / WSDL 的引擎，是WebService框架的集大成者，它能不但能制作和发布WebService，而且可以生成Java和其他语言版WebService客户端和服务端代码。这是它的优势所在。但是，这也不可避免的导致了Axis2的复杂性，使用过的开发者都知道，它所依赖的包数量和大小都是很惊人的，打包部署发布都比较麻烦，不能很好的与现有应用整合为一体。但是如果你要开发Java之外别的语言客户端，Axis2提供的丰富工具将是你不二的选择。</p>
+<p>2、<strong>XFire</strong>是一个高性能的WebService框架，在Java6之前，它的知名度甚至超过了Apache的Axis2，XFire的优点是开发方便，与现有的Web整合很好，可以融为一体，并且开发也很方便。但是对Java之外的语言，没有提供相关的代码工具。XFire后来被Apache收购了，原因是它太优秀了，收购后，随着Java6 JWS的兴起，开源的WebService引擎已经不再被看好，渐渐的都败落了。</p>
+<p>3、<strong>CXF</strong>是Apache旗下一个重磅的SOA简易框架，它实现了ESB（企业服务总线）。CXF来自于XFire项目，经过改造后形成的，就像目前的Struts2来自WebWork一样。可以看出XFire的命运会和WebWork的命运一样，最终会淡出人们的视线。CXF不但是一个优秀的Web Services / SOAP / WSDL 引擎，也是一个不错的ESB总线，为SOA的实施提供了一种选择方案，当然他不是最好的，它仅仅实现了SOA架构的一部分。</p>
+<h2 id="Http接口和WebService接口的区别"><a href="#Http接口和WebService接口的区别" class="headerlink" title="Http接口和WebService接口的区别"></a>Http接口和WebService接口的区别</h2><p><strong>什么是web service？</strong> </p>
+<p>soap请求是HTTP POST的一个专用版本，遵循一种特殊的xml消息格式Content-type设置为: text/xml任何数据都可以xml化。</p>
+<p><strong>为什么要学习web service？</strong> </p>
+<p>大多数对外接口会实现web service方法而不是http方法，如果你不会，那就没有办法对接。</p>
+<p><strong>web service相对http (post/get)有好处吗？</strong></p>
+<p>1.接口中实现的方法和要求参数一目了然</p>
+<p>2.不用担心大小写问题</p>
+<p>3.不用担心中文urlencode问题</p>
+<p>4.代码中不用多次声明认证(账号,密码)参数</p>
+<p>5.传递参数可以为数组，对象等…</p>
+<p><strong>web service相对http（post/get）快吗？</strong></p>
+<p>由于要进行xml解析，速度可能会有所降低。</p>
+<p><strong>web service 可以被http（post/get）替代吗？</strong></p>
+<p>完全可以，而且现在的开放平台都是用的HTTP（post/get）实现的。</p>
+<h2 id="如何通俗的解释什么是Cxf"><a href="#如何通俗的解释什么是Cxf" class="headerlink" title="如何通俗的解释什么是Cxf"></a>如何通俗的解释什么是Cxf</h2><p>CXF的目的是为了开发web service，web service是SOAP的具体实现，web service的一个主要作用是解决不同语言通信的问题。举个例子，现在iteye不是希望和csdn整合吗(iteye用的ruby语言，csdn用的asp.net)，你看iteye上的通告，以后可以用csdn帐号登录了。那么这个登录系统肯定是在iteye下的，但是帐号密码一定要发送给csdn验证，ruby怎么把帐号密码发给asp.net？不同语言怎么识别？这里就用到web service了，因为web service是一个统一标准，asp.net可以定义一个登录验证的web service接口，提供一个checkLogin方法，参数是传入帐号密码，具体实现是asp.net内部的事，如果验证成功则返回true即可：public bool checkLogin(string loginCode,string password); 因为web service本身规则比较多，为了减少我们程序员的负担，往往会有一些框架来实现web service，比如java的CXF，.net也会有自己的框架，最后web service编写成功后通过部署到服务器，ruby就可以通过web service的形式调用asp.net代码了，这样就实现了不同语言的通信。 </p>
+<h2 id="Spring整合CXF"><a href="#Spring整合CXF" class="headerlink" title="Spring整合CXF"></a>Spring整合CXF</h2><p>在Java中实现webservice有多种方法，java本身在jdk1.7之后也对webservice有了默认的实现，但是在我们实际开发中一般还是会使用框架来，比如这里所提到的CXF就有着广泛的应用。以下配置依然依赖于之前那篇SSM框架整合的博客所搭建的框架。</p>
+<h3 id="pom-xml配置"><a href="#pom-xml配置" class="headerlink" title="pom.xml配置"></a>pom.xml配置</h3><p>添加Mava依赖(这里我统一使用了3.0.0版本。使用高版本如3.1.6版本会出现异常，初步判定是因为jar包引起了冲突，目前还没有排查出具体的原因)：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">   <span class="comment">&lt;!--cxf CXF是apache旗下的开源框架，由Celtix + XFire这两门经典的框架合成，是一套非常流行的web service框架。 start--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.cxf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cxf-rt-frontend-jaxws<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.cxf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cxf-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.apache.cxf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>cxf-rt-transports-http<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.0<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div><div class="line">  <span class="comment">&lt;!--cxf end--&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="web-xml配置"><a href="#web-xml配置" class="headerlink" title="web.xml配置"></a>web.xml配置</h3><p>接着我们需要配置一个CXF的servlet：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--定义一个cxf的servlet--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">servlet</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>CXFServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>org.apache.cxf.transport.servlet.CXFServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>CXFServlet<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/webservice/*<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>之后只要我们访问webservice/*这个地址就会进入CXF的servlet中。</p>
+<h3 id="整合Spring配置"><a href="#整合Spring配置" class="headerlink" title="整合Spring配置"></a>整合Spring配置</h3><p>接下来是最重要的一部，用Spring整合CXF：</p>
+<p>在这之前我有新建一个CXF的包，如下图：</p>
+<p><img src="http://zhfeat.cc/blog/images/webservice/1.png"></p>
+<p>这里有两个主要类</p>
+<ol>
+<li><p>HelloWorld接口。</p>
+</li>
+<li><p>实现HelloWorld接口的HelloWorldImpl类。</p>
+</li>
+</ol>
+<p>代码如下：<br>HelloWorld.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh.cxf;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.jws.WebService;</div><div class="line"></div><div class="line"><span class="meta">@WebService</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">HelloWorld</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">say</span><span class="params">(String str)</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中就只定义了一个简单的say()方法。</p>
+<p>HelloWorldImpl.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.crossoverJie.cxf.impl;</div><div class="line"><span class="keyword">import</span> com.crossoverJie.cxf.HelloWorld;</div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</div><div class="line"><span class="keyword">import</span> javax.jws.WebService;</div><div class="line"><span class="meta">@Component</span>(<span class="string">"helloWorld"</span>)</div><div class="line"><span class="meta">@WebService</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloWorldImpl</span> <span class="keyword">implements</span> <span class="title">HelloWorld</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">say</span><span class="params">(String str)</span> </span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"Hello"</span>+str;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里就是对say()方法的简单实现。</p>
+<p>接下来就是整合Spring了，由于需要使用到CXF的标签，所以我们需要添加额外的命名路径如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;  </div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span>  </span></div><div class="line">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span>  </div><div class="line">    <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span>  </div><div class="line">    <span class="attr">xmlns:mvc</span>=<span class="string">"http://www.springframework.org/schema/mvc"</span></div><div class="line">    <span class="attr">xmlns:jaxws</span>=<span class="string">"http://cxf.apache.org/jaxws"</span>  </div><div class="line">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans    </span></div><div class="line">                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd    </div><div class="line">                        http://www.springframework.org/schema/context    </div><div class="line">                        http://www.springframework.org/schema/context/spring-context-3.1.xsd    </div><div class="line">                        http://www.springframework.org/schema/mvc    </div><div class="line">                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd</div><div class="line">                        http://cxf.apache.org/jaxws</div><div class="line">                        http://cxf.apache.org/schemas/jaxws.xsd </div><div class="line">                        "&gt;</div><div class="line">    <span class="comment">&lt;!-- cxf整合Spring start--&gt;</span>                   </div><div class="line">    <span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">"classpath:META-INF/cxf/cxf.xml"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">"classpath:META-INF/cxf/cxf-servlet.xml"</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 自动扫描webService --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.zh.cxf"</span> /&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 定义webservice的发布接口  --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">jaxws:endpoint</span> <span class="attr">implementor</span>=<span class="string">"#helloWorld"</span> <span class="attr">address</span>=<span class="string">"/HelloWorld"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">jaxws:endpoint</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--cxf整合Spring end --&gt;</span></div></pre></td></tr></table></figure>
+<p>更加具体的配置可以查看官方给出的文档:<a href="http://cxf.apache.org/docs/how-do-i-develop-a-service.html" target="_blank" rel="external">传送门</a></p>
+<p>#helloWorld指的是我们在HelloWorldImpl类中所自定义的名字，/HelloWorld则是我们需要访问的地址。<br>之后我们运行项目输入该地址：<a href="http://127.0.0.1:8000/webservice/HelloWorld?wsdl如果出现如下界面：" target="_blank" rel="external">http://127.0.0.1:8000/webservice/HelloWorld?wsdl如果出现如下界面：</a></p>
+<p><img src="http://zhfeat.cc/blog/images/webservice/2.png"></p>
+<p>则说明我们的webservice发布成功了。</p>
+<h2 id="客户端调用webservice接口"><a href="#客户端调用webservice接口" class="headerlink" title="客户端调用webservice接口"></a>客户端调用webservice接口</h2><p>客户端调用cxf webservice接口时可以分为<strong>静态调用</strong>和<strong>动态调用</strong>。</p>
+<p>他们的区别：<strong>静态调用</strong>需要依赖service类，因为客户端调用cxf webservice接口的过程中需要服务器端提供service，很不方便，如果同一个项目中则没有区别。<strong>动态调用</strong>完全不依赖service类，服务器端只要提供接口名和路径就可以方便的调用。</p>
+<h3 id="静态调用"><a href="#静态调用" class="headerlink" title="静态调用"></a>静态调用</h3><p>代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh.cxf;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.cxf.interceptor.LoggingInInterceptor;</div><div class="line"><span class="keyword">import</span> org.apache.cxf.jaxws.JaxWsProxyFactoryBean;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebServiceUtil</span> </span>&#123;</div><div class="line">	</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">			<span class="comment">/**静态调用**/</span></div><div class="line">	        <span class="comment">// 创建WebService客户端代理工厂</span></div><div class="line">	        JaxWsProxyFactoryBean factory = <span class="keyword">new</span> JaxWsProxyFactoryBean();</div><div class="line">	        <span class="comment">// 判断是否抛出异常</span></div><div class="line">	        factory.getOutInterceptors().add(<span class="keyword">new</span> LoggingInInterceptor());</div><div class="line">	        <span class="comment">// 注册webservice接口</span></div><div class="line">	        factory.setServiceClass(HelloWorld.class);</div><div class="line">	        <span class="comment">// 配置webservice地址</span></div><div class="line">	        factory.setAddress(<span class="string">"http://127.0.0.1:8000/webservice/HelloWorld?wsdl"</span>);</div><div class="line">	        <span class="comment">// 获得接口对象</span></div><div class="line">	        HelloWorld service = (HelloWorld) factory.create();</div><div class="line">	        <span class="comment">// 调用接口方法</span></div><div class="line">	        String result = service.say(<span class="string">"111"</span>);</div><div class="line">	        System.out.println(<span class="string">"调用结果:"</span> + result);</div><div class="line">	        <span class="comment">// 关闭接口连接</span></div><div class="line">	        System.exit(<span class="number">0</span>);</div><div class="line">	        </div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>启动项目服务，执行后控制台输出结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">log4j:WARN No appenders could be found for logger (org.apache.cxf.common.logging.LogUtils).</div><div class="line">log4j:WARN Please initialize the log4j system properly.</div><div class="line">log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.</div><div class="line">调用结果:Hello111</div></pre></td></tr></table></figure></p>
+<h3 id="动态调用"><a href="#动态调用" class="headerlink" title="动态调用"></a>动态调用</h3><p>代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh.cxf;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.xml.namespace.QName;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebServiceUtil</span> </span>&#123;</div><div class="line">	</div><div class="line">	</div><div class="line">    <span class="comment">/**区别：静态调用需要依赖service类，因为客户端调用cxf webservice接口的过程中需要服务器端提供service，很不方便，如果同一个项目中则没有区别。</span></div><div class="line">	动态调用完全不依赖service类，服务器端只要提供接口名和路径就可以方便的调用。**/</div><div class="line">	</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">			<span class="comment">/**动态调用**/</span></div><div class="line">			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();</div><div class="line">	        org.apache.cxf.endpoint.Client client = dcf</div><div class="line">	                .createClient(<span class="string">"http://127.0.0.1:8000/webservice/HelloWorld?wsdl"</span>);</div><div class="line">	        <span class="comment">// url为调用webService的wsdl地址</span></div><div class="line">	        QName name = <span class="keyword">new</span> QName(<span class="string">"http://cxf.zh.com/"</span>, <span class="string">"say"</span>);</div><div class="line">	        <span class="comment">// namespace是命名空间，methodName是方法名</span></div><div class="line">	        String xmlStr = <span class="string">"aaaaaaaa"</span>;</div><div class="line">	        <span class="comment">// paramvalue为参数值</span></div><div class="line">	        Object[] objects;</div><div class="line">	        <span class="keyword">try</span> &#123;</div><div class="line">	            objects = client.invoke(name, xmlStr);</div><div class="line">	            System.out.println(objects[<span class="number">0</span>].toString());</div><div class="line">	        &#125; <span class="keyword">catch</span> (Exception e) &#123;</div><div class="line">	            e.printStackTrace();</div><div class="line">	        &#125; </div><div class="line">		&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>启动项目服务，执行后控制台输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">log4j:WARN No appenders could be found for logger (org.apache.cxf.common.logging.LogUtils).</div><div class="line">log4j:WARN Please initialize the log4j system properly.</div><div class="line">log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.</div><div class="line">Helloaaaaaaaa</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上是我总结的比较简单的一篇webService入门博客，从概念、原理、应用场景到实际的配置、调用、测试。是对自己所学知识的一次梳理，同时也希望对大家以后的面试、工作能有一些帮助。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/WebServie/" rel="tag"># WebServie</a>
+          
+            <a href="/blog/tags/cxf/" rel="tag"># cxf</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/03/03/Shiro安全框架集成/" rel="next" title="Shiro安全框架集成">
+                <i class="fa fa-chevron-left"></i> Shiro安全框架集成
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2017/03/07/JSONP跨域传输/" rel="prev" title="JSONP跨域传输">
+                JSONP跨域传输 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4Mi82MDUw"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+           
+              <p class="site-description motion-element" itemprop="description">个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#WebService到底是什么？"><span class="nav-number">1.</span> <span class="nav-text">WebService到底是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebService平台技术"><span class="nav-number">2.</span> <span class="nav-text">WebService平台技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebService开发"><span class="nav-number">3.</span> <span class="nav-text">WebService开发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WebService框架"><span class="nav-number">4.</span> <span class="nav-text">WebService框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Http接口和WebService接口的区别"><span class="nav-number">5.</span> <span class="nav-text">Http接口和WebService接口的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何通俗的解释什么是Cxf"><span class="nav-number">6.</span> <span class="nav-text">如何通俗的解释什么是Cxf</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring整合CXF"><span class="nav-number">7.</span> <span class="nav-text">Spring整合CXF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#pom-xml配置"><span class="nav-number">7.1.</span> <span class="nav-text">pom.xml配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-xml配置"><span class="nav-number">7.2.</span> <span class="nav-text">web.xml配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#整合Spring配置"><span class="nav-number">7.3.</span> <span class="nav-text">整合Spring配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端调用webservice接口"><span class="nav-number">8.</span> <span class="nav-text">客户端调用webservice接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态调用"><span class="nav-number">8.1.</span> <span class="nav-text">静态调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#动态调用"><span class="nav-number">8.2.</span> <span class="nav-text">动态调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+   
+</body>
+</html>

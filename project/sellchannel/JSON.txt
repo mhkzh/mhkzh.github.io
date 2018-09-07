@@ -1,0 +1,109 @@
+{
+    "page": "1",
+    "records": 8,
+    "rows": [
+        {
+            "cell": {
+                "activationTime": 1466939394000,
+                "cannelName": "万达WEB",
+                "freezingTime": 1466939391000,
+                "id": 1,
+                "internalNumber": "1",
+                "lastSynTime": 1464329839000,
+                "singleFee": 11,
+                "state": "1",
+                "validTmBegin": 1466351545000,
+                "validTmEnd": 1466524350000,
+                "visitKey": "8sd1dksad"
+            }
+        },
+        {
+            "cell": {
+                "activationTime": 1466401258000,
+                "cannelName": "万达Android",
+                "id": 2,
+                "internalNumber": "2",
+                "lastSynTime": 1464329839000,
+                "singleFee": 0,
+                "state": "1",
+                "visitKey": "sd332ksds"
+            }
+        },
+        {
+            "cell": {
+                "activationTime": 1488349123000,
+                "cannelName": "万达ios",
+                "id": 3,
+                "internalNumber": "3",
+                "lastSynTime": 1464329934000,
+                "singleFee": 0,
+                "state": "1",
+                "visitKey": "13dgbdasd"
+            }
+        },
+        {
+            "cell": {
+                "activationTime": 1488349123000,
+                "cannelName": "猫眼",
+                "id": 4,
+                "internalNumber": "4",
+                "lastSynTime": 1488349123000,
+                "singleFee": 1,
+                "state": "1",
+                "visitKey": "32dvy8jdsa"
+            }
+        },
+        {
+            "cell": {
+                "activationTime": 1488349123000,
+                "cannelName": "微票儿",
+                "id": 5,
+                "internalNumber": "5",
+                "lastSynTime": 1488349123000,
+                "singleFee": 1,
+                "state": "1",
+                "visitKey": "2kpo1lsdw"
+            }
+        },
+        {
+            "cell": {
+                "activationTime": 1488349123000,
+                "cannelName": "格瓦拉",
+                "freezingTime": 1466951287000,
+                "id": 6,
+                "internalNumber": "6",
+                "lastSynTime": 1488349123000,
+                "singleFee": 1,
+                "state": "0",
+                "visitKey": "a22v3gasd"
+            }
+        },
+        {
+            "cell": {
+                "activationTime": 1488349123000,
+                "cannelName": "百度糯米",
+                "freezingTime": 1488349123000,
+                "id": 7,
+                "internalNumber": "7",
+                "lastSynTime": 1488349123000,
+                "singleFee": 1,
+                "state": "0",
+                "visitKey": "lk3hbddas"
+            }
+        },
+        {
+            "cell": {
+                "activationTime": 1488349123000,
+                "cannelName": "淘宝电影",
+                "freezingTime": 1488349123000,
+                "id": 8,
+                "internalNumber": "8",
+                "lastSynTime": 1488349123000,
+                "singleFee": 1,
+                "state": "0",
+                "visitKey": "3a9diw"
+            }
+        }
+    ],
+    "total": 1
+}

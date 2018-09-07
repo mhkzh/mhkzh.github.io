@@ -1,0 +1,1090 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="接口,抽象类,设计模式," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="掌握抽象类和接口的实例化的操作、掌握模板设计模式的作用、掌握工厂设计模式的作用、掌握代理设计模式的作用、掌握适配器模式的作用、掌握抽象类与接口的使用区别。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="接口与抽象类的应用（包括各自设计模式）">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/07/12/接口与抽象类的应用（包括各自设计模式）/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="掌握抽象类和接口的实例化的操作、掌握模板设计模式的作用、掌握工厂设计模式的作用、掌握代理设计模式的作用、掌握适配器模式的作用、掌握抽象类与接口的使用区别。">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/absint.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/abstract/1.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/abstract/2.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/abstract/3.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/abstract/4.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/abstract/5.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/abstract/6.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/abstract/7.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/abstract/8.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/abstract/9.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/abstract/10.png">
+<meta property="og:updated_time" content="2017-07-12T09:15:02.936Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="接口与抽象类的应用（包括各自设计模式）">
+<meta name="twitter:description" content="掌握抽象类和接口的实例化的操作、掌握模板设计模式的作用、掌握工厂设计模式的作用、掌握代理设计模式的作用、掌握适配器模式的作用、掌握抽象类与接口的使用区别。">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/absint.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/07/12/接口与抽象类的应用（包括各自设计模式）/"/>
+
+
+
+
+
+  <title> 接口与抽象类的应用（包括各自设计模式） | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhfeat's - blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/07/12/接口与抽象类的应用（包括各自设计模式）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="z h.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/mht.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhfeat's - blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                接口与抽象类的应用（包括各自设计模式）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-07-12T16:24:33+08:00">
+                2017-07-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/Java基础/" itemprop="url" rel="index">
+                    <span itemprop="name">Java基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p> <img src="http://zhfeat.cc/blog/images/bg/absint.jpg"> </p>
+<blockquote>
+<p>掌握<strong>抽象类和接口的实例化</strong>的操作、掌握<strong>模板设计模式</strong>的作用、掌握<strong>工厂设计模式</strong>的作用、掌握<strong>代理设计模式</strong>的作用、掌握<strong>适配器模式</strong>的作用、掌握<strong>抽象类与接口的使用区别</strong>。</p>
+</blockquote>
+ <a id="more"></a>
+<h1 id="为抽象类和接口实例化"><a href="#为抽象类和接口实例化" class="headerlink" title="为抽象类和接口实例化"></a>为抽象类和接口实例化</h1><p>在java中，可以通过对象的多态性，为抽象类和接口实例化，这样再使用抽象类和接口的时候就可以调用本子类中所覆写过的方法。</p>
+<p>之所以<strong>抽象类和接口不能直接实例化，是因为其内部包含了抽象方法</strong>，抽象方法本身是未实现的方法，所以无法调用。</p>
+<p>通过对象多态性可以发现，子类发生了向上转型关系之后，所调用的全部方法，都是被覆写过的方法。如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;    <span class="comment">// 定义抽象类A</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>;    <span class="comment">// 定义抽象方法print()</span></div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span> </span>&#123;    <span class="comment">// 定义子类，继承抽象类</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;        <span class="comment">// 覆写抽象方法</span></div><div class="line">        System.out.println(<span class="string">"Hello World!!!"</span>) ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractCaseDemo01</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">        A a = <span class="keyword">new</span> B() ;        <span class="comment">// 通过子类为抽象类实例化，向上转型。</span></div><div class="line">        a.print() ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">运行结果：</div><div class="line">Hello World!!<span class="number">1</span></div></pre></td></tr></table></figure>
+<p>知识点：</p>
+<p>向上造型：<br>父类引用指向子类对象（子类型，实例也是子类的实例化）；</p>
+<p>向下造型(需父类强转为子类)：<br>子类引用指向父类对象（父类型，实例是子类的实例化）；</p>
+<h1 id="可以继续利用此概念，为接口实例化。"><a href="#可以继续利用此概念，为接口实例化。" class="headerlink" title="可以继续利用此概念，为接口实例化。"></a><strong>可以继续利用此概念，为接口实例化。</strong></h1><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> test;</div><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">A</span></span>&#123;    <span class="comment">// 定义抽象类A</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span> </span>;    <span class="comment">// 定义抽象方法print()</span></div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">implements</span> <span class="title">A</span> </span>&#123;    <span class="comment">// 定义子类，继承抽象类</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">print</span><span class="params">()</span></span>&#123;        <span class="comment">// 覆写抽象方法</span></div><div class="line">        System.out.println(<span class="string">"Hello World!!!"</span>) ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ThisDemo06</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">        A a = <span class="keyword">new</span> B() ;        <span class="comment">// 通过子类为抽象类实例化</span></div><div class="line">        a.print() ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><strong>证明，如果要想使用抽象类和接口，则只能按照以上操作完成</strong></p>
+<h1 id="抽象类的实际应用–模板设计"><a href="#抽象类的实际应用–模板设计" class="headerlink" title="抽象类的实际应用–模板设计"></a>抽象类的实际应用–模板设计</h1><p>首先看这样一个场景：假设人分学生和工人，学生和工人都可以说话，但是学生和工人说的话内容不一样，也就是说</p>
+<p>说话这个功能应该是具体功能，而说话的内容就要由学生或工人来决定了。所以此时可以使用抽象类实现这种场景。</p>
+<p><img src="http://zhfeat.cc/blog/images/abstract/1.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> String name ;        <span class="comment">// 定义name属性</span></div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age ;            <span class="comment">// 定义age属性</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">(String name,<span class="keyword">int</span> age)</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.name = name ;</div><div class="line">        <span class="keyword">this</span>.age = age ;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.name ;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.age ;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">say</span><span class="params">()</span></span>&#123;        <span class="comment">// 人说话是一个具体的功能</span></div><div class="line">        System.out.println(<span class="keyword">this</span>.getContent()) ;    <span class="comment">// 输出内容</span></div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> String <span class="title">getContent</span><span class="params">()</span> </span>;    <span class="comment">// 说话的内容由子类决定(重要)</span></div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> <span class="keyword">extends</span> <span class="title">Person</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">float</span> score ;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Student</span><span class="params">(String name,<span class="keyword">int</span> age,<span class="keyword">float</span> score)</span></span>&#123;</div><div class="line">        <span class="keyword">super</span>(name,age) ;    <span class="comment">// 调用父类中的构造方法(重要)</span></div><div class="line">        <span class="keyword">this</span>.score = score ;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getContent</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span>    <span class="string">"学生信息 --&gt; 姓名："</span> + <span class="keyword">super</span>.getName() + </div><div class="line">                <span class="string">"；年龄："</span> + <span class="keyword">super</span>.getAge() + </div><div class="line">                <span class="string">"；成绩："</span> + <span class="keyword">this</span>.score ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Worker</span> <span class="keyword">extends</span> <span class="title">Person</span></span>&#123;</div><div class="line">    <span class="keyword">private</span> <span class="keyword">float</span> salary ;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Worker</span><span class="params">(String name,<span class="keyword">int</span> age,<span class="keyword">float</span> salary)</span></span>&#123;</div><div class="line">        <span class="keyword">super</span>(name,age) ;    <span class="comment">// 调用父类中的构造方法(重要)</span></div><div class="line">        <span class="keyword">this</span>.salary = salary ;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getContent</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">return</span>    <span class="string">"工人信息 --&gt; 姓名："</span> + <span class="keyword">super</span>.getName() + </div><div class="line">                <span class="string">"；年龄："</span> + <span class="keyword">super</span>.getAge() + </div><div class="line">                <span class="string">"；工资："</span> + <span class="keyword">this</span>.salary ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractCaseDemo02</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">        Person per1 = <span class="keyword">null</span> ;    <span class="comment">// 声明Person对象</span></div><div class="line">        Person per2 = <span class="keyword">null</span> ;    <span class="comment">// 声明Person对象(重要)</span></div><div class="line">      per1 = <span class="keyword">new</span> Student(<span class="string">"张三"</span>,<span class="number">20</span>,<span class="number">99.0f</span>) ;    <span class="comment">// 学生是一个人(重要)</span></div><div class="line">        per2 = <span class="keyword">new</span> Worker(<span class="string">"李四"</span>,<span class="number">30</span>,<span class="number">3000.0f</span>) ;    <span class="comment">// 工人是一个人</span></div><div class="line">        per1.say() ;    <span class="comment">// 学生说学生的话</span></div><div class="line">        per2.say() ;    <span class="comment">// 工人说工人的话</span></div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">运行结果：</div><div class="line">学生信息 --&gt; 姓名：张三；年龄：<span class="number">20</span>；成绩：<span class="number">99.0</span></div><div class="line">工人信息 --&gt; 姓名：李四；年龄：<span class="number">30</span>；工资：<span class="number">3000.0</span></div></pre></td></tr></table></figure>
+<p><strong>这里，抽象类(人)就相当于一个模板，定义了姓名和年龄的具体属性，说话的具体功能实现，学生和工人两个之类依据所继承的抽象类(人)模板，为父类的姓名和年龄赋值，并且重写父类的说话方法的内容，就像现实中的各种模板，要填写的框架已经规定，只有按规定的模板填写之后才会有意义。</strong></p>
+<p>如生活中的表格：</p>
+<p><img src="http://zhfeat.cc/blog/images/abstract/2.png"></p>
+<h1 id="接口的实际应用–制定标准。（一定要按照规定的标准做）"><a href="#接口的实际应用–制定标准。（一定要按照规定的标准做）" class="headerlink" title="接口的实际应用–制定标准。（一定要按照规定的标准做）"></a>接口的实际应用–制定标准。（一定要按照规定的标准做）</h1><p>接口在实际应用中更多的作用是来指定标准的。比如说”U盘和打印机都可以插在电脑上使用，因为他们都实现了USB标准的接口，对于电脑来说，只要符合USB接口标准的设备都可以插进来。“</p>
+<p><img src="http://zhfeat.cc/blog/images/abstract/3.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">USB</span></span>&#123;        <span class="comment">// 定义了USB接口</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>;    <span class="comment">// USB设备开始工作</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> </span>;    <span class="comment">// USB设备结束工作</span></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Computer</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">plugin</span><span class="params">(USB usb)</span></span>&#123;    <span class="comment">// 电脑上可以插入USB设备，向上转型，这里就相当于一个接口，只有符合这个接口的标准的类的对象（即只有继承这个接口的类的对象），才能被这个方法调用。</span></div><div class="line">        usb.start() ;</div><div class="line">        System.out.println(<span class="string">"=========== USB 设备工作 ========"</span>) ;</div><div class="line">        usb.stop() ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Flash</span> <span class="keyword">implements</span> <span class="title">USB</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>&#123;    <span class="comment">// 覆写方法</span></div><div class="line">        System.out.println(<span class="string">"U盘开始工作。"</span>) ;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span></span>&#123;        <span class="comment">// 覆写方法</span></div><div class="line">        System.out.println(<span class="string">"U盘停止工作。"</span>) ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Print</span> <span class="keyword">implements</span> <span class="title">USB</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span></span>&#123;    <span class="comment">// 覆写方法</span></div><div class="line">        System.out.println(<span class="string">"打印机开始工作。"</span>) ;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span></span>&#123;        <span class="comment">// 覆写方法</span></div><div class="line">        System.out.println(<span class="string">"打印机停止工作。"</span>) ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InterfaceCaseDemo02</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">        Computer.plugin(<span class="keyword">new</span> Flash()) ;</div><div class="line">      Computer.plugin(<span class="keyword">new</span> Print()) ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">运行结果：</div><div class="line">U盘开始工作。</div><div class="line">=========== USB 设备工作 ========</div><div class="line">U盘停止工作。</div><div class="line">打印机开始工作。</div><div class="line">=========== USB 设备工作 ========</div><div class="line">打印机停止工作。</div></pre></td></tr></table></figure>
+<h1 id="工厂设计模式（接口应用）"><a href="#工厂设计模式（接口应用）" class="headerlink" title="工厂设计模式（接口应用）"></a>工厂设计模式（接口应用）</h1><p><strong>工厂设计模式是在java开发中最常使用的一种设计模式。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Fruit</span></span>&#123;    <span class="comment">// 定义一个水果接口</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>;    <span class="comment">// 吃水果</span></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Apple</span> <span class="keyword">implements</span> <span class="title">Fruit</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"** 吃苹果。"</span>) ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Orange</span> <span class="keyword">implements</span> <span class="title">Fruit</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"** 吃橘子。"</span>) ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InterfaceCaseDemo03</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">        Fruit f = <span class="keyword">new</span> Apple() ;    <span class="comment">// 实例化接口</span></div><div class="line">        f.eat() ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">运行结果：</div><div class="line">吃苹果。</div></pre></td></tr></table></figure>
+<p>这样的代码可以使吗？有问题吗？</p>
+<p>分析：</p>
+<p>主方法：就应该表示客户端。主方法的代码越少越好。此时，直接在主方法中指定了要操作的子类，如果要更换子类，肯定要修改客户端。</p>
+<p>就表示跟特定的子类耦合在一起了。</p>
+<p>JVM工作原理：程序-》JVM（相当于客户端）-》操作系统。</p>
+<p>问题的解决：<strong>客户端通过过渡端，得到特定子类的接口实例，返回接口实例给客户端，接口实例调用接口中的方法。</strong></p>
+<p><img src="http://zhfeat.cc/blog/images/abstract/4.png"></p>
+<p><strong>此过渡端，在程序中就称为工厂设计（工厂类）。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Fruit</span></span>&#123;    <span class="comment">// 定义一个水果接口</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>;    <span class="comment">// 吃水果</span></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Apple</span> <span class="keyword">implements</span> <span class="title">Fruit</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"** 吃苹果。"</span>) ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Orange</span> <span class="keyword">implements</span> <span class="title">Fruit</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"** 吃橘子。"</span>) ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Factory</span></span>&#123;    <span class="comment">// 定义工厂类</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Fruit <span class="title">getInstance</span><span class="params">(String className)</span></span>&#123;　<span class="comment">//注意这里的方法是static修饰的，因为在主方法中是Factory调用</span></div><div class="line">        Fruit f = <span class="keyword">null</span> ;</div><div class="line">        <span class="keyword">if</span>(<span class="string">"apple"</span>.equals(className))&#123;    <span class="comment">// 判断是否要的是苹果的子类</span></div><div class="line">            f = <span class="keyword">new</span> Apple() ;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span>(<span class="string">"orange"</span>.equals(className))&#123;    <span class="comment">// 判断是否要的是橘子的子类</span></div><div class="line">            f = <span class="keyword">new</span> Orange() ;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> f ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InterfaceCaseDemo04</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">        Fruit f = Factory.getInstance(”apple“) ;    <span class="comment">// 实例化接口</span></div><div class="line">        f.eat() ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">运行结果：</div><div class="line">**吃苹果</div></pre></td></tr></table></figure>
+<p><img src="http://zhfeat.cc/blog/images/abstract/5.png"></p>
+<p>流程是：客户端（主方法）通过工厂类的getInstance()方法，通过传入的参数判断，该获取实例化哪个子类的实例，然后把获取的实例通过getInstance()方法返回（return）该实例给主方法中的接口实例，最后通过接口实例调用所需方法。</p>
+<p><strong>使用工厂模式的好处主要有</strong>： </p>
+<ol>
+<li>将创建实例的工作与使用实例的工作分开 </li>
+<li>把初始化实例时的工作放到工厂里进行，使代码更容易维护。 </li>
+<li>使得修改代码时不会引起太大的变动，良好的扩展性。</li>
+</ol>
+<p>比如，有对象A。现在要修改这个实例的方法。就会有对象B，继承A，然后重写A里面的某个方法。这时，如果没有工厂模式，那么就要把每次创建A对象的代码都改为创建B对象。这是很可怕的一件事情。 </p>
+<p>如果有工厂模式，那么，我们可以只修改工厂中创建A对象的方法。更容易的，可以把这个实例的创建写在配置文件中。那么对于这种变动，只要修改配置文件就可以实现了，不需要修改工厂类。 </p>
+<h1 id="代理设计模式（接口应用）"><a href="#代理设计模式（接口应用）" class="headerlink" title="代理设计模式（接口应用）"></a>代理设计模式（接口应用）</h1><p>假设现在有以下这种情况：</p>
+<ol>
+<li><p>张三借了李四500块钱。</p>
+</li>
+<li><p>李四不换，张三生气。</p>
+</li>
+<li><p>张三找到王五，王五是讨债公司。</p>
+</li>
+<li><p>王五准备了刀枪</p>
+</li>
+<li><p>把李四欠的钱还回来了。</p>
+</li>
+</ol>
+<p>也就是张三找李四借钱，王五代理了张三。</p>
+<p>代理设计：也是在java中应用较多的设计模式，所谓的代理设计就是指一个代理主题来操作真实主题，真实主题执行具体的业务操作，而代理主题负责其他相关业务。就好比生活中经常用到的代理上网那样，客户通过网络代理连接网络，由代理服务器完成用户权限，上网操作相关操作。</p>
+<p><img src="http://zhfeat.cc/blog/images/abstract/6.png"></p>
+<p>分析结果：不管代理操作也好，真实操作也好，其共同目的就是上网，所以用户关心的是如何上网，至于如何操作的，用户不关心。</p>
+<p><img src="http://zhfeat.cc/blog/images/abstract/7.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Network</span></span>&#123;　　</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">browse</span><span class="params">()</span> </span>;    <span class="comment">// 浏览</span></div><div class="line">&#125;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Real</span> <span class="keyword">implements</span> <span class="title">Network</span></span>&#123;　　<span class="comment">//真实上网操作类</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">browse</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"上网浏览信息"</span>) ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">Network</span></span>&#123;　　<span class="comment">//代理类。</span></div><div class="line">   <span class="keyword">private</span> Network network ;    <span class="comment">// 代理对象</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Proxy</span><span class="params">(Network network)</span></span>&#123;　　<span class="comment">//初始化，把真实对象传给代理对象，向上转型操作。</span></div><div class="line">        <span class="keyword">this</span>.network = network ;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">check</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"检查用户是否合法。"</span>) ;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">browse</span><span class="params">()</span></span>&#123;</div><div class="line">        <span class="keyword">this</span>.check() ;</div><div class="line">        <span class="keyword">this</span>.network.browse() ;    <span class="comment">// 调用真实的主题操作，这里调用的是真实类里的对象。</span></div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ProxyDemo</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">        Network net = <span class="keyword">null</span> ;</div><div class="line">        net  = <span class="keyword">new</span> Proxy(<span class="keyword">new</span> Real()) ;<span class="comment">//  指定代理操作，这里两次向上转型操作，第一次向上是实例化代理类，第二次向上转型是括号中，把真实类对象传入，以便在代理类中调用真实类中的方法。</span></div><div class="line"></div><div class="line">        net.browse() ;    <span class="comment">// 客户只关心上网浏览一个操作</span></div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">运行结果：</div><div class="line">检查用户是否合法</div><div class="line">上网浏览信息</div></pre></td></tr></table></figure>
+<p><img src="http://zhfeat.cc/blog/images/abstract/8.png"></p>
+<p><strong>使用代理模式的好处主要有：</strong></p>
+<ol>
+<li><p>职责清晰，真实的角色就是实现实际的业务逻辑，不用关心其他非本职责的事务，通过后期的代理完成一件完成事务，附带的结果就是编程简洁清晰。</p>
+</li>
+<li><p>代理对象可以在客户端和目标对象之间起到中介的作用，这样起到了中介的作用和保护了目标对象的作用。</p>
+</li>
+</ol>
+<h1 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h1><p>此设计，在日后学习java 的图形界面用的非常多(Android里也用的比较多)。</p>
+<p>在Java中，一个子类实现了一个接口，则肯定在子类中覆写此接口中全部抽象方法。那么这样一来，如果一个接口中提供的抽象方法过多，而且没有必要全部实现的话，肯定很浪费，此时就需要一个中间过渡，但是此过渡又不希望被直接调用，所以将此过渡器定义成抽象类更合适，即：<strong>一个接口首先被一个抽象类（此抽象类成为适配器类）继承，并在此抽象类中实现若干方法（方法体为空），则以后的子类直接继承此抽象类（适配器），就可以有选择的覆写所需方法了。</strong></p>
+<p><strong>一个抽象类可以实现一个接口，那么对于抽象类的子类，则必须覆写抽象类和接口的全部（未实现的）抽象方法。（即如果接口中的某类方法在抽象类中实现了（覆写了），那么在抽象类的子类中就可以不用覆写了。因为继承，在父类中的方法，被子类继承了，相当于子类覆写了，子类照样可以调用，覆写该方法。）</strong></p>
+<p><img src="http://zhfeat.cc/blog/images/abstract/9.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Window</span></span>&#123;        <span class="comment">// 定义Window接口，表示窗口操作</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">()</span> </span>;    <span class="comment">// 打开</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span> </span>;    <span class="comment">// 关闭</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">activated</span><span class="params">()</span> </span>;    <span class="comment">// 窗口活动</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">iconified</span><span class="params">()</span> </span>;    <span class="comment">// 窗口最小化</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deiconified</span><span class="params">()</span></span>;<span class="comment">// 窗口恢复大小</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">WindowAdapter</span> <span class="keyword">implements</span> <span class="title">Window</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">()</span></span>&#123;&#125; ;    <span class="comment">// 打开</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span>&#123;&#125; ;    <span class="comment">// 关闭</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">activated</span><span class="params">()</span></span>&#123;&#125; ;    <span class="comment">// 窗口活动</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">iconified</span><span class="params">()</span></span>&#123;&#125; ;    <span class="comment">// 窗口最小化</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">deiconified</span><span class="params">()</span></span>&#123;&#125;;<span class="comment">// 窗口恢复大小</span></div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">WindowImpl</span> <span class="keyword">extends</span> <span class="title">WindowAdapter</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">open</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"窗口打开。"</span>) ;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">close</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"窗口关闭。"</span>) ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdapterDemo</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">        Window win = <span class="keyword">new</span> WindowImpl() ;</div><div class="line">        win.open() ;</div><div class="line">        win.close() ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">运行结果：</div><div class="line">窗口打开。</div><div class="line">窗口关闭。</div></pre></td></tr></table></figure>
+<p>此种设计思路，在java的图形界面编程上使用的非常多。但是在javaee上使用不常见。</p>
+<p><strong>使用适配器模的好处：</strong></p>
+<p>适配器（变压器）模式：把一个类的接口变换成客户端所期待的另一种接口，从而使原本因接口原因不匹配而无法一起工作的两个类能够一起工作。适配类可以根据参数返还一个合适的实例给客户端。</p>
+<p>适配器模式主要是在程序代码写好之后又遇到了需要使用新对象的情况， 新的对象和原来使用的对象本质上是一种，但是里面的方法和属性都不相同 所以为了减少代码的修改，就像电源适配器一样，使用不同的对象的一种方法。</p>
+<h1 id="内部类的扩展"><a href="#内部类的扩展" class="headerlink" title="内部类的扩展"></a>内部类的扩展</h1><p>之前已经讲过内部类的概念，实际上在一个抽象类中也可以包含一个接口。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;    <span class="comment">// 定义抽象类</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">printA</span><span class="params">()</span> </span>;    <span class="comment">// 抽象方法</span></div><div class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">B</span></span>&#123;    <span class="comment">// 定义内部接口</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printB</span><span class="params">()</span> </span>;    <span class="comment">// 定义抽象方法</span></div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">X</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;    <span class="comment">// 继承抽象类</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printA</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"HELLO --&gt; A"</span>) ;</div><div class="line">    &#125;</div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Y</span> <span class="keyword">implements</span> <span class="title">B</span></span>&#123;    <span class="comment">// 定义内部类实现内部接口</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printB</span><span class="params">()</span></span>&#123;</div><div class="line">            System.out.println(<span class="string">"HELLO --&gt; B"</span>) ;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerExtDemo01</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">        A.B b = <span class="keyword">new</span> X().new Y() ;　　<span class="comment">//参考前面内部类的知识，实现内部类实例的方法：外部类.内部类  内部类对象= 外部类对象.new  内部类</span></div><div class="line">        b.printB() ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">运行结果：</div><div class="line">HELLO--&gt;B</div></pre></td></tr></table></figure></p>
+<p><strong>含有内部接口的抽象类的子类，必须也要定义内部类继承该接口</strong>。</p>
+<p>反之，在一个接口中也可以定义一个抽象类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">interface</span> <span class="title">A</span></span>&#123;    <span class="comment">// 定义接口</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printA</span><span class="params">()</span> </span>;    <span class="comment">// 抽象方法</span></div><div class="line">    <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">B</span></span>&#123;    <span class="comment">// 定义内部抽象类</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">printB</span><span class="params">()</span> </span>;    <span class="comment">// 定义抽象方法</span></div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">X</span> <span class="keyword">implements</span> <span class="title">A</span></span>&#123;    <span class="comment">// 实现接口</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printA</span><span class="params">()</span></span>&#123;</div><div class="line">        System.out.println(<span class="string">"HELLO --&gt; A"</span>) ;</div><div class="line">    &#125;</div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Y</span> <span class="keyword">extends</span> <span class="title">B</span></span>&#123;    <span class="comment">// 继承抽象类</span></div><div class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">printB</span><span class="params">()</span></span>&#123;</div><div class="line">            System.out.println(<span class="string">"HELLO --&gt; B"</span>) ;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">InnerExtDemo02</span></span>&#123;</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span></span>&#123;</div><div class="line">        A.B b = <span class="keyword">new</span> X().new Y() ;</div><div class="line">        b.printB() ;</div><div class="line">    &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p>含有内部抽象类的接口，对于继承他的子类来说，除了要覆写接口中的抽象方法，还要专门定义一个内部类继承抽象类，并覆写全部抽象类。</p>
+<p>但是，从个人开发来说，此种设计不太常见，因为代码有些混乱。</p>
+<h1 id="接口和抽象之间的关系"><a href="#接口和抽象之间的关系" class="headerlink" title="接口和抽象之间的关系"></a>接口和抽象之间的关系</h1><h2 id="接口和抽象类有什么区别，你选择使用接口和抽象类的依据是什么？"><a href="#接口和抽象类有什么区别，你选择使用接口和抽象类的依据是什么？" class="headerlink" title="接口和抽象类有什么区别，你选择使用接口和抽象类的依据是什么？"></a>接口和抽象类有什么区别，你选择使用接口和抽象类的依据是什么？</h2><p>接口和抽象类的概念不一样。<strong>接口是对动作的抽象，抽象类是对根源的抽象</strong>。<br><strong>抽象类表示的是，这个对象是什么。接口表示的是，这个对象能做什么。</strong>比如，男人，女人，这两个类（如果是类的话……），他们的抽象类是人。说明，他们都是人。</p>
+<p>人可以吃东西，狗也可以吃东西，你可以把“吃东西”定义成一个接口，然后让这些类去实现它.</p>
+<p>所以，在高级语言上，一个类只能继承一个类（抽象类）(正如人不可能同时是生物和非生物)，但是可以实现多个接口(吃饭接口、走路接口)。</p>
+<p>第一点． <strong>接口是抽象类的变体，接口中所有的方法都是抽象的</strong>。而抽象类是声明方法的存在而不去实现它的类。</p>
+<p>第二点． 接口可以多继承，抽象类不行</p>
+<p>第三点． 接口定义方法，不能实现，而抽象类可以实现部分方法。</p>
+<p>第四点． 接口中基本数据类型为static（全局静态）而抽类象不是的。<br><strong>当你关注一个事物的本质的时候，用抽象类；当你关注一个操作的时候，用接口</strong>。</p>
+<p>抽象类的功能要远超过接口，但是，定义抽象类的代价高。因为高级语言来说（从实际设计上来说也是）每个类只能继承一个类。在这个类中，你必须继承或编写出其所有子类的所有共性。虽然接口在功能上会弱化许多，但是它只是针对一个动作的描述。而且你可以在一个类中同时实现多个接口。在设计阶段会降低难度的。</p>
+<p>“interface”（接口）可将其想象为一个“纯”抽象类。它允许创建者规定一个类的基本形式：方法名、自变量列表以及返回类型，但不实现方法主体。接口也可包含基本数据类型的数据成员，但它们都默认为public、static 和final。接口中定义的方法默认为public、abstract。</p>
+<h2 id="为什么Java接口中的成员变量默认为（public、static、final）、成员方法为（public、abstract）呢？"><a href="#为什么Java接口中的成员变量默认为（public、static、final）、成员方法为（public、abstract）呢？" class="headerlink" title="为什么Java接口中的成员变量默认为（public、static、final）、成员方法为（public、abstract）呢？"></a>为什么Java接口中的成员变量默认为（public、static、final）、成员方法为（public、abstract）呢？</h2><p>接口是一种高度抽象的模版，接口中的成员变量是模版的一部分，其接口的实现类必须共有这些成员变量，所以成员变量的修饰符默认为public、static、final。static使得实现这个接口的类，可以直接使用这个变量。如果是非静态变量，那么接口的多个实现类可能出现变量名重名的现象。final表示被修饰的变量为常数，不可以修改。一个既是static又是final的字段表示只占据一段不能改变的存储空间。如果是非final变量，那么接口的实现类可以修改变量的值，这与抽象类没有区别了。<strong>由于接口起到标准化和规范化的作用，所以其成员变量默认修饰符为static、final</strong>。</p>
+<h2 id="接口与抽象类之间的关系图解："><a href="#接口与抽象类之间的关系图解：" class="headerlink" title="接口与抽象类之间的关系图解："></a>接口与抽象类之间的关系图解：</h2><p><img src="http://zhfeat.cc/blog/images/abstract/10.png"></p>
+<p><strong>重要提示</strong>：</p>
+<p>在开发中，一个类永远不要去继承一个已经实现好的类，要么继承抽象类，要么实现接口，如果两个类同时都</p>
+<p>可以使用的话，优先使用接口，避免单继承的局限。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ol>
+<li><p>抽象类和接口类的实例化，通过多态性（向上转型，向下转型）。</p>
+</li>
+<li><p>抽象类表示一个模板，接口表示一个标准。</p>
+</li>
+<li><p>常见的设计模式：模板设计，工厂设计，代理设计，适配器设计。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/接口/" rel="tag"># 接口</a>
+          
+            <a href="/blog/tags/抽象类/" rel="tag"># 抽象类</a>
+          
+            <a href="/blog/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/07/12/java中的内部类总结/" rel="next" title="java中的内部类总结">
+                <i class="fa fa-chevron-left"></i> java中的内部类总结
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4Mi82MDUw"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+           
+              <p class="site-description motion-element" itemprop="description">个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#为抽象类和接口实例化"><span class="nav-number">1.</span> <span class="nav-text">为抽象类和接口实例化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可以继续利用此概念，为接口实例化。"><span class="nav-number">2.</span> <span class="nav-text">可以继续利用此概念，为接口实例化。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象类的实际应用–模板设计"><span class="nav-number">3.</span> <span class="nav-text">抽象类的实际应用–模板设计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#接口的实际应用–制定标准。（一定要按照规定的标准做）"><span class="nav-number">4.</span> <span class="nav-text">接口的实际应用–制定标准。（一定要按照规定的标准做）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工厂设计模式（接口应用）"><span class="nav-number">5.</span> <span class="nav-text">工厂设计模式（接口应用）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代理设计模式（接口应用）"><span class="nav-number">6.</span> <span class="nav-text">代理设计模式（接口应用）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#适配器模式"><span class="nav-number">7.</span> <span class="nav-text">适配器模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内部类的扩展"><span class="nav-number">8.</span> <span class="nav-text">内部类的扩展</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#接口和抽象之间的关系"><span class="nav-number">9.</span> <span class="nav-text">接口和抽象之间的关系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#接口和抽象类有什么区别，你选择使用接口和抽象类的依据是什么？"><span class="nav-number">9.1.</span> <span class="nav-text">接口和抽象类有什么区别，你选择使用接口和抽象类的依据是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么Java接口中的成员变量默认为（public、static、final）、成员方法为（public、abstract）呢？"><span class="nav-number">9.2.</span> <span class="nav-text">为什么Java接口中的成员变量默认为（public、static、final）、成员方法为（public、abstract）呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接口与抽象类之间的关系图解："><span class="nav-number">9.3.</span> <span class="nav-text">接口与抽象类之间的关系图解：</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">10.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+   
+</body>
+</html>

@@ -1,0 +1,1059 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="RabbitMQ,amqp," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="RabbitMQ是一个消息代理。它的核心原理非常简单：接收和发送消息。你可以把它想像成一个邮局：你把信件放入邮箱，邮递员就会把信件投递到你的收件人处。在这个比喻中，RabbitMQ是一个邮箱、邮局、邮递员。RabbitMQ和邮局的主要区别是，它处理的不是纸，而是接收、存储和发送二进制的数据——消息。一般提到RabbitMQ和消息。RabbitMQ中文文档： 传送门">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RabbitMQ与Spring结合讲解(使用amqp消息协议)">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/03/16/RabbitMQ与Spring结合讲解(使用amqp消息协议)/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="RabbitMQ是一个消息代理。它的核心原理非常简单：接收和发送消息。你可以把它想像成一个邮局：你把信件放入邮箱，邮递员就会把信件投递到你的收件人处。在这个比喻中，RabbitMQ是一个邮箱、邮局、邮递员。RabbitMQ和邮局的主要区别是，它处理的不是纸，而是接收、存储和发送二进制的数据——消息。一般提到RabbitMQ和消息。RabbitMQ中文文档： 传送门">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/rabbitMq.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/rabbitmq/1.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/rabbitmq/2.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/rabbitmq/4.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/rabbitmq/3.png">
+<meta property="og:updated_time" content="2017-03-16T09:13:03.227Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RabbitMQ与Spring结合讲解(使用amqp消息协议)">
+<meta name="twitter:description" content="RabbitMQ是一个消息代理。它的核心原理非常简单：接收和发送消息。你可以把它想像成一个邮局：你把信件放入邮箱，邮递员就会把信件投递到你的收件人处。在这个比喻中，RabbitMQ是一个邮箱、邮局、邮递员。RabbitMQ和邮局的主要区别是，它处理的不是纸，而是接收、存储和发送二进制的数据——消息。一般提到RabbitMQ和消息。RabbitMQ中文文档： 传送门">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/rabbitMq.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/03/16/RabbitMQ与Spring结合讲解(使用amqp消息协议)/"/>
+
+
+
+
+
+  <title> RabbitMQ与Spring结合讲解(使用amqp消息协议) | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhfeat's - blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/03/16/RabbitMQ与Spring结合讲解(使用amqp消息协议)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="z h.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/mht.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhfeat's - blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                RabbitMQ与Spring结合讲解(使用amqp消息协议)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-16T15:24:33+08:00">
+                2017-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/SSM框架整合/" itemprop="url" rel="index">
+                    <span itemprop="name">SSM框架整合</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://zhfeat.cc/blog/images/bg/rabbitMq.jpg"></p>
+<blockquote>
+<p>RabbitMQ是一个消息代理。它的核心原理非常简单：接收和发送消息。你可以把它想像成一个邮局：你把信件放入邮箱，邮递员就会把信件投递到你的收件人处。在这个比喻中，RabbitMQ是一个邮箱、邮局、邮递员。RabbitMQ和邮局的主要区别是，它处理的不是纸，而是接收、存储和发送二进制的数据——消息。一般提到RabbitMQ和消息。<br>RabbitMQ中文文档： <a href="http://www.kancloud.cn/yunxifd/rabbitmq/95637" target="_blank" rel="external">传送门</a></p>
+</blockquote>
+<a id="more"></a> 
+<h1 id="rabbitMQ简介"><a href="#rabbitMQ简介" class="headerlink" title="rabbitMQ简介"></a>rabbitMQ简介</h1><h2 id="rabbitMQ的应用场景"><a href="#rabbitMQ的应用场景" class="headerlink" title="rabbitMQ的应用场景"></a>rabbitMQ的应用场景</h2><p>你是否遇到过两个（多个）系统间需要通过定时任务来同步某些数据？你是否在为异构系统的不同进程间相互调用、通讯的问题而苦恼、挣扎？如果是，那么恭喜你，消息服务让你可以很轻松地解决这些问题。<br>消息服务擅长于解决多系统、异构系统间的数据交换（消息通知/通讯）问题，你也可以把它用于系统间服务的相互调用（RPC）。</p>
+<h2 id="rabbitMQ的优点"><a href="#rabbitMQ的优点" class="headerlink" title="rabbitMQ的优点"></a>rabbitMQ的优点</h2><ol>
+<li>基于erlang语言开发具有高可用高并发的优点，适合集群服务器。</li>
+<li>健壮、稳定、易用、跨平台、支持多种语言、文档齐全。</li>
+<li>有消息确认机制和持久化机制，可靠性高。</li>
+<li>开源</li>
+</ol>
+<p>其他MQ的优势：</p>
+<ol>
+<li>Apache ActiveMQ曝光率最高，但是可能会丢消息。</li>
+<li>ZeroMQ延迟很低、支持灵活拓扑，但是不支持消息持久化和崩溃恢复。</li>
+</ol>
+<h2 id="几个相关概念说明"><a href="#几个相关概念说明" class="headerlink" title="几个相关概念说明"></a>几个相关概念说明</h2><p><strong>AMQP</strong> 即Advanced Message Queuing Protocol，高级消息队列协议，是应用层协议的一个开放标准，为面向消息的中间件设计。消息中间件主要用于组件之间的解耦，消息的发送者无需知道消息使用者的存在，反之亦然。AMQP的主要特征是面向消息、队列、路由（包括点对点和发布/订阅）、可靠性、安全。</p>
+<p><strong>RabbitMQ</strong> 是一个开源的AMQP实现，服务器端用Erlang语言编写，支持多种客户端，如：Python、Ruby、.NET、Java、JMS、C、PHP、ActionScript、XMPP、STOMP等，支持AJAX。用于在分布式系统中存储转发消息，在易用性、扩展性、高可用性等方面表现不俗。</p>
+<p><span style="color:red;">producer</span>&amp;<span style="color:blue;">Consumer</span></p>
+<p><span style="color:red;">producer</span>指的是消息生产者，<span style="color:blue;">consumer</span>消息的消费者。</p>
+<p><strong>Queue</strong></p>
+<p>消息队列，提供了FIFO的处理机制，具有缓存消息的能力。rabbitmq中，队列消息可以设置为持久化，临时或者自动删除。</p>
+<p>设置为持久化的队列，queue中的消息会在server本地硬盘存储一份，防止系统crash，数据丢失</p>
+<p>设置为临时队列，queue中的数据在系统重启之后就会丢失</p>
+<p>设置为自动删除的队列，当不存在用户连接到server，队列中的数据会被自动删除Exchange</p>
+<p>Exchange类似于数据通信网络中的交换机，提供消息路由策略。rabbitmq中，producer不是通过信道直接将消息发送给queue，而是先发送给Exchange。一个Exchange可以和多个Queue进行绑定，producer在传递消息的时候，会传递一个ROUTING_KEY，Exchange会根据这个ROUTING_KEY按照特定的路由算法，将消息路由给指定的queue。和Queue一样，Exchange也可设置为持久化，临时或者自动删除。</p>
+<p>Exchange有4种类型：<strong>direct(默认)</strong>，<strong>fanout</strong>，<strong>topic</strong>，<br>和<strong>headers</strong>，不同类型的Exchange转发消息的策略有所区别：</p>
+<p><strong>Direct</strong></p>
+<p>直接交换器，工作方式类似于单播，Exchange会将消息发送完全匹配ROUTING_KEY的Queue</p>
+<p><strong>fanout</strong></p>
+<p>广播是式交换器，不管消息的ROUTING_KEY设置为什么，Exchange都会将消息转发给所有绑定的Queue。</p>
+<p><strong>topic</strong></p>
+<p>主题交换器，工作方式类似于组播，Exchange会将消息转发和ROUTING_KEY匹配模式相同的所有队列，比如，ROUTING_KEY为user.stock的Message会转发给绑定匹配模式为 <em> .stock,user.stock， </em> . <em> 和#.user.stock.#的队列。（ </em> 表是匹配一个任意词组，#表示匹配0个或多个词组）</p>
+<p><strong>headers</strong></p>
+<p>消息体的header匹配（ignore）</p>
+<p><strong>Binding</strong></p>
+<p>所谓绑定就是将一个特定的 Exchange 和一个特定的 Queue 绑定起来。Exchange 和Queue的绑定可以是多对多的关系。</p>
+<p><strong>virtual host</strong></p>
+<p>在rabbitmq server上可以创建多个虚拟的message broker，又叫做virtual hosts (vhosts)。每一个vhost本质上是一个mini-rabbitmq server，分别管理各自的exchange，和bindings。vhost相当于物理的server，可以为不同app提供边界隔离，使得应用安全的运行在不同的vhost实例上，相互之间不会干扰。producer和consumer连接rabbit server需要指定一个vhost。</p>
+<h2 id="消息队列的使用过程"><a href="#消息队列的使用过程" class="headerlink" title="消息队列的使用过程"></a>消息队列的使用过程</h2><ol>
+<li>客户端连接到消息队列服务器，打开一个channel。</li>
+<li>客户端声明一个exchange，并设置相关属性。</li>
+<li>客户端声明一个queue，并设置相关属性。</li>
+<li>客户端使用routing key，在exchange和queue之间建立好绑定关系。</li>
+<li>客户端投递消息到exchange。</li>
+<li>exchange接收到消息后，就根据消息的key和已经设置的binding，进行消息路由，将消息投递到一个或多个队列里</li>
+</ol>
+<h1 id="环境配置与安装"><a href="#环境配置与安装" class="headerlink" title="环境配置与安装"></a>环境配置与安装</h1><h2 id="Erlang环境安装"><a href="#Erlang环境安装" class="headerlink" title="Erlang环境安装"></a>Erlang环境安装</h2><p>windows下搭建教程：<a href="http://blog.csdn.net/u014308482/article/details/53994401" target="_blank" rel="external">http://blog.csdn.net/u014308482/article/details/53994401</a></p>
+<p>Linux下搭建教程：<a href="http://blog.csdn.net/evankaka/article/details/50495437" target="_blank" rel="external">http://blog.csdn.net/evankaka/article/details/50495437</a></p>
+<p>我只在本机windows环境下使用安装版搭建测试，具体如果大家在安装环境时遇到问题多百度一下，过程还是很简单的。</p>
+<h1 id="Rbbitmq与Spring结合使用"><a href="#Rbbitmq与Spring结合使用" class="headerlink" title="Rbbitmq与Spring结合使用"></a>Rbbitmq与Spring结合使用</h1><p>整合依旧是基于之前教程中所搭建的SSM框架，以下是新增的项目结构：</p>
+<p><img src="http://zhfeat.cc/blog/images/rabbitmq/1.png"> </p>
+<h2 id="在pom-xml中添加依赖"><a href="#在pom-xml中添加依赖" class="headerlink" title="在pom.xml中添加依赖"></a>在pom.xml中添加依赖</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--rabbitmq依赖,amqp队列服务 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.amqp<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-rabbit<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.3.5.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这里要注意，如果使用高版本的spring-rabbit，比如1.7.0，会抛一个org.springframework.util.backoff.BackOff的空指针异常，这里google了一个老外的回答，貌似这个类只在4.1.X的版本上才会有，所以要更改spring核心类的版本到4.1.x以上才可以使用。</p>
+<h2 id="MessageProducer-消息生产者"><a href="#MessageProducer-消息生产者" class="headerlink" title="MessageProducer 消息生产者"></a>MessageProducer 消息生产者</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh.producer;</div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.annotation.Resource;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.amqp.core.AmqpTemplate;</div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 功能概要：消息产生,提交到队列中去</div><div class="line"> * </div><div class="line"> */</div><div class="line"><span class="meta">@Service</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageProducer</span> </span>&#123;</div><div class="line"></div><div class="line">	<span class="meta">@Resource</span></div><div class="line">	<span class="keyword">private</span> AmqpTemplate amqpTemplate;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMessage</span><span class="params">(Object message)</span></span>&#123;</div><div class="line">	  System.out.println(<span class="string">"我是生产者，我发送了消息"</span>+message);</div><div class="line">	  amqpTemplate.convertAndSend(<span class="string">"queueTestKey"</span>,message);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="MessageConsumer-消息消费者"><a href="#MessageConsumer-消息消费者" class="headerlink" title="MessageConsumer 消息消费者"></a>MessageConsumer 消息消费者</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.zh.consumer;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.springframework.amqp.core.Message;</div><div class="line"><span class="keyword">import</span> org.springframework.amqp.core.MessageListener;</div><div class="line"><span class="keyword">import</span> org.springframework.stereotype.Service;</div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 功能概要：消费接收</div><div class="line"> *  </div><div class="line"> */</div><div class="line"><span class="meta">@Service</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageConsumer</span> <span class="keyword">implements</span> <span class="title">MessageListener</span> </span>&#123;</div><div class="line">	</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMessage</span><span class="params">(Message message)</span> </span>&#123;</div><div class="line">		System.out.println(<span class="string">"我是消费者，我接收到了消息："</span>+message);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="rabbitMq-xml配置信息"><a href="#rabbitMq-xml配置信息" class="headerlink" title="rabbitMq.xml配置信息"></a>rabbitMq.xml配置信息</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line">	<span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:rabbit</span>=<span class="string">"http://www.springframework.org/schema/rabbit"</span></div><div class="line">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></div><div class="line">     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</div><div class="line">     http://www.springframework.org/schema/beans</div><div class="line">     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd</div><div class="line">     http://www.springframework.org/schema/rabbit</div><div class="line">     http://www.springframework.org/schema/rabbit/spring-rabbit-1.0.xsd"&gt;</div><div class="line">	<span class="comment">&lt;!--配置connection-factory，指定连接rabbit server参数 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">rabbit:connection-factory</span> <span class="attr">id</span>=<span class="string">"connectionFactoryRabbit"</span></span></div><div class="line">		<span class="attr">username</span>=<span class="string">"guest"</span> <span class="attr">password</span>=<span class="string">"guest"</span> <span class="attr">host</span>=<span class="string">"localhost"</span> <span class="attr">port</span>=<span class="string">"5672"</span> /&gt;</div><div class="line">		</div><div class="line">	<span class="comment">&lt;!--定义rabbit template用于数据的接收和发送 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">rabbit:template</span> <span class="attr">id</span>=<span class="string">"amqpTemplate"</span>  <span class="attr">connection-factory</span>=<span class="string">"connectionFactoryRabbit"</span> </span></div><div class="line">	    <span class="attr">exchange</span>=<span class="string">"exchangeTest"</span> /&gt;</div><div class="line">		</div><div class="line">	<span class="comment">&lt;!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">rabbit:admin</span> <span class="attr">connection-factory</span>=<span class="string">"connectionFactoryRabbit"</span> /&gt;</span></div><div class="line"></div><div class="line">	<span class="comment">&lt;!--定义queue --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">rabbit:queue</span> <span class="attr">name</span>=<span class="string">"queueTest"</span> <span class="attr">durable</span>=<span class="string">"true"</span> <span class="attr">auto-delete</span>=<span class="string">"false"</span> <span class="attr">exclusive</span>=<span class="string">"false"</span> /&gt;</span></div><div class="line"></div><div class="line">	<span class="comment">&lt;!-- 定义direct exchange，绑定queueTest --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">rabbit:direct-exchange</span> <span class="attr">name</span>=<span class="string">"exchangeTest"</span> <span class="attr">durable</span>=<span class="string">"true"</span> <span class="attr">auto-delete</span>=<span class="string">"false"</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">rabbit:bindings</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">rabbit:binding</span> <span class="attr">queue</span>=<span class="string">"queueTest"</span> <span class="attr">key</span>=<span class="string">"queueTestKey"</span>&gt;</span><span class="tag">&lt;/<span class="name">rabbit:binding</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">rabbit:bindings</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">rabbit:direct-exchange</span>&gt;</span></div><div class="line">	</div><div class="line">	<span class="comment">&lt;!-- 消息接收者 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"messageReceiver"</span> <span class="attr">class</span>=<span class="string">"com.zh.consumer.MessageConsumer"</span>&gt;</span><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">	</div><div class="line">	<span class="comment">&lt;!-- queue litener  观察 监听模式 当有消息到达时会通知监听在对应的队列上的监听对象--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">rabbit:listener-container</span> <span class="attr">connection-factory</span>=<span class="string">"connectionFactoryRabbit"</span>&gt;</span></div><div class="line">             <span class="tag">&lt;<span class="name">rabbit:listener</span> <span class="attr">queues</span>=<span class="string">"queueTest"</span> <span class="attr">ref</span>=<span class="string">"messageReceiver"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">rabbit:listener-container</span>&gt;</span></div><div class="line">	</div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>这里我之前将connection-factory的id配置成了connectionFactory，结果报了一个无法注入的异常，排查了很久，发现是我注册redies的服务中心时，用的id也是connectionFactory，两个id相同，导致出现冲突，修改了rabbit的connection-factory的id为connectionFactoryRabbit，问题解决。</p>
+<h2 id="spring集成rabbitMq"><a href="#spring集成rabbitMq" class="headerlink" title="spring集成rabbitMq"></a>spring集成rabbitMq</h2><p>在spring的配置文件(spring-mybatis.xm)中引入rabbitmq配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div><div class="line">143</div><div class="line">144</div><div class="line">145</div><div class="line">146</div><div class="line">147</div><div class="line">148</div><div class="line">149</div><div class="line">150</div><div class="line">151</div><div class="line">152</div><div class="line">153</div><div class="line">154</div><div class="line">155</div><div class="line">156</div><div class="line">157</div><div class="line">158</div><div class="line">159</div><div class="line">160</div><div class="line">161</div><div class="line">162</div><div class="line">163</div><div class="line">164</div><div class="line">165</div><div class="line">166</div><div class="line">167</div><div class="line">168</div><div class="line">169</div><div class="line">170</div><div class="line">171</div><div class="line">172</div><div class="line">173</div><div class="line">174</div><div class="line">175</div><div class="line">176</div><div class="line">177</div><div class="line">178</div><div class="line">179</div><div class="line">180</div><div class="line">181</div><div class="line">182</div><div class="line">183</div><div class="line">184</div><div class="line">185</div><div class="line">186</div><div class="line">187</div><div class="line">188</div><div class="line">189</div><div class="line">190</div><div class="line">191</div><div class="line">192</div><div class="line">193</div><div class="line">194</div><div class="line">195</div><div class="line">196</div><div class="line">197</div><div class="line">198</div><div class="line">199</div><div class="line">200</div><div class="line">201</div><div class="line">202</div><div class="line">203</div><div class="line">204</div><div class="line">205</div><div class="line">206</div><div class="line">207</div><div class="line">208</div><div class="line">209</div><div class="line">210</div><div class="line">211</div><div class="line">212</div><div class="line">213</div><div class="line">214</div><div class="line">215</div><div class="line">216</div><div class="line">217</div><div class="line">218</div><div class="line">219</div><div class="line">220</div><div class="line">221</div><div class="line">222</div><div class="line">223</div><div class="line">224</div><div class="line">225</div><div class="line">226</div><div class="line">227</div><div class="line">228</div><div class="line">229</div><div class="line">230</div><div class="line">231</div><div class="line">232</div><div class="line">233</div><div class="line">234</div><div class="line">235</div><div class="line">236</div><div class="line">237</div><div class="line">238</div><div class="line">239</div><div class="line">240</div><div class="line">241</div><div class="line">242</div><div class="line">243</div><div class="line">244</div><div class="line">245</div><div class="line">246</div><div class="line">247</div><div class="line">248</div><div class="line">249</div><div class="line">250</div><div class="line">251</div><div class="line">252</div><div class="line">253</div><div class="line">254</div><div class="line">255</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;  </div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span>  </span></div><div class="line">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span>  </div><div class="line">    <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span>  </div><div class="line">    <span class="attr">xmlns:mvc</span>=<span class="string">"http://www.springframework.org/schema/mvc"</span></div><div class="line">    <span class="attr">xmlns:tx</span>=<span class="string">"http://www.springframework.org/schema/tx"</span></div><div class="line">    <span class="attr">xmlns:aop</span>=<span class="string">"http://www.springframework.org/schema/aop"</span></div><div class="line">    <span class="attr">xmlns:jaxws</span>=<span class="string">"http://cxf.apache.org/jaxws"</span>  </div><div class="line">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans    </span></div><div class="line">                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd    </div><div class="line">                        http://www.springframework.org/schema/context    </div><div class="line">                        http://www.springframework.org/schema/context/spring-context-3.1.xsd    </div><div class="line">                        http://www.springframework.org/schema/mvc    </div><div class="line">                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd</div><div class="line">                        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd</div><div class="line">                        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd</div><div class="line">                        http://cxf.apache.org/jaxws</div><div class="line">                        http://cxf.apache.org/schemas/jaxws.xsd"&gt;  </div><div class="line">    <span class="comment">&lt;!-- cxf整合Spring start--&gt;</span>                   </div><div class="line">    <span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">"classpath:META-INF/cxf/cxf.xml"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">"classpath:META-INF/cxf/cxf-servlet.xml"</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 自动扫描webService --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.zh.cxf"</span> /&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 定义webservice的发布接口  --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">jaxws:endpoint</span> <span class="attr">implementor</span>=<span class="string">"#helloWorld"</span> <span class="attr">address</span>=<span class="string">"/HelloWorld"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">jaxws:endpoint</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!--cxf整合Spring end --&gt;</span>   </div><div class="line">     </div><div class="line">    <span class="comment">&lt;!-- 自动扫描 --&gt;</span>  </div><div class="line">    <span class="comment">&lt;!-- 扫描指定package下所有带有如@controller,@services,@resource,@ods并把所注释的注册为Spring Beans --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.zh"</span> /&gt;</span>  </div><div class="line">    </div><div class="line">  <span class="comment">&lt;!-- 引入properties配置文件 --&gt;</span>    </div><div class="line">	 <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"propertyConfigurer"</span> <span class="attr">class</span>=<span class="string">"org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"</span>&gt;</span>  </div><div class="line">	    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"locations"</span>&gt;</span>  </div><div class="line">	        <span class="tag">&lt;<span class="name">list</span>&gt;</span>  </div><div class="line">	           <span class="tag">&lt;<span class="name">value</span>&gt;</span>classpath:config/jdbc.properties<span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">	           <span class="tag">&lt;<span class="name">value</span>&gt;</span>classpath:config/redis.properties<span class="tag">&lt;/<span class="name">value</span>&gt;</span>    </div><div class="line">	            <span class="comment">&lt;!--要是有多个配置文件，只需在这里继续添加即可 --&gt;</span>  </div><div class="line">	        <span class="tag">&lt;/<span class="name">list</span>&gt;</span>  </div><div class="line">	    <span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">  </div><div class="line">  	<span class="comment">&lt;!-- dbcp dataSource 配置</span></div><div class="line">    &lt;bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"  </div><div class="line">        destroy-method="close"&gt;  </div><div class="line">        &lt;property name="driverClassName" value="$&#123;driver&#125;" /&gt;  </div><div class="line">        &lt;property name="url" value="$&#123;url&#125;" /&gt;  </div><div class="line">        &lt;property name="username" value="$&#123;username&#125;" /&gt;  </div><div class="line">        &lt;property name="password" value="$&#123;password&#125;" /&gt;  </div><div class="line">        &lt;property name="initialSize" value="$&#123;initialSize&#125;"&gt;&lt;/property&gt;  </div><div class="line">        &lt;property name="maxActive" value="$&#123;maxActive&#125;"&gt;&lt;/property&gt;  </div><div class="line">        &lt;property name="maxIdle" value="$&#123;maxIdle&#125;"&gt;&lt;/property&gt;  </div><div class="line">        &lt;property name="minIdle" value="$&#123;minIdle&#125;"&gt;&lt;/property&gt;  </div><div class="line">        &lt;property name="maxWait" value="$&#123;maxWait&#125;"&gt;&lt;/property&gt;  </div><div class="line">    &lt;/bean&gt;  </div><div class="line">    --&gt; </div><div class="line">    <span class="comment">&lt;!-- druid dataSource 配置 --&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 数据源1 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"ssmdataSource1"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>  </span></div><div class="line">	    <span class="attr">init-method</span>=<span class="string">"init"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;  </div><div class="line">	     <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;url1&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;username1&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;password1&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"$&#123;driverClassName&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"filters"</span> <span class="attr">value</span>=<span class="string">"$&#123;filters&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="comment">&lt;!-- 最大并发连接数 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxActive"</span> <span class="attr">value</span>=<span class="string">"$&#123;maxActive&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 初始化连接数量 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"initialSize"</span> <span class="attr">value</span>=<span class="string">"$&#123;initialSize&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 配置获取连接等待超时的时间 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxWait"</span> <span class="attr">value</span>=<span class="string">"$&#123;maxWait&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 最小空闲连接数 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minIdle"</span> <span class="attr">value</span>=<span class="string">"$&#123;minIdle&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="comment">&lt;!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"timeBetweenEvictionRunsMillis"</span> <span class="attr">value</span>=<span class="string">"$&#123;timeBetweenEvictionRunsMillis&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 配置一个连接在池中最小生存的时间，单位是毫秒 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minEvictableIdleTimeMillis"</span> <span class="attr">value</span>=<span class="string">"$&#123;minEvictableIdleTimeMillis&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 用来检测连接是否有效的sql，要求是一个查询语句。 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"validationQuery"</span> <span class="attr">value</span>=<span class="string">"$&#123;validationQuery&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 申请连接的时候检测，如果空闲时间大于 timeBetweenEvictionRunsMillis， 执行validationQuery检测连接是否有效。 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testWhileIdle"</span> <span class="attr">value</span>=<span class="string">"$&#123;testWhileIdle&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="comment">&lt;!-- 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。 --&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnBorrow"</span> <span class="attr">value</span>=<span class="string">"$&#123;testOnBorrow&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="comment">&lt;!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 --&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnReturn"</span> <span class="attr">value</span>=<span class="string">"$&#123;testOnReturn&#125;"</span> /&gt;</span>   </div><div class="line">         <span class="comment">&lt;!-- 要启用PSCache，必须配置大于0，当大于0时poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题， 可以把这个数值配置大一些，比如说100 --&gt;</span> </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxOpenPreparedStatements"</span> <span class="attr">value</span>=<span class="string">"$&#123;maxOpenPreparedStatements&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 打开removeAbandoned功能 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"removeAbandoned"</span> <span class="attr">value</span>=<span class="string">"$&#123;removeAbandoned&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 1800秒，也就是30分钟 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"removeAbandonedTimeout"</span> <span class="attr">value</span>=<span class="string">"$&#123;removeAbandonedTimeout&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 关闭abanded连接时输出错误日志 --&gt;</span>     </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"logAbandoned"</span> <span class="attr">value</span>=<span class="string">"$&#123;logAbandoned&#125;"</span> /&gt;</span>   </div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">	</div><div class="line">	<span class="comment">&lt;!-- 数据源2 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"ssmdataSource2"</span> <span class="attr">class</span>=<span class="string">"com.alibaba.druid.pool.DruidDataSource"</span>  </span></div><div class="line">	    <span class="attr">init-method</span>=<span class="string">"init"</span> <span class="attr">destroy-method</span>=<span class="string">"close"</span>&gt;  </div><div class="line">	     <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"$&#123;url2&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"$&#123;username2&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;password2&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"$&#123;driverClassName&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"filters"</span> <span class="attr">value</span>=<span class="string">"$&#123;filters&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="comment">&lt;!-- 最大并发连接数 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxActive"</span> <span class="attr">value</span>=<span class="string">"$&#123;maxActive&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 初始化连接数量 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"initialSize"</span> <span class="attr">value</span>=<span class="string">"$&#123;initialSize&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 配置获取连接等待超时的时间 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxWait"</span> <span class="attr">value</span>=<span class="string">"$&#123;maxWait&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 最小空闲连接数 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minIdle"</span> <span class="attr">value</span>=<span class="string">"$&#123;minIdle&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="comment">&lt;!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"timeBetweenEvictionRunsMillis"</span> <span class="attr">value</span>=<span class="string">"$&#123;timeBetweenEvictionRunsMillis&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 配置一个连接在池中最小生存的时间，单位是毫秒 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"minEvictableIdleTimeMillis"</span> <span class="attr">value</span>=<span class="string">"$&#123;minEvictableIdleTimeMillis&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 用来检测连接是否有效的sql，要求是一个查询语句。 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"validationQuery"</span> <span class="attr">value</span>=<span class="string">"$&#123;validationQuery&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 申请连接的时候检测，如果空闲时间大于 timeBetweenEvictionRunsMillis， 执行validationQuery检测连接是否有效。 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testWhileIdle"</span> <span class="attr">value</span>=<span class="string">"$&#123;testWhileIdle&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="comment">&lt;!-- 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。 --&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnBorrow"</span> <span class="attr">value</span>=<span class="string">"$&#123;testOnBorrow&#125;"</span> /&gt;</span>    </div><div class="line">         <span class="comment">&lt;!-- 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能 --&gt;</span></div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnReturn"</span> <span class="attr">value</span>=<span class="string">"$&#123;testOnReturn&#125;"</span> /&gt;</span>   </div><div class="line">         <span class="comment">&lt;!-- 要启用PSCache，必须配置大于0，当大于0时poolPreparedStatements自动触发修改为true。在Druid中，不会存在Oracle下PSCache占用内存过多的问题， 可以把这个数值配置大一些，比如说100 --&gt;</span> </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxOpenPreparedStatements"</span> <span class="attr">value</span>=<span class="string">"$&#123;maxOpenPreparedStatements&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 打开removeAbandoned功能 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"removeAbandoned"</span> <span class="attr">value</span>=<span class="string">"$&#123;removeAbandoned&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 1800秒，也就是30分钟 --&gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"removeAbandonedTimeout"</span> <span class="attr">value</span>=<span class="string">"$&#123;removeAbandonedTimeout&#125;"</span> /&gt;</span>  </div><div class="line">         <span class="comment">&lt;!-- 关闭abanded连接时输出错误日志 --&gt;</span>     </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"logAbandoned"</span> <span class="attr">value</span>=<span class="string">"$&#123;logAbandoned&#125;"</span> /&gt;</span>   </div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">	<span class="comment">&lt;!-- Spring的依赖注入方式将两个数据源设置进targetDataSources。 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"com.zh.util.DynamicDataSource"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"targetDataSources"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">map</span> <span class="attr">key-type</span>=<span class="string">"java.lang.String"</span>&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">"sss1"</span> <span class="attr">value-ref</span>=<span class="string">"ssmdataSource1"</span>/&gt;</span></div><div class="line">                <span class="tag">&lt;<span class="name">entry</span> <span class="attr">key</span>=<span class="string">"sss2"</span> <span class="attr">value-ref</span>=<span class="string">"ssmdataSource2"</span>/&gt;</span></div><div class="line">            <span class="tag">&lt;/<span class="name">map</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!--默认数据源--&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"defaultTargetDataSource"</span> <span class="attr">ref</span>=<span class="string">"ssmdataSource1"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">    </div><div class="line">    <span class="comment">&lt;!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"sqlSessionFactory"</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.SqlSessionFactoryBean"</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span> /&gt;</span>  </div><div class="line">        <span class="comment">&lt;!-- 自动扫描mapping.xml文件 --&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"mapperLocations"</span> <span class="attr">value</span>=<span class="string">"classpath:com/zh/mapping/*.xml"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">  </div><div class="line">    <span class="comment">&lt;!-- DAO接口所在包名，Spring会自动查找其下的类 --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.mybatis.spring.mapper.MapperScannerConfigurer"</span>&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"basePackage"</span> <span class="attr">value</span>=<span class="string">"com.zh.dao"</span> /&gt;</span>  </div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"sqlSessionFactoryBeanName"</span> <span class="attr">value</span>=<span class="string">"sqlSessionFactory"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">  </div><div class="line">    <span class="comment">&lt;!-- (事务管理) 配置spring的PlatformTransactionManager，名字为默认值  --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span>  </span></div><div class="line">        <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;  </div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span> /&gt;</span>  </div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">    </div><div class="line">    <span class="comment">&lt;!-- 事物切面配置 --&gt;</span>  </div><div class="line">	<span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">"advice"</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span> &gt;</span>  </div><div class="line">	    <span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span>  </div><div class="line">	        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"update*"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">rollback-for</span>=<span class="string">"java.lang.Exception"</span>/&gt;</span>  </div><div class="line">	        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"insert"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> <span class="attr">read-only</span>=<span class="string">"false"</span> <span class="attr">rollback-for</span>=<span class="string">"java.lang.Exception"</span>/&gt;</span>  </div><div class="line">	    <span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span>  </div><div class="line">	<span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span>  </div><div class="line">	<span class="comment">&lt;!-- 事务拦截器，拦截com.zh.service下所有方法 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">aop:config</span>&gt;</span>  </div><div class="line">	    <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">"testService"</span> <span class="attr">expression</span>=<span class="string">"execution (* com.zh.service.*.*(..))"</span>/&gt;</span>  </div><div class="line">	    <span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">"advice"</span> <span class="attr">pointcut-ref</span>=<span class="string">"testService"</span>/&gt;</span>  </div><div class="line">	<span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span>  </div><div class="line">	    </div><div class="line">    <span class="comment">&lt;!-- Redis和缓存配置开始 --&gt;</span></div><div class="line">	<span class="comment">&lt;!-- jedis 配置 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"poolConfig"</span> <span class="attr">class</span>=<span class="string">"redis.clients.jedis.JedisPoolConfig"</span> &gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxIdle"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.maxIdle&#125;"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"maxWaitMillis"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.maxWait&#125;"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"testOnBorrow"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.testOnBorrow&#125;"</span> /&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span> &gt;</span></div><div class="line">	</div><div class="line">	<span class="comment">&lt;!-- redis服务器中心 --&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"connectionFactory"</span>  <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.connection.jedis.JedisConnectionFactory"</span> &gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"poolConfig"</span> <span class="attr">ref</span>=<span class="string">"poolConfig"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"port"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.port&#125;"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"hostName"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.host&#125;"</span> /&gt;</span></div><div class="line">	      <span class="comment">&lt;!-- &lt;property name="password" value="$&#123;redis.password&#125;" /&gt; --&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"timeout"</span> <span class="attr">value</span>=<span class="string">"$&#123;redis.timeout&#125;"</span> &gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span> &gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"redisTemplate"</span> <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.core.RedisTemplate"</span> &gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"connectionFactory"</span> <span class="attr">ref</span>=<span class="string">"connectionFactory"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"keySerializer"</span> &gt;</span></div><div class="line">	          <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.serializer.StringRedisSerializer"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">	      <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"valueSerializer"</span> &gt;</span></div><div class="line">	          <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.data.redis.serializer.StringRedisSerializer"</span> /&gt;</span></div><div class="line">	      <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">bean</span> &gt;</span></div><div class="line">	</div><div class="line">    <span class="comment">&lt;!-- cache配置插入、更新数据时从redis中清除缓存 --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"putCache"</span> <span class="attr">class</span>=<span class="string">"com.zh.redis.cache.PutCacheAOP"</span> &gt;</span>  </div><div class="line">         <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"redisTemplate"</span> <span class="attr">ref</span>=<span class="string">"redisTemplate"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">    </div><div class="line">    <span class="comment">&lt;!-- cache配置从redis获取缓存数据 --&gt;</span>  </div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"getCache"</span> <span class="attr">class</span>=<span class="string">"com.zh.redis.cache.GetCacheAOP"</span> &gt;</span>  </div><div class="line">          <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"redisTemplate"</span> <span class="attr">ref</span>=<span class="string">"redisTemplate"</span> /&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span>  </div><div class="line">	<span class="comment">&lt;!-- Redis和缓存配置结束 --&gt;</span></div><div class="line">	</div><div class="line">	<span class="comment">&lt;!-- Shiro 开始 --&gt;</span></div><div class="line">	<span class="comment">&lt;!-- 配置自定义Realm --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myRealm"</span> <span class="attr">class</span>=<span class="string">"com.zh.shiro.MyRealm"</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 安全管理器 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"securityManager"</span> <span class="attr">class</span>=<span class="string">"org.apache.shiro.web.mgt.DefaultWebSecurityManager"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"realm"</span> <span class="attr">ref</span>=<span class="string">"myRealm"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">	 <span class="comment">&lt;!-- Shiro过滤器 核心--&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"shiroFilter"</span> <span class="attr">class</span>=<span class="string">"org.apache.shiro.spring.web.ShiroFilterFactoryBean"</span>&gt;</span></div><div class="line">        <span class="comment">&lt;!-- Shiro的核心安全接口,这个属性是必须的 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"securityManager"</span> <span class="attr">ref</span>=<span class="string">"securityManager"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 身份认证失败，则跳转到登录页面的配置 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"loginUrl"</span> <span class="attr">value</span>=<span class="string">"/login.jsp"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!-- 权限认证失败，则跳转到指定页面 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"unauthorizedUrl"</span> <span class="attr">value</span>=<span class="string">"/nopower.jsp"</span>/&gt;</span></div><div class="line">        <span class="comment">&lt;!-- Shiro连接约束配置,即过滤链的定义 --&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"filterChainDefinitions"</span>&gt;</span></div><div class="line">            <span class="tag">&lt;<span class="name">value</span>&gt;</span></div><div class="line">                <span class="comment">&lt;!--anon 表示匿名访问，不需要认证以及授权--&gt;</span></div><div class="line">                /shiroUser/loginAdmin=anon</div><div class="line">                <span class="comment">&lt;!--authc表示需要认证 没有进行身份认证是不能进行访问的--&gt;</span></div><div class="line">                /shiroUser/admin*=authc</div><div class="line">                /shiroUser/student=roles[teacher]</div><div class="line">                /shiroUser/teacher=perms["user:create"]</div><div class="line">            <span class="tag">&lt;/<span class="name">value</span>&gt;</span></div><div class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 保证实现了Shiro内部lifecycle函数的bean执行 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"lifecycleBeanPostProcessor"</span> <span class="attr">class</span>=<span class="string">"org.apache.shiro.spring.LifecycleBeanPostProcessor"</span>/&gt;</span></div><div class="line">    <span class="comment">&lt;!-- 开启Shiro注解 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"</span></span></div><div class="line">          <span class="attr">depends-on</span>=<span class="string">"lifecycleBeanPostProcessor"</span>/&gt;</div><div class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"securityManager"</span> <span class="attr">ref</span>=<span class="string">"securityManager"</span>/&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></div><div class="line">    <span class="comment">&lt;!-- Shiro 结束 --&gt;</span></div><div class="line">    </div><div class="line">    <span class="comment">&lt;!-- 引入rabbitmq配置 --&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">"classpath*:config/rabbitmq.xml"</span> /&gt;</span></div><div class="line">    </div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>主要是以下这两句配置:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!-- 自动扫描 --&gt;</span>  </div><div class="line"><span class="comment">&lt;!-- 扫描指定package下所有带有如@controller,@services,@resource,@ods并把所注释的注册为Spring Beans --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"com.zh"</span> /&gt;</span>  </div><div class="line"><span class="comment">&lt;!-- 引入rabbitmq配置 --&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">import</span> <span class="attr">resource</span>=<span class="string">"classpath*:config/rabbitmq.xml"</span> /&gt;</span></div></pre></td></tr></table></figure>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>我在这使用Maven编译一下mavenDemo这个项目，将编译好的war包发布到tomcat下，使用tomcat进行启动。同时在eclipse使用jetty启动mavenDemo，确保其都在启动状态。在其中一个项目中发送消息到rabbitMq服务器。由rabbitMq将消息分发到我的两个项目。</p>
+<p>两个项目同时启动后:</p>
+<p>WEB控制台监听到名称为queueTest的队列：</p>
+<p><img src="http://zhfeat.cc/blog/images/rabbitmq/2.png"> </p>
+<p>点击连接模块也可以发现有两个连接在线：</p>
+<p><img src="http://zhfeat.cc/blog/images/rabbitmq/4.png"> </p>
+<p>点击queueTest队列进入详情页面，发现监听到两个消费者，分别对应我的mavenDemo项目和rabbit_c2项目</p>
+<p><img src="http://zhfeat.cc/blog/images/rabbitmq/3.png"> </p>
+<p>在我eclipse的mavenDemo项目中执行单元测试：</p>
+<p>测试类 MessageTest.java：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.javen.testmybatis;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">import</span> javax.annotation.Resource;</div><div class="line"></div><div class="line"><span class="keyword">import</span> org.junit.Test;</div><div class="line"><span class="keyword">import</span> org.junit.runner.RunWith;</div><div class="line"><span class="keyword">import</span> org.springframework.test.context.ContextConfiguration;</div><div class="line"><span class="keyword">import</span> org.springframework.test.context.junit4.SpringJUnit4ClassRunner;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.zh.producer.MessageProducer;</div><div class="line"></div><div class="line"><span class="comment">/**</span></div><div class="line"> * 功能概要：</div><div class="line"> * </div><div class="line"> * <span class="doctag">@author</span> zhanghao</div><div class="line"> */</div><div class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)     <span class="comment">//表示继承了SpringJUnit4ClassRunner类  </span></div><div class="line"><span class="meta">@ContextConfiguration</span>(locations = &#123;<span class="string">"classpath:spring-mybatis.xml"</span>&#125;)  </div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageTest</span>  </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Resource</span>  </div><div class="line">    <span class="keyword">private</span> MessageProducer messageProducer; </div><div class="line">    </div><div class="line">	<span class="meta">@Test</span></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">should_send_a_amq_message</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</div><div class="line">       <span class="keyword">int</span> a = Integer.MAX_VALUE;</div><div class="line">       <span class="keyword">while</span> (a &gt; <span class="number">0</span>) &#123;</div><div class="line">    	   messageProducer.sendMessage(<span class="string">"Hello World:"</span> + a--);</div><div class="line">    	   <span class="keyword">try</span> &#123;</div><div class="line">    		   <span class="comment">//暂停一下，好让消息消费者去取消息打印出来</span></div><div class="line">               Thread.sleep(<span class="number">3000</span>);</div><div class="line">           &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</div><div class="line">               e.printStackTrace(); </div><div class="line">           &#125;</div><div class="line">    </div><div class="line">	   &#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>执行JUnit单元测试控制台输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">我是生产者，我发送了消息Hello World:2147483647</div><div class="line">我是生产者，我发送了消息Hello World:2147483646</div><div class="line">我是生产者，我发送了消息Hello World:2147483645</div><div class="line">我是生产者，我发送了消息Hello World:2147483644</div><div class="line">我是生产者，我发送了消息Hello World:2147483643</div><div class="line">我是生产者，我发送了消息Hello World:2147483642</div><div class="line">....</div></pre></td></tr></table></figure></p>
+<p>MavenDemo控制台输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">I&apos;m eclipse MavenDemo consumer：(Body:&apos;Hello World:2147483647&apos;MessageProperties [headers=&#123;&#125;, timestamp=null, messageId=null, userId=null, appId=null, clusterId=null, type=null, correlationId=null, replyTo=null, contentType=text/plain, contentEncoding=UTF-8, contentLength=0, deliveryMode=PERSISTENT, expiration=null, priority=0, redelivered=false, receivedExchange=exchangeTest, receivedRoutingKey=queueTestKey, deliveryTag=1, messageCount=0])</div><div class="line">I&apos;m eclipse MavenDemo consumer：(Body:&apos;Hello World:2147483644&apos;MessageProperties [headers=&#123;&#125;, timestamp=null, messageId=null, userId=null, appId=null, clusterId=null, type=null, correlationId=null, replyTo=null, contentType=text/plain, contentEncoding=UTF-8, contentLength=0, deliveryMode=PERSISTENT, expiration=null, priority=0, redelivered=false, receivedExchange=exchangeTest, receivedRoutingKey=queueTestKey, deliveryTag=2, messageCount=0])</div><div class="line">I&apos;m eclipse MavenDemo consumer：(Body:&apos;Hello World:2147483641&apos;MessageProperties [headers=&#123;&#125;, timestamp=null, messageId=null, userId=null, appId=null, clusterId=null, type=null, correlationId=null, replyTo=null, contentType=text/plain, contentEncoding=UTF-8, contentLength=0, deliveryMode=PERSISTENT, expiration=null, priority=0, redelivered=false, receivedExchange=exchangeTest, receivedRoutingKey=queueTestKey, deliveryTag=3, messageCount=0])</div><div class="line">I&apos;m eclipse MavenDemo consumer：(Body:&apos;Hello World:2147483638&apos;MessageProperties [headers=&#123;&#125;, timestamp=null, messageId=null, userId=null, appId=null, clusterId=null, type=null, correlationId=null, replyTo=null, contentType=text/plain, contentEncoding=UTF-8, contentLength=0, deliveryMode=PERSISTENT, expiration=null, priority=0, redelivered=false, receivedExchange=exchangeTest, receivedRoutingKey=queueTestKey, deliveryTag=4, messageCount=0])</div><div class="line">I&apos;m eclipse MavenDemo consumer：(Body:&apos;Hello World:2147483635&apos;MessageProperties [headers=&#123;&#125;, timestamp=null, messageId=null, userId=null, appId=null, clusterId=null, type=null, correlationId=null, replyTo=null, contentType=text/plain, contentEncoding=UTF-8, contentLength=0, deliveryMode=PERSISTENT, expiration=null, priority=0, redelivered=false, receivedExchange=exchangeTest, receivedRoutingKey=queueTestKey, deliveryTag=5, messageCount=0])</div><div class="line">......</div></pre></td></tr></table></figure></p>
+<p>这时我们再来看下另外一个的用tomcat直接发布的项目，控制台输出:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">I&apos;m eclipse MavenDemo consumer：(Body:&apos;Hello World:2147483626&apos;MessageProperties [headers=&#123;&#125;, timestamp=null, messageId=null, userId=null, appId=null, clusterId=null, type=null, correlationId=null, replyTo=null, contentType=text/plain, contentEncoding=UTF-8, contentLength=0, deliveryMode=PERSISTENT, expiration=null, priority=0, redelivered=false, receivedExchange=exchangeTest, receivedRoutingKey=queueTestKey, deliveryTag=8, messageCount=0])</div><div class="line">I&apos;m eclipse MavenDemo consumer：(Body:&apos;Hello World:2147483623&apos;MessageProperties [headers=&#123;&#125;, timestamp=null, messageId=null, userId=null, appId=null, clusterId=null, type=null, correlationId=null, replyTo=null, contentType=text/plain, contentEncoding=UTF-8, contentLength=0, deliveryMode=PERSISTENT, expiration=null, priority=0, redelivered=false, receivedExchange=exchangeTest, receivedRoutingKey=queueTestKey, deliveryTag=9, messageCount=0])</div><div class="line">I&apos;m eclipse MavenDemo consumer：(Body:&apos;Hello World:2147483620&apos;MessageProperties [headers=&#123;&#125;, timestamp=null, messageId=null, userId=null, appId=null, clusterId=null, type=null, correlationId=null, replyTo=null, contentType=text/plain, contentEncoding=UTF-8, contentLength=0, deliveryMode=PERSISTENT, expiration=null, priority=0, redelivered=false, receivedExchange=exchangeTest, receivedRoutingKey=queueTestKey, deliveryTag=10, messageCount=0])</div><div class="line">I&apos;m eclipse MavenDemo consumer：(Body:&apos;Hello World:2147483617&apos;MessageProperties [headers=&#123;&#125;, timestamp=null, messageId=null, userId=null, appId=null, clusterId=null, type=null, correlationId=null, replyTo=null, contentType=text/plain, contentEncoding=UTF-8, contentLength=0, deliveryMode=PERSISTENT, expiration=null, priority=0, redelivered=false, receivedExchange=exchangeTest, receivedRoutingKey=queueTestKey, deliveryTag=11, messageCount=0])</div><div class="line">I&apos;m eclipse MavenDemo consumer：(Body:&apos;Hello World:2147483614&apos;MessageProperties [headers=&#123;&#125;, timestamp=null, messageId=null, userId=null, appId=null, clusterId=null, type=null, correlationId=null, replyTo=null, contentType=text/plain, contentEncoding=UTF-8, contentLength=0, deliveryMode=PERSISTENT, expiration=null, priority=0, redelivered=false, receivedExchange=exchangeTest, receivedRoutingKey=queueTestKey, deliveryTag=12, messageCount=0])</div><div class="line">I&apos;m eclipse MavenDemo consumer：(Body:&apos;Hello World:2147483611&apos;MessageProperties [headers=&#123;&#125;, timestamp=null, messageId=null, userId=null, appId=null, clusterId=null, type=null, correlationId=null, replyTo=null, contentType=text/plain, contentEncoding=UTF-8, contentLength=0, deliveryMode=PERSISTENT, expiration=null, priority=0, redelivered=false, receivedExchange=exchangeTest, receivedRoutingKey=queueTestKey, deliveryTag=13, messageCount=0])</div><div class="line">.....</div></pre></td></tr></table></figure></p>
+<p>测试通过，以上就是使用RabbitMQ与Spring整合并测试通过的全部流程。</p>
+<p>项目地址：<a href="https://github.com/mhkzh/SSM" target="_blank" rel="external">https://github.com/mhkzh/SSM</a></p>
+<p>个人博客地址：<a href="http://zhfeat.cc">http://zhfeat.cc</a></p>
+<p>GitHub地址：<a href="https://github.com/mhkzh/" target="_blank" rel="external">https://github.com/mhkzh/</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/RabbitMQ/" rel="tag"># RabbitMQ</a>
+          
+            <a href="/blog/tags/amqp/" rel="tag"># amqp</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/03/08/spring事务配置声明式事务管理和基于注解的使用/" rel="next" title="spring事务配置声明式事务管理和基于注解的使用">
+                <i class="fa fa-chevron-left"></i> spring事务配置声明式事务管理和基于注解的使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2017/03/21/nginx使用小结/" rel="prev" title="nginx使用小结">
+                nginx使用小结 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4Mi82MDUw"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+           
+              <p class="site-description motion-element" itemprop="description">个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#rabbitMQ简介"><span class="nav-number">1.</span> <span class="nav-text">rabbitMQ简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rabbitMQ的应用场景"><span class="nav-number">1.1.</span> <span class="nav-text">rabbitMQ的应用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rabbitMQ的优点"><span class="nav-number">1.2.</span> <span class="nav-text">rabbitMQ的优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几个相关概念说明"><span class="nav-number">1.3.</span> <span class="nav-text">几个相关概念说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息队列的使用过程"><span class="nav-number">1.4.</span> <span class="nav-text">消息队列的使用过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#环境配置与安装"><span class="nav-number">2.</span> <span class="nav-text">环境配置与安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Erlang环境安装"><span class="nav-number">2.1.</span> <span class="nav-text">Erlang环境安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Rbbitmq与Spring结合使用"><span class="nav-number">3.</span> <span class="nav-text">Rbbitmq与Spring结合使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在pom-xml中添加依赖"><span class="nav-number">3.1.</span> <span class="nav-text">在pom.xml中添加依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MessageProducer-消息生产者"><span class="nav-number">3.2.</span> <span class="nav-text">MessageProducer 消息生产者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MessageConsumer-消息消费者"><span class="nav-number">3.3.</span> <span class="nav-text">MessageConsumer 消息消费者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rabbitMq-xml配置信息"><span class="nav-number">3.4.</span> <span class="nav-text">rabbitMq.xml配置信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spring集成rabbitMq"><span class="nav-number">3.5.</span> <span class="nav-text">spring集成rabbitMq</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试"><span class="nav-number">4.</span> <span class="nav-text">测试</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+   
+</body>
+</html>

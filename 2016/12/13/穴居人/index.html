@@ -1,0 +1,956 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="黑客,hack,The Art of Deception," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="转自08年新概念的一篇文章，《黑夜的力量》，阳光地带网，红客联盟，2001年五月一日的黑客大战，PoizonBox，Wired.com，lion，《The Art of Deception》……">
+<meta property="og:type" content="article">
+<meta property="og:title" content="穴居人">
+<meta property="og:url" content="http://zhfeat.cc/blog/2016/12/13/穴居人/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="转自08年新概念的一篇文章，《黑夜的力量》，阳光地带网，红客联盟，2001年五月一日的黑客大战，PoizonBox，Wired.com，lion，《The Art of Deception》……">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/xjr.jpg">
+<meta property="og:updated_time" content="2017-03-16T09:16:26.277Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="穴居人">
+<meta name="twitter:description" content="转自08年新概念的一篇文章，《黑夜的力量》，阳光地带网，红客联盟，2001年五月一日的黑客大战，PoizonBox，Wired.com，lion，《The Art of Deception》……">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/xjr.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2016/12/13/穴居人/"/>
+
+
+
+
+
+  <title> 穴居人 | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhfeat's - blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2016/12/13/穴居人/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="z h.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/mht.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhfeat's - blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                穴居人
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-13T17:17:43+08:00">
+                2016-12-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/深度好文/" itemprop="url" rel="index">
+                    <span itemprop="name">深度好文</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://zhfeat.cc/blog/images/bg/xjr.jpg"></p>
+<blockquote>
+<p>转自08年新概念的一篇文章，《黑夜的力量》，阳光地带网，红客联盟，2001年五月一日的黑客大战，PoizonBox，Wired.com，lion，《The Art of Deception》……</p>
+</blockquote>
+<a id="more"></a>
+<font size="3">　<br>　　这间房设备很少，一片昏暗，没有开灯。窗户是唯一能够射进阳光的地方，却被厚厚的古铜色落地窗帘严严实实地遮挡。从那几绺连接着窗与帘的蛛网看，窗像一个世纪没被碰过似的。底下是一张茉莉白单人床，床上堆满了各类网络书籍。床边有一张小桌，桌上有一台电脑和五六个仍未来得及扔的方便面盒。地下满是头皮屑。总体看去，这里简陋得像白垩纪的天然洞穴，陈旧得像中世纪的古堡，阴幽得像地狱里的桃源。<br> 　　房间的主人就是穴居人。他很少出门，一台台式旧电脑加上电话线，就是他的整个世界。<br>　　他，棕黄的皮肤，苍白的脸，蓬乱的头发下一双厚厚的金丝架眼镜，颔下有点点杂乱的须，爱因斯坦式的嘴唇，明明二十岁的年纪，却花白了头发，像六十岁的疲惫的老人。连天的熬夜，使得他的双眼浮肿，像金鱼的眼，黑眼圈顺着脸颊下滑，侵占去大半张有雀斑的脸。他不修边幅，穿着一条嫌小的黑白格子水蓝底T-shirt,铁灰的短裤，把他裹的像冬夜里的毛毛虫茧。衣服上黑斑点点，好像很久没有换过。<br> 　　他怕见光，怕见生人，像威廉古堡里的嗜血鬼。他的生物钟与普通人截然相反，白天昏睡，晚上才起身。他常常这么做，好像这是理所当然。<br> 　　电脑忠诚地工作着，音响里唱着栗子撕心裂肺的声音：我们在黑夜里逆风飞行/我们是黑夜里的中国之鹰/我们用黑夜里黑色的眼睛/迎接光明的来临……<br>　　 这是多年前脍炙人口的《黑夜的力量》，这是一首曾给他带来无限遐想，光明和力量的歌，而此刻听起，何以叫他如此心伤？<br>　　 回忆这东西若是可以言喻，便是未熟的猕猴桃，酸而苦楚。是朵云轩信筏上的一滴泪珠，陈旧而凄迷。每每想起，总会令人黯然神伤。“想当年……”，他的唇微微翕动，抬起自己的枯瘦的左手，手掌上食指与拇指之间的线跌宕起伏。不经意间，泪模糊了视线。<br> 　　网络像一个浓妆艳服纹身，蛇一样扭动着身躯跳着艳舞的妙龄女子，用那朱红的唇袅娜身姿招徕更多人驻足；又像一潭隐蔽在绿叶红花中的毒水，令深陷其中的人无法自拔。她是美丽的，迷离的。善男信女在这里游戏人生。她是单细胞的，超现实的。人性在这里表现得淋漓尽致，是褪去一层现实的缘故。贪婪，虚荣，好胜，幼稚。人的弱点在这里尽是赤裸裸的。<br>　　这里生活着一群特殊的群体——黑客，他们是武侠小说里劫富济穷的侠士，是希腊神话里带来圣火的普罗米修斯。他们热爱技术，沉浸于对未知的探索。<br> 　　在黑客的圈子里，穴居人是赫赫有名的Scorpio。<br>　　 Scorpio已经不记得他是如何进入这一行的，他只晓得，他大概已经在这一行干了一年半了吧？不，也许更久。他有个奇怪的嗜好，那就是在网络里游荡，像一只乖戾的蜘蛛，迅速地攻破一台台陌生的主机，在视窗里偷窥别人的一举一动。有时会看见别人在玩泡泡堂，在聊天，抑或在看黄色图片——最有趣的一次，是看到一个男人在传奇里男扮女妆，然后骗取另一个人的钱财，瞧那嗲得让人心里发颤的语气，想象着那个男人的用心良苦和人妖的兰花指，他不禁捧腹大笑——尽管如此，他决不会在别人的电脑里破坏数据。他会默默地把补丁打上，或者仅仅留下一个文本，告诉那个人应该怎么改进自己的计算机。然后悄然离开，走时，总不忘擦掉自己的“脚印”，像一个彬彬有礼的绅士。<br> 　　黑客守则第一条规定，不随意破坏任何系统和数据。<br> 　“我是一个守规矩的黑客。”他常这么说，并以此自鸣得意。<br>　　他一直这样默默地过着，直到有一天他进入一台机子时发现，机子主人在试着破译另一台计算机。分明是一个新手，踉踉跄跄像一个烂醉的赌徒，磕磕碰碰，每一步都耗费了好长一段时间思考。Scorpio索性饶有兴致地看着，看那位菜鸟的行动。<br> 　　很弱智的做法：他先用流光跑出管理密码，然后打开cmd,用ipc连上，上传木马，设定计划执行时间，最后让机子重启……<br> 菜鸟手忙脚乱地进入那台主机，什么都没做，迅速注销，然后又去研究另一台主机。Scorpio觉得有趣，便发给他一则消息，这则消息并不像通常人与人之间互相发送的信息那样有瞧头，而且魔幻般地出现在屏幕中央。<br>　　 我终于察觉了<br> 　　菜鸟暂时中止对另一台主机的研究行动，开始思考与电脑化空间幽灵的首次接触过程，接着，另一条匿名信息好像从计算机自身深处浮出，掠过屏幕。<br>　　我已控制<br>　　数年来，我一直在黑暗中挣扎<br>　　现在，我终于看到了光明<br>　　菜鸟没有反应，主控终端没有动静。许久，菜鸟终于醒悟，开始进行全面查毒。<br>　　这是典型的Scorpio式幽默，Scorpio明白一个人若是猛然意识到自己被人监视，感觉会比见到一只真正的幽灵还糟糕。但Scorpio依然喜欢这种方式。<br> 　　Scorpio与菜鸟交了朋友。他的网名叫Capricorn，很好学。得益于丰厚的数学功底，扎实的英语水平和编程基础，在计算机方面他无疑是有天赋的。<br> 他们加入了红客联盟，无偿地将自己的研究成果公布，受人尊敬。与他们并驾齐驱的，是一个叫Leo的人，在一所不出名的大学，对同性恋颇有研究，有空会往阳光地带网钻，有时会神经质地嚷着“为同性恋正名” ——Scorpio觉得有趣，毕竟这样赤裸裸的宣言在现实中是很难听到的。他们经常聚在一起探讨问题，有时，他们也会谈一些非技术的东西。<br>　　他们谈到人生。<br>　　Scorpio是个理想主义者，他认为快乐就是幸福，有车子，有房子，一个漂亮的老婆，就够了。Capricorn想要开公司赚大钱。轮到Leo发言，他却一言不发，好不容易挤出一句话：“我一向是走一步算一步的。”<br> 　　……<br>　　日子一天一天过去，谁也无法察觉一场大战悄无声息地酝酿着，2001年四月一日中美撞击事件，成了战争的导火索，空气中弥漫着强烈的火药味，一场无硝烟的战争一触即发。对此，迟钝的Scorpio竟一直没有察觉，直到接到Leo的电话。<br>　　“你知道吗？美国的PoizonBox黑客组织目前在积极策划攻击行动，目标就是我国的各大网站，他们还不断唆使更多黑客加入战团，就今天，已有24个站点被攻陷……”Leo说着,语气表现出他的激愤。<br>　　Scorpio没有回答,只是对这个数字稍微不相信,想不到国外黑客如此能耐,如果数据可信,这无疑反映出我国网络安全意识的淡薄。<br>　　“这是美国Wired.com的消息,这无疑是对我国黑客界的极大侮辱和挑衅—-我们在秘密策划一场黑客反击战,黑倒美国,让他们知道我们是不可欺负的!”Leo说着,传给Scorpio一个光荣.rar文件,然后隐去。<br>　　Scorpio将这个文件解压缩,出现两个文件,一个是未写完的程序,另一个是黑夜的力量.mp3<br>　　当Scorpio打开编辑器察看文件时,他震惊了:<br>　　这是一个几乎完美的程序,他有着小巧的体积,简明的界面,缜密的算法.整个文件有三个功能组成.第一是扫描,通过这个可以搜出主机的漏洞;第二是修改,通过这个可以随意修改漏洞主机的主页;第三是破坏,在获得权限之后,通过这个,只需简单几个按键,便可将服务器上的资料全盘毁灭.<br>　　Scorpio知道Leo的意思，是想让他完成程序,在分析程序时,他仿佛看到美国黑客们哭爹喊娘地抱头鼠窜.<br>　　但他犹豫了,他感到从未有过恐慌,在他的字典里,黑客的存在是创造而不是破坏.这次行动无疑是违背原则的.但是,他们如此气焰嚣张地公然挑战,这口气谁能咽下?<br>　　音乐响起,是栗子浑圆雄厚的声音:”我们是中国的鹰派/我们是中国的精英/不管敌人的盾牌是多么的坚硬/我们要知道让他们知道我们的锐利.”<br>　　Scorpio立即感到一股莫名的冲动,不用说,他已经完全被歌曲的力量感染了.不再犹豫,他灵活修长的手指在键盘上飞跃,像他炽热的心。他的内心仿佛有一团烈火在熊熊燃烧,将整个房间映得通红。他的房间是他的战线,他在为光荣而战.幸好,他没失去理智，他完成了前两个功能的同时,将第三个功能取消。这样不会违背黑客守则。<br>　　5月1日,中美黑客大战正式打响.仅仅一天一夜的时间,黑客联盟便宣布被攻陷的52个站点.随后,成千上万的红旗高高飘扬在美国各各网站,5月4日上午9时到11时15分,美国白宫网站被迫关闭.白宫网站新闻负责人吉米说:”大量不明数据同时涌入,堵塞了白宫及其互联网服务提供商的连接通道厖”直到5月7日,战争热潮才慢慢冷却.<br>　　在这场战争中,Leo显得张狂了些，他一共入侵了37台主机，他把所有的数据都毁了——他是无所谓原则的。他似乎不担心被报复，因为他在攻击前用东南亚的“僵尸机”做了至少四级的跳板。在电话里，他乐呵呵地向Scorpio炫耀。<br>　　战争给中美双方带来的破坏力是巨大的。战后，两国政府宣布大力整顿网络界。黑客界受到极大的压力，许多黑客网站被迫关闭。随着红客联盟领导人lion宣布解散，Scorpio与其他成员的联系急剧减少。人性真是很现实，原本关系很好的两个人，一旦遭遇危机，为避免受牵连，宁愿断绝联系，甚至都不肯承认曾经认识。很久没有Leo的消息，Scorpio数着日子。幸好，Scorpio还有Capricorn，他们常谈一些生活琐事。<br>　　Capricorn说他曾经喜欢过一个女孩，他们挺聊得来，只是素未谋面，不久前在上岛咖啡会过一次，那是挺清秀的女孩。只是从那以后他们再也没联系。“数字恋爱里的人们总爱把对方想象成最完美的天使，一旦见了面，发现了他的缺点，海誓山盟也会在顷刻间化为泡沫。” 　　Capricorn说着。“尽管他们常常刻意掩饰，数字恋爱的人真正在意的不外乎两种东西，一是金钱，二是美貌。”<br>　　Scorpio说自己仿佛是忧郁的聚生体，常常有一种莫名的危机感，总是为各种事情担忧。不善交流，在他不得不向别人解释某样东西时，他总担心别人嫌烦。‘不懂幽默就不要乱开口’，他常听到这句斥责，于是他决定在公共场合永远闭上他的嘴。他经常在网上聊天，在网上聊天的最大好处，就是在说每一句话前可以好好酝酿。他经常忘记回家的路，却从不向人求助。幸好，他总能找到回家的公共汽车。“车子迟迟未到，苦死了等它的人。” 　　Scorpio说道。其实Scorpio也是有爱情故事的。“好多年前吧，有个女孩向我笑了笑，当时我什么都不懂，只觉得她笑得很好。”直到今日，Scorpio依然单身，生活在对她的回忆里。<br>　　美好的时光是童年时的白兔糖，含在嘴里，感受着它的甜。只是白兔糖总有化为水的一天，人也终有一天会各奔东西。只怪分离来得太快，太像流星。当Capricorn宣布要留学美国时，Scorpio感到突然，知道事情无法更改，Scorpio只好给他最诚挚的祝福。<br>　　一切都仿佛回归了起点，Scorpio又一个人过，直到有一天收到Leo的E-mail,看样子他很困惑：<br>　　我毕业了，一切都从头开始，才知道我的大学三年，全在发昏，这世界真奇怪，他们看一张小小的文凭重过一个人本身。我找不到工作了，只能在街上流浪。QQ里的一个陌生人知道了我现在身处的环境，他告诉我现在流行盗游戏账号和装备，还说网游的装备可以卖钱。我问他怎么样盗？他说现在流行用网页木马！我一下子就明白他说的话是什么意思。我没有说什么，我只是轻轻的把他丢进了QQ的黑名单。我真的很鄙视这种行为。当初我学黑客技术的时候，只因一份对黑客技术的执着和追求。从来没有想过通过这种我鄙视的手段去赚钱。<br>　　生活像一个蛮不讲理的大财主，当他想要一个人痛苦时，就会千方百计折磨人。眼看着身上的钱一天比一天少，我向现实低下了头。当天晚上我入侵了国内一个人气蛮不错的游戏站点，并且在首页上挂上了一个网页木马盗网游装备。第二天邮箱里就收到满满的一大堆账号和密码。我知道这一大堆账号和密码代表了网游里的人物装备既将到手了。当盗来的网游装备变成了人民币，我看着手中的人民币想了好多…我想我是堕落了。那一晚我彻底的失眠了…<br> Scorpio读着，他的心狠狠地抽搐，耳畔仿佛响起曾经的《黑夜的力量》：我们在网络里自由飞行/我们是网络里的中国之鹰……歌曲没变，音调没变，感觉变了。变得苍白无力。Scorpio仿佛听到碎玻璃的声音。那是他金色的记忆在瓦解，露出空荡荡的椭圆的框架，流出石油般油腻腻黏糊糊的黑水，那是心的眼泪，是酸楚的苦水。<br>　　Leo的E-mail接二连三地来到。<br>　　我建立了一个网站，专门教人盗QQ,盗游戏币，挂木马。我发现越具破坏力的东西，人们越乐意学。我才知道，现在的人们最热衷的是破坏，黑客守则成了一纸空文，。我再也得不到从前的快乐，我亲手玷污了我所狂热的黑客技术。我既伤害了别人，也伤害了自己。<br>　　我不知道这样的日子何时才能结束。也许有一天被抓了，一切都可以结束了……<br>　　看完后，Scorpio一言不发，只是无奈地摇头。<br>　　最后一次收到Leo的E-mail,是在一个夏日的午后。窗外下着朦胧的太阳雨，柔和的斜阳射进Scorpio的房间，给洁白的菊花纹床单镶上了淡淡的橘黄。信里，Leo激动地通知Scorpio，他上了报纸，而且是头条。他一连嚷了三遍才罢休，又赶忙寻来网上的截报。文章中称呼他为“网络失足少年”，有一张他的照片。照片上的他，白皙的皮肤，瘦削的脸庞，高颧骨，浓眉毛下嵌着一双无神的眼睛，前额有两三绺乌黑的长发，一直垂到唇边。<br>　　原来，在他读完&lt;<the art="" of="" deception="">&gt;后，想用社会工程学骗取银行帐号，却因此暴露了自己的身份和地址。<br>　　文章上说，当警察带他离开时，让众人奇怪的是，他并不抵抗，像是自愿被捕似的。<br>　　从此以后，再没有Capricorn和Leo的消息，阳光再也射不进Scorpio的房间。Scorpio逃避着现实。在网上，终日孤魂野鬼似的游荡。<br><br>后记：<br>　　电视剧常常误导人，如果稍加注意，会有这样的画面映入我们的眼帘：一个俊俏的小伙子穿着干净的休闲衫，在空旷整洁的大厅前用一台联想手提电脑表演入侵。周围坐满了焦急等待的人，只见帅哥双手在键盘上飞速地跃动，盖了厚厚一成白粉的脸庞也有节奏地一起一伏，炯炯有神的双目直直地盯着屏幕。忽然，帅哥的眉头猛地紧缩，汗从额头上泌了出来。周围的人都摒住了呼吸，空气好像都凝固了。不久，电脑自动地响起来,说：“入侵成功”。帅哥的眉头渐渐舒展开，如释重负地叹了口气，周围的人一愣，过了几秒，立即爆发出雷鸣般的掌声……<br>　　现实中的黑客往往没有电视剧里的那么精彩，那么神秘，那么惬意。他们是有着各自的痛苦与孤独的，所以才将自己寄托给冰冷的网络和黑夜。<br>　　故事的背景并不是虚构的，天蝎座（Scorpio）的抑郁，摩羯座（Capricorn）的深沉，狮子座（Leo）的张狂。故事里的人，是很多网络人的缩影。故事里的事，是很多网络人的事。<br></the></font>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/黑客/" rel="tag"># 黑客</a>
+          
+            <a href="/blog/tags/hack/" rel="tag"># hack</a>
+          
+            <a href="/blog/tags/The-Art-of-Deception/" rel="tag"># The Art of Deception</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2016/11/24/感恩节，我的第一篇博客上线了/" rel="next" title="感恩节，我的第一篇博客上线了">
+                <i class="fa fa-chevron-left"></i> 感恩节，我的第一篇博客上线了
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2017/02/06/WPA-PSK无线网络破解原理及过程/" rel="prev" title="WPA-PSK无线网络破解原理及过程">
+                WPA-PSK无线网络破解原理及过程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4Mi82MDUw"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+           
+              <p class="site-description motion-element" itemprop="description">个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+   
+</body>
+</html>

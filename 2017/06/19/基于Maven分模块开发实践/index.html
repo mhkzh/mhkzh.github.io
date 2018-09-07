@@ -1,0 +1,1072 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MAVEN,模块划分," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/blog/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="我们在java 开发中，最常用的模式是MVC，根据理论讲到 各层完全独立，犹如组件一样，比如：今天DAO层用的Hibernate，明天你可以替换成Mybatis， 控制层今天用struts，也可以替换成springmvc，或者swing项目。这些我们只是强调这种思想，但是我们从来没有真正理解过，因为项目开发我们很少遇到这样场景，代码中我经常会为了寻求简便，或者没注意，各层交叉调用，都会导致后期">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于Maven分模块开发实践">
+<meta property="og:url" content="http://zhfeat.cc/blog/2017/06/19/基于Maven分模块开发实践/index.html">
+<meta property="og:site_name" content="zhfeat's - blog">
+<meta property="og:description" content="我们在java 开发中，最常用的模式是MVC，根据理论讲到 各层完全独立，犹如组件一样，比如：今天DAO层用的Hibernate，明天你可以替换成Mybatis， 控制层今天用struts，也可以替换成springmvc，或者swing项目。这些我们只是强调这种思想，但是我们从来没有真正理解过，因为项目开发我们很少遇到这样场景，代码中我经常会为了寻求简便，或者没注意，各层交叉调用，都会导致后期">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/bg/md.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/md/1.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/md/2.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/md/3.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/md/4.jpg">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/md/5.png">
+<meta property="og:image" content="http://zhfeat.cc/blog/images/md/6.png">
+<meta property="og:updated_time" content="2017-06-18T16:54:02.939Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="基于Maven分模块开发实践">
+<meta name="twitter:description" content="我们在java 开发中，最常用的模式是MVC，根据理论讲到 各层完全独立，犹如组件一样，比如：今天DAO层用的Hibernate，明天你可以替换成Mybatis， 控制层今天用struts，也可以替换成springmvc，或者swing项目。这些我们只是强调这种思想，但是我们从来没有真正理解过，因为项目开发我们很少遇到这样场景，代码中我经常会为了寻求简便，或者没注意，各层交叉调用，都会导致后期">
+<meta name="twitter:image" content="http://zhfeat.cc/blog/images/bg/md.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhfeat.cc/blog/2017/06/19/基于Maven分模块开发实践/"/>
+
+
+
+
+
+  <title> 基于Maven分模块开发实践 | zhfeat's - blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">zhfeat's - blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/blog/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-myproject">
+          <a href="/blog/project/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            我的作品
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-guestbook">
+          <a href="/blog/guestbook" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-editor">
+          <a href="/blog/editor/index.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-star-o"></i> <br />
+            
+            粒子编辑器
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocapitalize="off" autocomplete="off" autocorrect="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://zhfeat.cc/blog/blog/2017/06/19/基于Maven分模块开发实践/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="z h.">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/mht.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="zhfeat's - blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                基于Maven分模块开发实践
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-19T12:50:00+08:00">
+                2017-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/SSM框架整合/" itemprop="url" rel="index">
+                    <span itemprop="name">SSM框架整合</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv">热度
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>℃
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://zhfeat.cc/blog/images/bg/md.jpg"></p>
+<blockquote>
+<p>我们在java 开发中，最常用的模式是MVC，根据理论讲到 各层完全独立，犹如组件一样，比如：今天DAO层用的Hibernate，明天你可以替换成Mybatis， 控制层今天用struts，也可以替换成springmvc，或者swing项目。这些我们只是强调这种思想，但是我们从来没有真正理解过，因为项目开发我们很少遇到这样场景，代码中我经常会为了寻求简便，或者没注意，各层交叉调用，都会导致后期维护困难。因此学习maven模块分层是十分必要的，一个项目或一个平台会分为很多个子系统，比如会分为：前台、运营管理后台、卖家管理后台、监控、统计、定时任务等辅助系统。这些子系统之间独立部署切又有一定联系。对于这些系统 通常我们业务层和持久层代码重用比较多，但是系统如果独立，我们需要把相关代码copy一份过去，这样带来代码的维护难度。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h1><p>所有用Maven管理的真实的项目都应该是分模块的，每个模块都对应着一个pom.xml。它们之间通过继承和聚合（也称作多模块，multi-module）相互关联。那么，为什么要这么做呢？我们明明在开发一个项目，划分模块后，导入Eclipse变成了N个项目，这会带来复杂度，给开发带来不便。</p>
+<p>为了解释原因，假设有这样一个项目，很常见的Java Web应用。在这个应用中，我们分了几层：</p>
+<ul>
+<li>Dao层负责数据库交互，封装了Hibernate交互的类。</li>
+<li>Service层处理业务逻辑，放一些Service接口和实现相关的Bean。</li>
+<li>Web层负责与客户端交互，主要有一些Structs的Action类。</li>
+</ul>
+<p>对应的，在一个项目中，我们会看到一些包名：</p>
+<ul>
+<li>org.myorg.app.dao</li>
+<li>org.myorg.app.service</li>
+<li>org.myorg.app.web</li>
+<li>org.myorg.app.util</li>
+</ul>
+<p>这样整个项目的框架就清晰了，但随着项目的进行，你可能会遇到如下问题：</p>
+<ol>
+<li>这个应用可能需要有一个前台和一个后台管理端（web或者swing），你发现大部分dao，一些service，和大部分util是在两个应用中重复的。这样的问题，你一周内遇到了好几次。</li>
+<li><p>实际开发时POM的依赖会越来越多，如果目前只有一个项目（WAR），你不得不新建一个项目依赖这个WAR，这变得非常的恶心，因为在Maven中配置对WAR的依赖远不如依赖JAR那样简单明了，而且你根本不需要org.myorg.app.web。</p>
+</li>
+<li><p>有人修改了dao，提交到svn并且不小心导致build失败了，你在编写service的代码，发现编译不过，只能等那人把dao修复了，你才能继续进行，很多人都在修改，到后来你根本就不清楚哪个依赖是谁需要的，渐渐的，很多不必要的依赖被引入。甚至出现了一个依赖有多个版本存在。</p>
+</li>
+<li>build整个项目的时间越来越长，尽管你只是一直在web层工作，但你不得不build整个项目。</li>
+<li>某个模块，比如util，你只想让一些经验丰富的人来维护，可是，现在这种情况，每个开发者都能修改，这导致关键模块的代码质量不能达到你的要求。<br>我们会发现，其实这里实际上没有遵守一个设计模式原则：“高内聚，低耦合”。虽然我们通过包名划分了层次，并且你还会说，这些包的依赖都是单向的，没有包的环依赖。这很好，但还不够，因为就构建层次来说，所有东西都被耦合在一起了。因此我们需要使用Maven划分模块。</li>
+</ol>
+<p>我们会发现，其实这里实际上没有遵守一个设计模式原则：“高内聚，低耦合”。虽然我们通过包名划分了层次，并且你还会说，这些包的依赖都是单向的，没有包的环依赖。这很好，但还不够，因为就构建层次来说，所有东西都被耦合在一起了。因此我们需要使用Maven划分模块。</p>
+<p>一个简单的Maven模块结构是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">---- app-parent</div><div class="line"></div><div class="line">             |-- pom.xml (pom)</div><div class="line">             |</div><div class="line">             |-- app-util</div><div class="line">             |        |-- pom.xml (jar)</div><div class="line">             |</div><div class="line">             |-- app-dao</div><div class="line">             |        |-- pom.xml (jar)</div><div class="line">             |</div><div class="line">             |-- app-service</div><div class="line">             |        |-- pom.xml (jar)</div><div class="line">             |</div><div class="line">             |-- app-web</div><div class="line">                      |-- pom.xml (war)</div></pre></td></tr></table></figure>
+<p>上述简单示意图中，有一个父项目(app-parent)聚合很多子项目（app-util, app-dao, app-service, app-web）。每个项目，不管是父子，都含有一个pom.xml文件。而且要注意的是，小括号中标出了每个项目的打包类型。父项目是pom,也只能是pom。子项目有jar，或者war。根据它包含的内容具体考虑。</p>
+<p>这些模块的依赖关系如下：</p>
+<ul>
+<li>app-dao –&gt; app-util</li>
+<li>app-service –&gt; app-dao</li>
+<li>app-web –&gt; app-service</li>
+</ul>
+<p>注意依赖的传递性（大部分情况是传递的，除非你配置了特殊的依赖scope），app-dao依赖于app-util，app-service依赖于app-dao，于是app-service也依赖于app-util。同理，app-web依赖于app-dao,app-util。</p>
+<p>用项目层次的划分替代包层次的划分能给我们带来如下好处：</p>
+<ul>
+<li>方便重用，如果你有一个新的swing项目需要用到app-dao和app-service，添加对它们的依赖即可，你不再需要去依赖一个WAR。而有些模块，如app-util，完全可以渐渐进化成公司的一份基础工具类库，供所有项目使用。这是模块化最重要的一个目的。</li>
+<li>由于你现在划分了模块，每个模块的配置都在各自的pom.xml里，不用再到一个混乱的纷繁复杂的总的POM中寻找自己的配置。</li>
+<li>如果你只是在app-dao上工作，你不再需要build整个项目，只要在app-dao目录运行mvn命令进行build即可，这样可以节省时间，尤其是当项目越来越复杂，build越来越耗时后。</li>
+<li>某些模块，如app-util被所有人依赖，但你不想给所有人修改，现在你完全可以从这个项目结构出来，做成另外一个项目，svn只给特定的人访问，但仍提供jar给别人使用。<br>多模块的Maven项目结构支持一些Maven的更有趣的特性（如DepencencyManagement），这留作以后讨论。</li>
+</ul>
+<h1 id="Maven模块配置"><a href="#Maven模块配置" class="headerlink" title="Maven模块配置"></a>Maven模块配置</h1><p>这里我们通过eclipse来快速创建maven, 如果使用eclipse创建，预先要安装 M2E - Maven Integration for Eclipse 组件。</p>
+<h2 id="创建父工程-app-parent"><a href="#创建父工程-app-parent" class="headerlink" title="创建父工程 app-parent"></a>创建父工程 app-parent</h2><p>点击右键New-选择Maven，选择 Maven project. 这Maven project 和 Maven Module 区别 在 project 是父工程 ，Module 是创建子工程。</p>
+<p><img src="http://zhfeat.cc/blog/images/md/1.jpg"></p>
+<p>填写 group id, artifact id 这里packageing 选择 pom。</p>
+<p><img src="http://zhfeat.cc/blog/images/md/2.png"></p>
+<p><img src="http://zhfeat.cc/blog/images/md/3.jpg"></p>
+<h2 id="创建子工程-app-service-app-dao-app-util-app-web"><a href="#创建子工程-app-service-app-dao-app-util-app-web" class="headerlink" title="创建子工程 app-service, app-dao, app-util,app-web"></a>创建子工程 app-service, app-dao, app-util,app-web</h2><p>点击app-parent 右键 创建 maven module 子工程，这里除了app-web 选择 war, 其它类型都选择jar</p>
+<p><img src="http://zhfeat.cc/blog/images/md/4.jpg"></p>
+<p><img src="http://zhfeat.cc/blog/images/md/5.png"></p>
+<p>几个子工程创建完后，结构目录如下所示：</p>
+<p><img src="http://zhfeat.cc/blog/images/md/6.png"></p>
+<h1 id="POM配置细节"><a href="#POM配置细节" class="headerlink" title="POM配置细节"></a>POM配置细节</h1><h2 id="app-parent"><a href="#app-parent" class="headerlink" title="app-parent"></a>app-parent</h2><p>先看app-parent的pom.xml：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</div><div class="line">  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</div><div class="line">  &lt;groupId&gt;com.zhfeat&lt;/groupId&gt;</div><div class="line">  &lt;artifactId&gt;app-parent&lt;/artifactId&gt;</div><div class="line">  &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</div><div class="line">  &lt;packaging&gt;pom&lt;/packaging&gt;</div><div class="line">  &lt;name&gt;maven parent&lt;/name&gt;</div><div class="line">  &lt;description&gt;maven 分模块架构Demo&lt;/description&gt;</div><div class="line">  &lt;modules&gt;</div><div class="line">  	&lt;module&gt;app-web&lt;/module&gt;</div><div class="line">    &lt;module&gt;app-service&lt;/module&gt;</div><div class="line">    &lt;module&gt;app-dao&lt;/module&gt;</div><div class="line">    &lt;module&gt;app-util&lt;/module&gt;</div><div class="line">  &lt;/modules&gt;</div><div class="line">  </div><div class="line">  &lt;build&gt;</div><div class="line">    &lt;defaultGoal&gt;compile&lt;/defaultGoal&gt;</div><div class="line"> &lt;/build&gt;</div><div class="line">&lt;/project&gt;</div></pre></td></tr></table></figure>
+<p>Maven的坐标GAV（groupId, artifactId, version）在这里进行配置，这些都是必须的。特殊的地方在于，这里的packaging为pom。所有带有子模块的项目的packaging都为pom。packaging如果不进行配置，它的默认值是jar，代表Maven会将项目打成一个jar包。<br>该配置重要的地方在于modules，例子中包含的子模块有app-util, app-dao, app-service, app-war。在Maven build app-parent的时候，它会根据子模块的相互依赖关系整理一个build顺序，然后依次build。</p>
+<p>这就是一个父模块大概需要的配置，接下来看一下子模块符合配置继承父模块。</p>
+<h1 id="app-util"><a href="#app-util" class="headerlink" title="app-util"></a>app-util</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</div><div class="line">  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</div><div class="line">  &lt;parent&gt;</div><div class="line">    &lt;groupId&gt;com.zhfeat&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;app-parent&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</div><div class="line">  &lt;/parent&gt;</div><div class="line">  &lt;artifactId&gt;app-util&lt;/artifactId&gt;</div><div class="line">&lt;/project&gt;</div></pre></td></tr></table></figure>
+<p>app-util模块继承了app-parent父模块，因此这个POM的一开始就声明了对app-parent的引用，该引用是通过Maven坐标GAV实现的。而关于项目app-util本身，它却没有声明完整GAV，这里我们只看到了artifactId。这个POM并没有错，groupId和version默认从父模块继承了。实际上子模块从父模块继承一切东西，包括依赖，插件配置等等。<br>此外app-util配置了一个对于commons-lang的简单依赖，这是最简单的依赖配置形式。大部分情况，也是通过GAV引用的。</p>
+<h1 id="app-dao"><a href="#app-dao" class="headerlink" title="app-dao"></a>app-dao</h1><p>再看一下app-dao，它也是继承于app-parent，同时依赖于app-util：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</div><div class="line">  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</div><div class="line">  &lt;parent&gt;</div><div class="line">    &lt;groupId&gt;com.zhfeat&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;app-parent&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</div><div class="line">  &lt;/parent&gt;</div><div class="line">  &lt;artifactId&gt;app-dao&lt;/artifactId&gt;</div><div class="line">    &lt;dependencies&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;com.zhfeat&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;app-util&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;$&#123;project.version&#125;&lt;/version&gt;  </div><div class="line">    &lt;/dependency&gt;</div><div class="line">  &lt;/dependencies&gt;</div><div class="line">&lt;/project&gt;</div></pre></td></tr></table></figure>
+<p>该配置和app-util的配置几乎没什么差别，不同的地方在于，依赖变化了，app-dao依赖于app-util。这里要注意的是version的值为${project.version}，这个值是一个属性引用，指向了POM的project/version的值，也就是这个POM对应的version。由于app-dao的version继承于app-parent，因此它的值就是0.0.1-SNAPSHOT。而app-util也继承了这个值，因此在所有这些项目中，我们做到了保持版本一致。<br>这里还需要注意的是，app-dao依赖于app-util，而app-util又依赖于commons-lang，根据传递性，app-dao也拥有了对于commons-lang的依赖。</p>
+<h2 id="app-service"><a href="#app-service" class="headerlink" title="app-service"></a>app-service</h2><p>app-service依赖于app-dao:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</div><div class="line">  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</div><div class="line">  &lt;parent&gt;</div><div class="line">    &lt;groupId&gt;com.zhfeat&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;app-parent&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</div><div class="line">  &lt;/parent&gt;</div><div class="line">  &lt;artifactId&gt;app-service&lt;/artifactId&gt;</div><div class="line">  &lt;dependencies&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;com.zhfeat&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;app-dao&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;$&#123;project.version&#125;&lt;/version&gt;  </div><div class="line">    &lt;/dependency&gt;</div><div class="line">  &lt;/dependencies&gt;</div><div class="line">&lt;/project&gt;</div></pre></td></tr></table></figure>
+<h2 id="app-web"><a href="#app-web" class="headerlink" title="app-web"></a>app-web</h2><p>我们最后看一下app-web：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;</div><div class="line"> &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;</div><div class="line">  &lt;parent&gt;</div><div class="line">    &lt;groupId&gt;com.zhfeat&lt;/groupId&gt;</div><div class="line">    &lt;artifactId&gt;app-parent&lt;/artifactId&gt;</div><div class="line">    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;</div><div class="line">  &lt;/parent&gt;</div><div class="line">  &lt;artifactId&gt;app-web&lt;/artifactId&gt;</div><div class="line">  &lt;packaging&gt;war&lt;/packaging&gt;</div><div class="line">  &lt;name&gt;app-web Maven Webapp&lt;/name&gt;</div><div class="line">  &lt;url&gt;http://maven.apache.org&lt;/url&gt;</div><div class="line">  &lt;dependencies&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">      &lt;groupId&gt;junit&lt;/groupId&gt;</div><div class="line">      &lt;artifactId&gt;junit&lt;/artifactId&gt;</div><div class="line">      &lt;version&gt;3.8.1&lt;/version&gt;</div><div class="line">      &lt;scope&gt;test&lt;/scope&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;javax.servlet&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;javax.servlet-api&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;3.1.0&lt;/version&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">    &lt;dependency&gt;</div><div class="line">        &lt;groupId&gt;com.zhfeat&lt;/groupId&gt;</div><div class="line">        &lt;artifactId&gt;app-service&lt;/artifactId&gt;</div><div class="line">        &lt;version&gt;$&#123;project.version&#125;&lt;/version&gt;</div><div class="line">    &lt;/dependency&gt;</div><div class="line">  &lt;/dependencies&gt;</div><div class="line">  &lt;build&gt;</div><div class="line">    &lt;defaultGoal&gt;compile&lt;/defaultGoal&gt;</div><div class="line">    &lt;finalName&gt;app-web&lt;/finalName&gt;</div><div class="line"></div><div class="line">    &lt;plugins&gt;</div><div class="line">        &lt;plugin&gt;  </div><div class="line">        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;  </div><div class="line">        &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;  </div><div class="line">        &lt;version&gt;3.0.0&lt;/version&gt;  </div><div class="line">        &lt;configuration&gt;  </div><div class="line">            &lt;failOnMissingWebXml&gt;false&lt;/failOnMissingWebXml&gt;  </div><div class="line">        &lt;/configuration&gt;  </div><div class="line">    &lt;/plugin&gt;  </div><div class="line">        &lt;plugin&gt;</div><div class="line">                &lt;groupId&gt;org.mortbay.jetty&lt;/groupId&gt;</div><div class="line">                &lt;artifactId&gt;jetty-maven-plugin&lt;/artifactId&gt;</div><div class="line">                &lt;version&gt;8.1.8.v20121106&lt;/version&gt;</div><div class="line">                &lt;configuration&gt;</div><div class="line">                    &lt;stopKey&gt;stop&lt;/stopKey&gt;</div><div class="line">                    &lt;stopPort&gt;5599&lt;/stopPort&gt;</div><div class="line">                    &lt;webAppConfig&gt;</div><div class="line">                        &lt;contextPath&gt;/&lt;/contextPath&gt;</div><div class="line">                    &lt;/webAppConfig&gt;</div><div class="line">                    &lt;scanIntervalSeconds&gt;5&lt;/scanIntervalSeconds&gt;</div><div class="line">                    &lt;connectors&gt;</div><div class="line">                        &lt;connector implementation=&quot;org.eclipse.jetty.server.nio.SelectChannelConnector&quot;&gt;</div><div class="line">                            &lt;port&gt;8080&lt;/port&gt;</div><div class="line">                            &lt;maxIdleTime&gt;60000&lt;/maxIdleTime&gt;</div><div class="line">                        &lt;/connector&gt;</div><div class="line">                    &lt;/connectors&gt;</div><div class="line">                &lt;/configuration&gt;</div><div class="line">            &lt;/plugin&gt;</div><div class="line">    &lt;/plugins&gt;</div><div class="line">  &lt;/build&gt;</div><div class="line">&lt;/project&gt;</div></pre></td></tr></table></figure>
+<p>app-web依赖于app-service，因此配置了对其的依赖。</p>
+<p>由于app-web是我们最终要部署的应用，因此它的packaging是war。为此，你需要有一个目录src/main/webapp。并在这个目录下拥有web应用需要的文件，如/WEB-INF/web.xml。没有web.xml，Maven会报告build失败，此外你可能还会有这样一些子目录：/js, /img, /css … 。</p>
+<p> 我这里没有建立web.xml配置文件，app-web:打包时报<strong>Failed to execute goal org.apache.maven.plugins:maven-war-plugin:2.2:war</strong>。<br> 解决方案：</p>
+<ol>
+<li>如果WebContent/WEB-INF/web.xml文件存在，需要在pom.xml文件的<build>节点中,加上maven-war-plugin插件配置。</build></li>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"> &lt;plugins&gt;  </div><div class="line">    &lt;plugin&gt;  </div><div class="line">        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;  </div><div class="line">        &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;  </div><div class="line">        &lt;version&gt;3.0.0&lt;/version&gt;  </div><div class="line">        &lt;configuration&gt;  </div><div class="line">            &lt;webResources&gt;  </div><div class="line">                &lt;resource&gt;  </div><div class="line">                    &lt;directory&gt;WebContent&lt;/directory&gt;  </div><div class="line">                &lt;/resource&gt;  </div><div class="line">            &lt;/webResources&gt;  </div><div class="line">        &lt;/configuration&gt;  </div><div class="line">    &lt;/plugin&gt;  </div><div class="line">&lt;/plugins&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>如果WebContent/WEB-INF/web.xml文件不存在，则按下面的方式配置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"> &lt;plugins&gt;  </div><div class="line">    &lt;plugin&gt;  </div><div class="line">        &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;  </div><div class="line">        &lt;artifactId&gt;maven-war-plugin&lt;/artifactId&gt;  </div><div class="line">        &lt;version&gt;3.0.0&lt;/version&gt;  </div><div class="line">        &lt;configuration&gt;  </div><div class="line">            &lt;failOnMissingWebXml&gt;false&lt;/failOnMissingWebXml&gt;  </div><div class="line">        &lt;/configuration&gt;  </div><div class="line">    &lt;/plugin&gt;  </div><div class="line">&lt;/plugins&gt;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="编译测试"><a href="#编译测试" class="headerlink" title="编译测试"></a>编译测试</h1><p>看看Maven是如何build整个项目的，我们在 app-parent 根目录中运行 mvn clean install (注意，这里需要把parent工程先install一下，不然会打包失败，提示从远程仓库上找不到依赖)，输出的末尾会有大致这样的内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div><div class="line">135</div><div class="line">136</div><div class="line">137</div><div class="line">138</div><div class="line">139</div><div class="line">140</div><div class="line">141</div><div class="line">142</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">[INFO] Scanning for projects...</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] Reactor Build Order:</div><div class="line">[INFO] </div><div class="line">[INFO] maven parent</div><div class="line">[INFO] app-util</div><div class="line">[INFO] app-dao</div><div class="line">[INFO] app-service</div><div class="line">[INFO] app-web Maven Webapp</div><div class="line">[INFO]                                                                         </div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] Building maven parent 0.0.1-SNAPSHOT</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-install-plugin:2.4:install (default-install) @ app-parent ---</div><div class="line">[INFO] Installing D:\biworkspace\app-parent\pom.xml to D:\Repositories\Maven2\com\zhfeat\app-parent\0.0.1-SNAPSHOT\app-parent-0.0.1-SNAPSHOT.pom</div><div class="line">[INFO]                                                                         </div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] Building app-util 0.0.1-SNAPSHOT</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ app-util ---</div><div class="line">[WARNING] Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!</div><div class="line">[INFO] Copying 0 resource</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ app-util ---</div><div class="line">[INFO] Nothing to compile - all classes are up to date</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ app-util ---</div><div class="line">[WARNING] Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!</div><div class="line">[INFO] Copying 0 resource</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ app-util ---</div><div class="line">[INFO] Nothing to compile - all classes are up to date</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ app-util ---</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ app-util ---</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-install-plugin:2.4:install (default-install) @ app-util ---</div><div class="line">[INFO] Installing D:\biworkspace\app-parent\app-util\target\app-util-0.0.1-SNAPSHOT.jar to D:\Repositories\Maven2\com\zhfeat\app-util\0.0.1-SNAPSHOT\app-util-0.0.1-SNAPSHOT.jar</div><div class="line">[INFO] Installing D:\biworkspace\app-parent\app-util\pom.xml to D:\Repositories\Maven2\com\zhfeat\app-util\0.0.1-SNAPSHOT\app-util-0.0.1-SNAPSHOT.pom</div><div class="line">[INFO]                                                                         </div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] Building app-dao 0.0.1-SNAPSHOT</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ app-dao ---</div><div class="line">[WARNING] Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!</div><div class="line">[INFO] Copying 0 resource</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ app-dao ---</div><div class="line">[INFO] Nothing to compile - all classes are up to date</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ app-dao ---</div><div class="line">[WARNING] Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!</div><div class="line">[INFO] Copying 0 resource</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ app-dao ---</div><div class="line">[INFO] Nothing to compile - all classes are up to date</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ app-dao ---</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ app-dao ---</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-install-plugin:2.4:install (default-install) @ app-dao ---</div><div class="line">[INFO] Installing D:\biworkspace\app-parent\app-dao\target\app-dao-0.0.1-SNAPSHOT.jar to D:\Repositories\Maven2\com\zhfeat\app-dao\0.0.1-SNAPSHOT\app-dao-0.0.1-SNAPSHOT.jar</div><div class="line">[INFO] Installing D:\biworkspace\app-parent\app-dao\pom.xml to D:\Repositories\Maven2\com\zhfeat\app-dao\0.0.1-SNAPSHOT\app-dao-0.0.1-SNAPSHOT.pom</div><div class="line">[INFO]                                                                         </div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] Building app-service 0.0.1-SNAPSHOT</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ app-service ---</div><div class="line">[WARNING] Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!</div><div class="line">[INFO] Copying 0 resource</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ app-service ---</div><div class="line">[INFO] Nothing to compile - all classes are up to date</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ app-service ---</div><div class="line">[WARNING] Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!</div><div class="line">[INFO] Copying 0 resource</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ app-service ---</div><div class="line">[INFO] Nothing to compile - all classes are up to date</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ app-service ---</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ app-service ---</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-install-plugin:2.4:install (default-install) @ app-service ---</div><div class="line">[INFO] Installing D:\biworkspace\app-parent\app-service\target\app-service-0.0.1-SNAPSHOT.jar to D:\Repositories\Maven2\com\zhfeat\app-service\0.0.1-SNAPSHOT\app-service-0.0.1-SNAPSHOT.jar</div><div class="line">[INFO] Installing D:\biworkspace\app-parent\app-service\pom.xml to D:\Repositories\Maven2\com\zhfeat\app-service\0.0.1-SNAPSHOT\app-service-0.0.1-SNAPSHOT.pom</div><div class="line">[INFO]                                                                         </div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] Building app-web Maven Webapp 0.0.1-SNAPSHOT</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ app-web ---</div><div class="line">[WARNING] Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!</div><div class="line">[INFO] Copying 0 resource</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ app-web ---</div><div class="line">[INFO] Nothing to compile - all classes are up to date</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ app-web ---</div><div class="line">[WARNING] Using platform encoding (GBK actually) to copy filtered resources, i.e. build is platform dependent!</div><div class="line">[INFO] Copying 0 resource</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ app-web ---</div><div class="line">[INFO] Nothing to compile - all classes are up to date</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ app-web ---</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-war-plugin:3.0.0:war (default-war) @ app-web ---</div><div class="line">[INFO] Packaging webapp</div><div class="line">[INFO] Assembling webapp [app-web] in [D:\biworkspace\app-parent\app-web\target\app-web]</div><div class="line">[INFO] Processing war project</div><div class="line">[INFO] Copying webapp resources [D:\biworkspace\app-parent\app-web\src\main\webapp]</div><div class="line">[INFO] Webapp assembled in [63 msecs]</div><div class="line">[INFO] Building war: D:\biworkspace\app-parent\app-web\target\app-web.war</div><div class="line">[INFO] </div><div class="line">[INFO] --- maven-install-plugin:2.4:install (default-install) @ app-web ---</div><div class="line">[INFO] Installing D:\biworkspace\app-parent\app-web\target\app-web.war to D:\Repositories\Maven2\com\zhfeat\app-web\0.0.1-SNAPSHOT\app-web-0.0.1-SNAPSHOT.war</div><div class="line">[INFO] Installing D:\biworkspace\app-parent\app-web\pom.xml to D:\Repositories\Maven2\com\zhfeat\app-web\0.0.1-SNAPSHOT\app-web-0.0.1-SNAPSHOT.pom</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] Reactor Summary:</div><div class="line">[INFO] </div><div class="line">[INFO] maven parent ....................................... SUCCESS [  0.726 s]</div><div class="line">[INFO] app-util ........................................... SUCCESS [  2.671 s]</div><div class="line">[INFO] app-dao ............................................ SUCCESS [  0.094 s]</div><div class="line">[INFO] app-service ........................................ SUCCESS [  0.098 s]</div><div class="line">[INFO] app-web Maven Webapp ............................... SUCCESS [  2.004 s]</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] BUILD SUCCESS</div><div class="line">[INFO] ------------------------------------------------------------------------</div><div class="line">[INFO] Total time: 5.815 s</div><div class="line">[INFO] Finished at: 2017-06-19T00:39:13+08:00</div><div class="line">[INFO] Final Memory: 14M/258M</div><div class="line">[INFO] ------------------------------------------------------------------------</div></pre></td></tr></table></figure>
+<p>注意Reactor Summary，整个项目根据我们希望的顺序进行build。Maven根据我们的依赖配置，智能的安排了顺序，app-util, app-dao, app-service, app-web。</p>
+<p>进入 app-web</p>
+<p>mvn jetty:run</p>
+<p>打开浏览器访问：<a href="http://localhost:8080/" target="_blank" rel="external">http://localhost:8080/</a> 测试是否可以正常访问。</p>
+<p>最后，对app-web进行install，success后，你可以在 app-web/target 目录下找到文件 app-web-1.0-SNAPSHOT.war ，打开这个war包，在 /WEB-INF/lib 目录看到了 commons-lang-2.4.jar，以及对应的app-util, app-dao, app-service 的jar包。Maven自动帮你处理了打包的事情，并且根据你的依赖配置帮你引入了相应的jar文件。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>使用多模块的Maven配置，可以帮助项目划分模块，鼓励重用，防止POM变得过于庞大，方便某个模块的构建，而不用每次都构建整个项目，并且使得针对某个模块的特殊控制更为方便。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/wx.png" alt="z h. WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/zfb.png" alt="z h. Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/blog/tags/MAVEN/" rel="tag"># MAVEN</a>
+          
+            <a href="/blog/tags/模块划分/" rel="tag"># 模块划分</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2017/06/13/CAS单点登录原理及实现/" rel="next" title="CAS单点登录原理及实现">
+                <i class="fa fa-chevron-left"></i> CAS单点登录原理及实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2017/07/06/Spring Cloud构建微服务架构（一）服务注册与发现/" rel="prev" title="Spring Cloud构建微服务架构（一）服务注册与发现">
+                Spring Cloud构建微服务架构（一）服务注册与发现 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yOTQ4Mi82MDUw"></div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/blog/images/mht.jpg"
+               alt="z h." />
+          <p class="site-author-name" itemprop="name">z h.</p>
+           
+              <p class="site-description motion-element" itemprop="description">个人博客</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/blog/archives">
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/blog/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/blog/tags/index.html">
+                <span class="site-state-item-count">60</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/608734234" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用场景"><span class="nav-number">1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Maven模块配置"><span class="nav-number">2.</span> <span class="nav-text">Maven模块配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建父工程-app-parent"><span class="nav-number">2.1.</span> <span class="nav-text">创建父工程 app-parent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建子工程-app-service-app-dao-app-util-app-web"><span class="nav-number">2.2.</span> <span class="nav-text">创建子工程 app-service, app-dao, app-util,app-web</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#POM配置细节"><span class="nav-number">3.</span> <span class="nav-text">POM配置细节</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#app-parent"><span class="nav-number">3.1.</span> <span class="nav-text">app-parent</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#app-util"><span class="nav-number">4.</span> <span class="nav-text">app-util</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#app-dao"><span class="nav-number">5.</span> <span class="nav-text">app-dao</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#app-service"><span class="nav-number">5.1.</span> <span class="nav-text">app-service</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#app-web"><span class="nav-number">5.2.</span> <span class="nav-text">app-web</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编译测试"><span class="nav-number">6.</span> <span class="nav-text">编译测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">z h.</span>
+</div>
+
+
+<div class="powered-by">
+   个人专用
+</div>
+
+<div class="theme-info">
+  博客 - zhfeat
+</div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/blog/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+   
+</body>
+</html>
